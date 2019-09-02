@@ -271,8 +271,8 @@ class TransverseIsotropic:
     eps1 = 1.0/self.E1*(sigma[0]-self.nu12*sigma[1])
     epsFail1 = self.F1t / self.E1
 
-    tauTeff = MacAuley( -sigma[1]*cos(self.alpha0)*(sin(self.alpha0)-etaT*cos(self.alpha0)
-    tauLeff = MacAuley( cos(self.alpha0)*(sigma[2]+etaL*sigma[1]*cos(self.alpha0))
+    #tauTeff = MacAuley( -sigma[1]*cos(self.alpha0)*(sin(self.alpha0)-etaT*cos(self.alpha0)
+    #tauLeff = MacAuley( cos(self.alpha0)*(sigma[2]+etaL*sigma[1]*cos(self.alpha0))
    
     YTis = sqrt(8.0*self.GIc/(pi*t*self.lam22))
     SLis = sqrt(8.0*self.GIIc/(pi*t*self.lam44))
@@ -282,8 +282,8 @@ class TransverseIsotropic:
 
     g = self.GIc/self.GIIc
 
-    tauTeff = MacAuley( -sigma[1]*self.cosa0*(self.sina0-etaT*self.cosa0) )
-    tauLeff = MacAuley( self.cosa0*abs(sigma[2]+etaL*sigma[1]*self.cosa0) )
+    #tauTeff = MacAuley( -sigma[1]*self.cosa0*(self.sina0-etaT*self.cosa0) )
+    #tauLeff = MacAuley( self.cosa0*abs(sigma[2]+etaL*sigma[1]*self.cosa0) )
 
     ST = self.F6 * self.cosa0 * ( self.sina0 + self.cosa0 / self.tan2a0 )
 
@@ -324,6 +324,27 @@ class TransverseIsotropic:
         FIf = (1.0 - g)*(sigmam[1]/YTis)+g*(sigmam[1]/YTis)**2+(sigmam[2]/SLis)**2
 
     print(FIf,FIm)
+
+def mixMaterials ( fibre , matrix , vf ):
+
+  E1   = fibre.E1*vf+matrix.E1*(1.-vf)
+  E2   = fibre.E1*matrix.E1/(fibre.E2*(1.0-vf)+matrix.E2*vf)
+  nu12 = fibre.nu12*vf+matrix.nu12*(1.-vf)
+  G12  = fibre.G12*matrix.G12/(fibre.G12*(1.0-vf)+matrix.G12*vf)
+
+# Add alpha
+
+  mat = TransverseIsotropic( [E1,E2] , nu12 , G12 )
+
+  return mat
+
+
+def MaCauley( x ):
+
+  if x > 0:
+    return x
+  else:
+    return 0.
     '''  
 
   def getSfConservative( self , sigma ):
@@ -483,25 +504,6 @@ class Laminate:
 #
 #
 #
-
-
-def mixMaterials ( fibre , matrix , vf ):
-
-  E1   = fibre.E1*vf+matrix.E1*(1.-vf)
-  E2   = fibre.E1*matrix.E1/(fibre.E2*(1.0-vf)+matrix.E2*vf)
-  nu12 = fibre.nu12*vf+matrix.nu12*(1.-vf)
-  G12  = fibre.G12*matrix.G12/(fibre.G12*(1.0-vf)+matrix.G12*vf)
-
-# Add alpha
-
-  mat = TransverseIsotropic( [E1,E2] , nu12 , G12 )
-
-  return mat
 '''
 
-def MaCauley( x ):
 
-  if x > 0:
-    return x
-  else:
-    return 0.
