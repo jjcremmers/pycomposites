@@ -71,12 +71,15 @@ class TransverseIsotropic:
 
   def __str__( self ):
 
-    msg  = "  Material Properties:\n"
-    msg += "  ---------------------------------\n"
-    msg += "  E1   "+str(self.E1)+"\n  E2   "+str(self.E2)+"\n  nu12 "+str(self.nu12)+"\n  G12  "+str(self.G12)
+    msg  = "  Elastic Properties:\n"
+    msg += "  -----------------------------------------------------------\n"
+    msg += "  E1   :  {:12.3e} , E2   :  {:12.3e} \n".format(self.E1,self.E2) 
+    msg += "  nu12 :  {:12.2f} , G12  :  {:12.3e} \n".format(self.nu12,self.G12)
 
+    msg += "\n  Thermal expansion:\n"
+    msg += "  -----------------------------------------------------------\n"
     if hasattr( self , "alpha1" ):
-      msg += "  a1   "+str(self.alpha1)+"\n  a2   "+str(self.alpha2)
+      msg += "  a1   :  {:12.3e} , a2   :  {:12.3e} \n".format(self.alpha1,self.alpha2)
 
     if hasattr( self , "Xt" ):
       msg += "  Xt   "+str(self.Xt)+"\n  Xc   "+str(self.Xc)+"\n  Yt   "+str(self.Yt)+"\n  Yc   "+str(self.Yc)+"\n  S    "+str(self.S)
