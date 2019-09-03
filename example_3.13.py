@@ -24,6 +24,8 @@ lam.addMaterial( 'composite' , compmat )
 lam.addLayer( 'composite' , -45 , 6e-3 )
 lam.addLayer( 'composite' , 45 , 6e-3 )
 
+print(lam)
+
 A = lam.getA()
 B = lam.getB()
 D = lam.getD()

@@ -73,16 +73,20 @@ class TransverseIsotropic:
 
     msg  = "  Elastic Properties:\n"
     msg += "  -----------------------------------------------------------\n"
-    msg += "  E1   :  {:12.3e} , E2   :  {:12.3e} \n".format(self.E1,self.E2) 
-    msg += "  nu12 :  {:12.2f} , G12  :  {:12.3e} \n".format(self.nu12,self.G12)
+    msg += "  E1     :  {:12.3e} , E2     :  {:12.3e} \n".format(self.E1,self.E2) 
+    msg += "  nu12   :  {:12.2f} , G12    :  {:12.3e} \n".format(self.nu12,self.G12)
 
-    msg += "\n  Thermal expansion:\n"
-    msg += "  -----------------------------------------------------------\n"
     if hasattr( self , "alpha1" ):
-      msg += "  a1   :  {:12.3e} , a2   :  {:12.3e} \n".format(self.alpha1,self.alpha2)
+      msg += "\n  Thermal expansion coefficients:\n"
+      msg += "  -----------------------------------------------------------\n"
+      msg += "  alpha1 :  {:12.3e} , alpha2 :  {:12.3e} \n".format(self.alpha1,self.alpha2)
 
     if hasattr( self , "Xt" ):
-      msg += "  Xt   "+str(self.Xt)+"\n  Xc   "+str(self.Xc)+"\n  Yt   "+str(self.Yt)+"\n  Yc   "+str(self.Yc)+"\n  S    "+str(self.S)
+      msg += "\n  Strengths and failure model parameters:\n"
+      msg += "  -----------------------------------------------------------\n"
+      msg += "  Xt     :  {:12.3e} , Xc     :  {:12.3e} \n".format(self.Xt,self.Xc)
+      msg += "  Yt     :  {:12.3e} , Yc     :  {:12.3e} \n".format(self.Yt,self.Yc)
+      msg += "  S      :  {:12.3e}\n".format(self.S)
 
     return msg
 
@@ -368,7 +372,7 @@ def MaCauley( x ):
       sftype = 'TsaiWu'
    
     return sf,sftype
-
+'''
 #
 #
 #
@@ -388,7 +392,19 @@ class Laminate:
     self.materials = {}
     self.layers    = []
 
-  def claer( self ):
+  def __str__( self ):
+
+    msg  = "  Laminate properties\n"
+    msg += "  -----------------------------------------------------------\n"
+    msg += "  layer   thick orient.  material\n"
+    msg += "  -----------------------------------------------------------\n"
+
+    for i,lay in enumerate(self.layers):
+      msg += "   {:4}   {:4}   {:4}   {:4}\n".format(i,lay.thick,lay.theta,lay.name)
+
+    return msg
+
+  def clear( self ):
 
     self.layers    = []
 
@@ -504,9 +520,5 @@ class Laminate:
 
     return [Ex,Ey,nuxy,Gxy]
 
-#
-#
-#
-'''
 
 
