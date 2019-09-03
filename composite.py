@@ -164,7 +164,7 @@ class TransverseIsotropic:
 #
 
   def getV( self ):
-
+ 
     if not hasattr( self , 'V' ):
       self.getS()
 
@@ -540,7 +540,9 @@ class Laminate:
       name  = layer.name
       theta = layer.theta
 
-      self.Ts += self.materials[name].getAlpha( theta ) * (self.h[i+1]-self.h[i])
+      Qalpha = dot( self.materials[name].getQbar( theta ) , self.materials[name].getAlpha( theta ) )
+
+      self.Ts += Qalpha * (self.h[i+1]-self.h[i])
 
     return self.Ts
 
@@ -552,7 +554,9 @@ class Laminate:
       name  = layer.name
       theta = layer.theta
 
-      self.Ts += 0.5 * self.materials[name].getAlpha( theta ) * (self.h[i+1]**2-self.h[i]**2)
+      Qalpha = dot( self.materials[name].getQbar( theta ) , self.materials[name].getAlpha( theta ) )
+
+      self.Ts += 0.5 * Qalpha * (self.h[i+1]**2-self.h[i]**2)
 
     return self.Ts
 
@@ -597,5 +601,62 @@ class Laminate:
 
     return [Ex,Ey,nuxy,Gxy]
 
+#
+#
+#
 
+def stressGlob2Mat( sglob , theta ):
+
+  T = getT( theta )
+
+  return dot( T , sglob )
+
+def stressMat2Glob( smat , theta ):
+
+  T = getT( theta )
+
+  return dot( T.transpose() , smat )
+
+def strainGlob2Mat( eglob , theta ):
+
+  R,Rinv = getR()
+
+  T = getT( theta )
+
+  return dot( R , dot ( T , dot ( Rinv , eglob ) ) )
+
+def strainMat2Glob( emat , theta ):
+
+  R,Rinv = getR()
+
+  T = getT( theta )
+
+  return dot( Rinv , dot ( T.transpose() , dot ( R , emat ) ) )
+
+def getR():
+
+  R = ones( shape=(3,3) )
+  R[2,2] = 2.0
+
+  Rinv = ones( shape=(3,3) )
+  Rinv[2,2] = 0.5
+
+def getR():
+
+  T = zeros( shape=(3,3) )
+  
+  rad = theta*pi/180.
+
+  s = sin(rad)
+  c = cos(rad)
+
+  T[0,0] = c*c
+  T[0,1] = c*c
+  T[0,2] = c*c
+  T[1,0] = c*c
+  T[1,1] = c*c
+  T[1,2] = c*c
+  T[2,0] = c*c
+  T[2,1] = c*c
+  T[2,2] = c*c
 
