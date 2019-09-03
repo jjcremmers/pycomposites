@@ -1,15 +1,26 @@
+#==============================================================================
+#  A set of libraries to perform Classical Laminate calculations for the Course
+#
+#  Composite and Lightweight Materials - Design and Analysis (4MM00)
+#
 # (c) Joris Remmers (2013-2019)
-#
-#
-#
+#==============================================================================
 
 from numpy import zeros,ones,dot,transpose
 from numpy.linalg import inv
 from math import sin,cos,pi,sqrt,tan,atan
 
+#
+#  class Transverse Isotropic.
+#    constructor: 
+#    E     Young's modulus, can be a a list in case of an orthotropic material
+#    nu12  Poisson ratio
+#    G12   Shear modulus
+#
+
 class TransverseIsotropic:
   
-  def __init__( self , E , nu12 , G12 , alpha = 0. , rho = 0. ):
+  def __init__( self , E , nu12 , G12 = 0. , alpha = 0. , rho = 0. ):
 
     if type(E) is list:
       if len(E) is 2:
@@ -24,7 +35,7 @@ class TransverseIsotropic:
       self.E1    = E
       self.E2    = E
 
-    self.nu12  = nu12
+    self.nu12  = nu12      
     self.G12   = G12    
     self.nu21  = self.E2/self.E1*self.nu12
 
@@ -43,13 +54,20 @@ class TransverseIsotropic:
 
     self.rho = rho
 
+#
+#  Store the failure properties:
+#    F is a list with length 5
+#
   def setFailureProperties( self, F , Gfrac = 0 , alpha0deg = 53. ):
  
-    self.Xt = F[0]
-    self.Xc = F[1]
-    self.Yt = F[2]
-    self.Yc = F[3]
-    self.S  = F[4]
+    if len(F) is 5:
+      self.Xt = F[0]
+      self.Xc = F[1]
+      self.Yt = F[2]
+      self.Yc = F[3]
+      self.S  = F[4]
+    else:
+      print('error')
 
     if type(Gfrac) is list:
       if len(Gfrac) is 2:
@@ -90,6 +108,10 @@ class TransverseIsotropic:
 
     return msg
 
+#
+#  REturns Q-matrix
+#
+
   def getQ( self ):
 
     if not hasattr( self , 'Q' ):
@@ -102,6 +124,10 @@ class TransverseIsotropic:
       self.Q[2,2] = self.G12
   
     return self.Q
+
+#
+#  Returns U variables
+#
 
   def getU( self ):
 
@@ -118,6 +144,9 @@ class TransverseIsotropic:
 
     return self.U
 
+#
+#  Return S matrix
+#
   def getS( self ):
 
     self.S = zeros( shape=(3,3) )
@@ -130,6 +159,10 @@ class TransverseIsotropic:
 
     return self.S
   
+#
+#  REturn V parameters
+#
+
   def getV( self ):
 
     if not hasattr( self , 'V' ):
@@ -144,6 +177,10 @@ class TransverseIsotropic:
       self.V[4] = 2.*(self.V[0]-self.V[3])
 
     return self.V
+
+#
+#  REturn Qbar for this material for a given angle theta (in rad.)
+#
 
   def getQbar( self , theta ):
 
@@ -172,6 +209,10 @@ class TransverseIsotropic:
 
     return Qbar
 
+#
+#  REturn Sbar for a given theta
+#
+
   def getSbar( self , theta ):
 
     if not hasattr( self , 'V' ):
@@ -198,7 +239,28 @@ class TransverseIsotropic:
     Sbar[2,2] = self.V[4]-4.*self.V[2]*c4
 
     return Sbar
+
+  def getAlpha( self , theta ):
+
+    alpha = zeros(3)
+
+    rad = theta*pi/180.
+
+    s2 = sin(2.*rad)
+    s4 = sin(4.*rad)
+
+    c2 = cos(2.*rad)
+    c4 = cos(4.*rad)
+
+    alpha[0] = self.alpha1
+    alpha[1] = self.alpha2
+
+    return alpha
+
 #
+#  Return the FI index for maximum stress
+#
+
   def getFIMaximumStress( self , sigma ):
     
     if sigma[0] > 0.: 
@@ -223,7 +285,7 @@ class TransverseIsotropic:
     return max(FI1,FI2,FI6)
 
 #
-#
+#  Return  the FI for maximum strain
 #
 
   def getFIMaximumStrain( self , sigma ):
@@ -252,6 +314,9 @@ class TransverseIsotropic:
 
     return max(FI1,FI2,FI6)
 
+#
+#
+#
   def getFITsaiWu( self , sigma ):
     
     print(self.Xt)
@@ -373,9 +438,9 @@ def MaCauley( x ):
    
     return sf,sftype
 '''
+#--------------------------------------------------------------
 #
-#
-#
+#--------------------------------------------------------------
 
 class Layer:
 
@@ -476,6 +541,18 @@ class Laminate:
       theta = layer.theta
 
       self.Ts += self.materials[name].getAlpha( theta ) * (self.h[i+1]-self.h[i])
+
+    return self.Ts
+
+  def getTs( self ):
+
+    self.Ts = zeros( 3 )
+
+    for i,layer in enumerate(self.layers):
+      name  = layer.name
+      theta = layer.theta
+
+      self.Ts += 0.5 * self.materials[name].getAlpha( theta ) * (self.h[i+1]**2-self.h[i]**2)
 
     return self.Ts
 
