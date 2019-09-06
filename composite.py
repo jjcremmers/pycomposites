@@ -55,9 +55,11 @@ class TransverseIsotropic:
       if len(Gfrac) is 2:
         self.GIc  = Gfrac[0]
         self.GIIc = Gfrac[1]
+        self.g = self.GIc/self.GIIc
     else:
       self.GIc  = Gfrac
       self.GIIc = Gfrac
+      self.g    = 1.0
 
     self.alpha0 = alpha0deg*pi/180
 
@@ -277,15 +279,16 @@ class TransverseIsotropic:
     
     return 1.0/SfTsaiWu1
 
+#
+#
+#
+
   def getFILarc03( self , sigma ):
 
     t = 0.1
 
     eps1 = 1.0/self.E1*(sigma[0]-self.nu12*sigma[1])
     epsFail1 = self.Xt / self.E1
-
-    #tauTeff = MacAuley( -sigma[1]*cos(self.alpha0)*(sin(self.alpha0)-etaT*cos(self.alpha0)
-    #tauLeff = MacAuley( cos(self.alpha0)*(sigma[2]+etaL*sigma[1]*cos(self.alpha0))
    
     YTis = sqrt(8.0*self.GIc/(pi*t*self.lam22))
 
@@ -294,45 +297,44 @@ class TransverseIsotropic:
     else:
       SLis = self.SLis
 
-#    YTis = 1.12*sqrt(2)*self.F2t
-#    SLis = sqrt(2)*self.F6
-
-    g = self.GIc/self.GIIc
-
-    #tauTeff = MacAuley( -sigma[1]*self.cosa0*(self.sina0-etaT*self.cosa0) )
-    #tauLeff = MacAuley( self.cosa0*abs(sigma[2]+etaL*sigma[1]*self.cosa0) )
-
-    ST = self.S * self.cosa0 * ( self.sina0 + self.cosa0 / self.tan2a0 )
-
     etaT = -1./self.tan2a0
     etaL = -SLis*self.cos2a0/(self.Yc*self.cosa0*self.cosa0)
+ 
+    tauTeff = 0.0
+    tauLeff = 0.0
 
-    print("e",etaL)
+    for i in range(18):
+      alp = i*5
+      alpr = alp * pi/180
+      
+      aa = Macauley( -sigma[1]*cos(alpr)*(sin(alpr)-etaT*cos(alpr) ) )
+  
+      if (aa > tauTeff):
+        tauTeff = aa
+   
+      aa = Macauley( cos(alpr)*abs(sigma[2]+etaL*sigma[1]*cos(alpr)) )
+
+      if (aa > tauLeff):
+        tauLeff = aa
+
+    ST = self.Yc * self.cosa0 * ( self.sina0 + self.cosa0 / self.tan2a0 )
 
     c1 = SLis/self.Xc
-
-    print("y",c1,1. - 4.*(c1+etaL)*c1)
     c2 = ( 1. - sqrt( 1. - 4.*(c1+etaL)*c1))/(2.0*(c1+etaL))
-    print(c2)
     phiC = atan( c2 )
+
     phi = (abs(sigma[2])+(self.G12-self.Xc)*phiC)/(self.G12+sigma[0]-sigma[1])
 
-    cosphi = cos(phi)
-    sinphi = sin(phi)
-
-    sigmam = zeros(3)
-
-    sigmam[0] = cosphi**2*sigma[0] + sinphi**2*sigma[1] + 2.*sinphi*cosphi*sigma[2]
-    sigmam[1] = sinphi**2*sigma[0] + cosphi**2*sigma[1] - 2.*sinphi*cosphi*sigma[2]
-    sigmam[2] = -sinphi*cosphi*sigma[0] + sinphi*cosphi*sigma[1]+(cosphi*cosphi-sinphi*sinphi)*sigma[2]
+    sigmam = stressTransformation( sigma , phi )
 
     # Matrix cracking
 
     if sigma[1] >= 0:
-      FIm = (1.0 - g)*(sigma[1]/YTis)+g*(sigma[1]/YTis)**2+(sigma[2]/SLis)**2
+      FIm = (1.0 - self.g)*(sigma[1]/YTis)+self.g*(sigma[1]/YTis)**2+(sigma[2]/SLis)**2
     else:
       if sigma[0] < self.Yc:
-        FIm = ( taumTeff / ST )**2 + ( taumLeff / SLis )**2
+#        FIm = ( taumTeff / ST )**2 + ( taumLeff / SLis )**2
+        FIm = ( tauTeff / ST )**2 + ( tauLeff / SLis )**2
       else:
         FIm = ( tauTeff / ST )**2 + ( tauLeff / Slis )**2
      
@@ -342,32 +344,16 @@ class TransverseIsotropic:
       FIf = eps1 / epsFail1
     else:
       if sigmam[1] < 0:
-        FIf = MacAuley( ( abs( taum12 ) + etaL*sigmam[1] ) / SLis )
+        FIf = Macauley( ( abs( sigmam[2] ) + etaL*sigmam[1] ) / SLis )
       else:
-        FIf = (1.0 - g)*(sigmam[1]/YTis)+g*(sigmam[1]/YTis)**2+(sigmam[2]/SLis)**2
+        FIf = (1.0 - self.g)*(sigmam[1]/YTis)+self.g*(sigmam[1]/YTis)**2+(sigmam[2]/SLis)**2
 
-    print(FIf,FIm)
+    return [FIf,FIm]
 
-def mixMaterials ( fibre , matrix , vf ):
+#
+#
+#
 
-  E1   = fibre.E1*vf+matrix.E1*(1.-vf)
-  E2   = fibre.E1*matrix.E1/(fibre.E2*(1.0-vf)+matrix.E2*vf)
-  nu12 = fibre.nu12*vf+matrix.nu12*(1.-vf)
-  G12  = fibre.G12*matrix.G12/(fibre.G12*(1.0-vf)+matrix.G12*vf)
-
-# Add alpha
-
-  mat = TransverseIsotropic( [E1,E2] , nu12 , G12 )
-
-  return mat
-
-
-def MaCauley( x ):
-
-  if x > 0:
-    return x
-  else:
-    return 0.
     '''  
 
   def getSfConservative( self , sigma ):
@@ -420,13 +406,25 @@ class Laminate:
 
     return msg
 
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
+
   def clear( self ):
 
     self.layers    = []
 
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
+
   def addMaterial( self , name , mat ):
 
     self.materials[name] = mat
+
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
 
   def addLayer( self , name , theta , thick ):
 
@@ -443,9 +441,17 @@ class Laminate:
 
     self.h += -0.5*self.thick*ones( len(self.h) )
 
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
+
   def removeAllLayers( self ):
 
     self.layers = []
+
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
 
   def getA( self ):
 
@@ -459,6 +465,10 @@ class Laminate:
 
     return self.A
 
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
+
   def getB( self ):
 
     self.B = zeros( shape = ( 3,3) )
@@ -470,6 +480,10 @@ class Laminate:
       self.B += 0.5*self.materials[name].getQbar( theta ) * (self.h[i+1]**2-self.h[i]**2)
 
     return self.B
+
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
 
   def getD( self ):
 
@@ -483,6 +497,10 @@ class Laminate:
 
     return self.D
 
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
+
   def getTs( self ):
 
     self.Ts = zeros( 3 )
@@ -495,9 +513,9 @@ class Laminate:
 
     return self.Ts
 
+#------------------------------------------------------------------------------
 #
-#
-#
+#------------------------------------------------------------------------------
 
   def getInverseMatrices( self ):
 
@@ -516,7 +534,9 @@ class Laminate:
 
     return self.A1,self.B1,self.C1,self.D1
 
+#------------------------------------------------------------------------------
 #
+#------------------------------------------------------------------------------
 
   def getQbar( self , i ):
 
@@ -524,6 +544,10 @@ class Laminate:
     theta = self.layers[i].theta
 
     return self.materials[name].getQbar( theta )
+
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
 
   def getElastic( self ):
     
@@ -536,5 +560,57 @@ class Laminate:
 
     return [Ex,Ey,nuxy,Gxy]
 
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
+
+def stressTransformation( sigma , theta ):
+
+  signew = zeros( 3 )
+
+  c = cos(theta)
+  s = sin(theta)
+
+  signew[0] = sigma[0]*c*c + sigma[1]*s*s + 2.*sigma[2]*c*s
+  signew[1] = sigma[0]*s*s + sigma[1]*c*c - 2.*sigma[2]*c*s
+  signew[2] = ( sigma[1] - sigma[0] )*c*s + sigma[2]*( c*c - s*s )
+   
+  return signew
+
+#
+#
+#
+
+def stressTransformation( eps , theta ):
+
+  epsnew = zeros( 3 )
+
+  c = cos(theta)
+  s = sin(theta)
+
+  epsnew[0] = eps[0]*c*c + eps[1]*s*s + eps[2]*c*s
+  epsnew[1] = eps[0]*s*s + eps[1]*c*c - eps[2]*c*s
+  epsnew[2] = 2.0*( eps[1] - eps[0] )*c*s + eps[2]*( c*c - s*s )
+
+  return epsnew
+  
+def mixMaterials ( fibre , matrix , vf ):
+
+  E1   = fibre.E1*vf+matrix.E1*(1.-vf)
+  E2   = fibre.E1*matrix.E1/(fibre.E2*(1.0-vf)+matrix.E2*vf)
+  nu12 = fibre.nu12*vf+matrix.nu12*(1.-vf)
+  G12  = fibre.G12*matrix.G12/(fibre.G12*(1.0-vf)+matrix.G12*vf)
+
+# Add alpha
+
+  mat = TransverseIsotropic( [E1,E2] , nu12 , G12 )
+
+  return mat
 
 
+def Macauley( x ):
+
+  if x > 0:
+    return x
+  else:
+    return 0.
