@@ -55,8 +55,9 @@ class TransverseIsotropic:
       if len(Gfrac) is 2:
         self.GIc  = Gfrac[0]
         self.GIIc = Gfrac[1]
-      else:
-        print('error')
+    else:
+      self.GIc  = Gfrac
+      self.GIIc = Gfrac
 
     self.alpha0 = alpha0deg*pi/180
 
@@ -68,6 +69,10 @@ class TransverseIsotropic:
 
     self.lam22 = 2.0*(1.0/self.E2-self.nu21*self.nu21/self.E1)
     self.lam44 = 1.0/self.G12
+  
+  def setSLis( self , SLis ):
+
+    self.SLis = SLis
 
   def __str__( self ):
 
@@ -274,15 +279,20 @@ class TransverseIsotropic:
 
   def getFILarc03( self , sigma ):
 
-    
+    t = 0.1
+
     eps1 = 1.0/self.E1*(sigma[0]-self.nu12*sigma[1])
-    epsFail1 = self.F1t / self.E1
+    epsFail1 = self.Xt / self.E1
 
     #tauTeff = MacAuley( -sigma[1]*cos(self.alpha0)*(sin(self.alpha0)-etaT*cos(self.alpha0)
     #tauLeff = MacAuley( cos(self.alpha0)*(sigma[2]+etaL*sigma[1]*cos(self.alpha0))
    
     YTis = sqrt(8.0*self.GIc/(pi*t*self.lam22))
-    SLis = sqrt(8.0*self.GIIc/(pi*t*self.lam44))
+
+    if not hasattr( self , 'SLis' ):
+      SLis = sqrt(8.0*self.GIIc/(pi*t*self.lam44))
+    else:
+      SLis = self.SLis
 
 #    YTis = 1.12*sqrt(2)*self.F2t
 #    SLis = sqrt(2)*self.F6
@@ -292,14 +302,20 @@ class TransverseIsotropic:
     #tauTeff = MacAuley( -sigma[1]*self.cosa0*(self.sina0-etaT*self.cosa0) )
     #tauLeff = MacAuley( self.cosa0*abs(sigma[2]+etaL*sigma[1]*self.cosa0) )
 
-    ST = self.F6 * self.cosa0 * ( self.sina0 + self.cosa0 / self.tan2a0 )
+    ST = self.S * self.cosa0 * ( self.sina0 + self.cosa0 / self.tan2a0 )
 
     etaT = -1./self.tan2a0
-    etaL = -SLis*self.cos2a0/(self.F2c*(self.cosa0)**2)
+    etaL = -SLis*self.cos2a0/(self.Yc*self.cosa0*self.cosa0)
 
-    phiC = arctan( 1. - sqrt( 1. - 4.*(SLis/self.F1c+etaL)*(SLis/self.F1c))/(2.0*(SLis/self.F1c+etaL)))
-    
-    phi = (abs(sigma[2])+(self.G12-self.F1c)*phiC)/(G12+sigma[0]-sigma[1])
+    print("e",etaL)
+
+    c1 = SLis/self.Xc
+
+    print("y",c1,1. - 4.*(c1+etaL)*c1)
+    c2 = ( 1. - sqrt( 1. - 4.*(c1+etaL)*c1))/(2.0*(c1+etaL))
+    print(c2)
+    phiC = atan( c2 )
+    phi = (abs(sigma[2])+(self.G12-self.Xc)*phiC)/(self.G12+sigma[0]-sigma[1])
 
     cosphi = cos(phi)
     sinphi = sin(phi)
@@ -315,7 +331,7 @@ class TransverseIsotropic:
     if sigma[1] >= 0:
       FIm = (1.0 - g)*(sigma[1]/YTis)+g*(sigma[1]/YTis)**2+(sigma[2]/SLis)**2
     else:
-      if sigma[0] < self.F2c:
+      if sigma[0] < self.Yc:
         FIm = ( taumTeff / ST )**2 + ( taumLeff / SLis )**2
       else:
         FIm = ( tauTeff / ST )**2 + ( tauLeff / Slis )**2
