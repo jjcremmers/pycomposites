@@ -10,13 +10,13 @@ from numpy import zeros,ones,dot,transpose
 from numpy.linalg import inv
 from math import sin,cos,pi,sqrt,tan,atan
 
-#
+#------------------------------------------------------------------------------
 #  class Transverse Isotropic.
 #    constructor: 
 #    E     Young's modulus, can be a a list in case of an orthotropic material
 #    nu12  Poisson ratio
 #    G12   Shear modulus
-#
+#------------------------------------------------------------------------------
 
 class TransverseIsotropic:
   
@@ -54,10 +54,10 @@ class TransverseIsotropic:
 
     self.rho = rho
 
-#
-#  Store the failure properties:
-#    F is a list with length 5
-#
+#------------------------------------------------------------------------------
+#  setFailureProperties
+#    F is a vector with length 5 containing Xt,Xc,Yt,Yc,S
+#------------------------------------------------------------------------------
   def setFailureProperties( self, F , Gfrac = 0 , alpha0deg = 53. ):
  
     if len(F) is 5:
@@ -90,9 +90,18 @@ class TransverseIsotropic:
     self.lam22 = 2.0*(1.0/self.E2-self.nu21*self.nu21/self.E1)
     self.lam44 = 1.0/self.G12
   
+#------------------------------------------------------------------------------
+#  setSLis
+#    sets SLis parameter for LaRC03 model
+#------------------------------------------------------------------------------
+
   def setSLis( self , SLis ):
 
     self.SLis = SLis
+
+#------------------------------------------------------------------------------
+#  print material properties
+#------------------------------------------------------------------------------
 
   def __str__( self ):
 
@@ -100,6 +109,9 @@ class TransverseIsotropic:
     msg += "  -----------------------------------------------------------\n"
     msg += "  E1     :  {:12.3e} , E2     :  {:12.3e} \n".format(self.E1,self.E2) 
     msg += "  nu12   :  {:12.2f} , G12    :  {:12.3e} \n".format(self.nu12,self.G12)
+
+    if self.rho > 0.:
+      msg += "  rho    :  {:12.2f}\n".format(self.rho)
 
     if hasattr( self , "alpha1" ):
       msg += "\n  Thermal expansion coefficients:\n"
@@ -115,9 +127,9 @@ class TransverseIsotropic:
 
     return msg
 
-#
-#  REturns Q-matrix
-#
+#------------------------------------------------------------------------------
+#  getQ
+#------------------------------------------------------------------------------
 
   def getQ( self ):
 
@@ -132,9 +144,9 @@ class TransverseIsotropic:
   
     return self.Q
 
-#
-#  Returns U variables
-#
+#------------------------------------------------------------------------------
+#  getU
+#------------------------------------------------------------------------------
 
   def getU( self ):
 
@@ -151,9 +163,10 @@ class TransverseIsotropic:
 
     return self.U
 
-#
-#  Return S matrix
-#
+#------------------------------------------------------------------------------
+#  getS
+#------------------------------------------------------------------------------
+
   def getS( self ):
 
     self.S = zeros( shape=(3,3) )
@@ -166,9 +179,9 @@ class TransverseIsotropic:
 
     return self.S
   
-#
-#  REturn V parameters
-#
+#------------------------------------------------------------------------------
+#  getV
+#------------------------------------------------------------------------------
 
   def getV( self ):
  
@@ -185,9 +198,10 @@ class TransverseIsotropic:
 
     return self.V
 
-#
-#  REturn Qbar for this material for a given angle theta (in rad.)
-#
+#------------------------------------------------------------------------------
+#  getQbar
+#    Returns the Qbar matrix for a given theta (in degrees)
+#------------------------------------------------------------------------------
 
   def getQbar( self , theta ):
 
@@ -216,9 +230,10 @@ class TransverseIsotropic:
 
     return Qbar
 
-#
-#  REturn Sbar for a given theta
-#
+#------------------------------------------------------------------------------
+#  getSbar
+#    Returns the Sbar matrix for a given theta
+#------------------------------------------------------------------------------
 
   def getSbar( self , theta ):
 
@@ -247,6 +262,11 @@ class TransverseIsotropic:
 
     return Sbar
 
+#------------------------------------------------------------------------------
+#  getAlpha
+#    Returns the thermal expansion vector alpha for a given theta
+#------------------------------------------------------------------------------
+
   def getAlpha( self , theta ):
 
     alpha = zeros(3)
@@ -262,9 +282,9 @@ class TransverseIsotropic:
 
     return alpha
 
-#
-#  Return the FI index for maximum stress
-#
+#------------------------------------------------------------------------------
+#  getFIMaximumStress
+#------------------------------------------------------------------------------
 
   def getFIMaximumStress( self , sigma ):
     
@@ -289,9 +309,9 @@ class TransverseIsotropic:
   
     return max(FI1,FI2,FI6)
 
-#
-#  Return  the FI for maximum strain
-#
+#------------------------------------------------------------------------------
+#  getFIMaximumStrain
+#------------------------------------------------------------------------------
 
   def getFIMaximumStrain( self , sigma ):
     
@@ -319,9 +339,11 @@ class TransverseIsotropic:
 
     return max(FI1,FI2,FI6)
 
-#
-#
-#
+#------------------------------------------------------------------------------
+#  getFITsaiWu
+#    Returns the TsaiWu failure index 
+#------------------------------------------------------------------------------
+
   def getFITsaiWu( self , sigma ):
     
     f1  = 1.0/self.Xt - 1.0/self.Xc
@@ -341,9 +363,10 @@ class TransverseIsotropic:
     
     return 1.0/SfTsaiWu1
 
-#
-#
-#
+#------------------------------------------------------------------------------
+#  getFIHashin73
+#    Returns the Hashin73 failure index 
+#------------------------------------------------------------------------------
 
   def getFIHashin73( self , sigma ):
 
@@ -362,6 +385,11 @@ class TransverseIsotropic:
     
     return max(FIf,FIm)
 
+#------------------------------------------------------------------------------
+#  getFIHashin80
+#    Returns the Hashin80 failure index 
+#------------------------------------------------------------------------------
+
   def getFIHashin80( self , sigma ):
 
     FIf = 0.0
@@ -378,9 +406,11 @@ class TransverseIsotropic:
       FIm = ( sigma[1] / (2*self.Sl) )**2 + (( self.Yc / (2*self.Sl) )**2-1.0)*sigma[1]/self.Yc+( sigma[2] / self.Sl )**2
     
     return max(FIf,FIm)
-#
-#
-#
+
+#------------------------------------------------------------------------------
+#  getFILarc03
+#    Returns the LaRC03 failure index (not finished yet)
+#------------------------------------------------------------------------------
 
   def getFILarc03( self , sigma ):
 
@@ -449,34 +479,9 @@ class TransverseIsotropic:
 
     return max(FIf,FIm)
 
-#
-#
-#
-
-    '''  
-
-  def getSfConservative( self , sigma ):
-    
-    sf = self.getSfMaximumStress( sigma )
-    sftype = 'MaxStress'
-
-    sfNew = self.getSfMaximumStrain( sigma )
-
-    if sfNew < sf:
-      sf = sfNew
-      sftype = 'MaxStrain'
-
-    sfNew = self.getSfTsaiWu( sigma )
-
-    if sfNew < sf:
-      sf = sfNew
-      sftype = 'TsaiWu'
-   
-    return sf,sftype
-'''
-#--------------------------------------------------------------
-#
-#--------------------------------------------------------------
+#==============================================================================
+#  Class Layer
+#==============================================================================
 
 class Layer:
 
@@ -486,12 +491,20 @@ class Layer:
     self.theta = theta
     self.thick = thick
 
+#==============================================================================
+#  Class Laminate
+#==============================================================================
+
 class Laminate:
 
   def __init__( self ): 
 
     self.materials = {}
     self.layers    = []
+
+#------------------------------------------------------------------------------
+#  prints the laminate (layers, thickness, material name)
+#------------------------------------------------------------------------------
 
   def __str__( self ):
 
@@ -506,15 +519,7 @@ class Laminate:
     return msg
 
 #------------------------------------------------------------------------------
-#
-#------------------------------------------------------------------------------
-
-  def clear( self ):
-
-    self.layers    = []
-
-#------------------------------------------------------------------------------
-#
+#  addMaterial
 #------------------------------------------------------------------------------
 
   def addMaterial( self , name , mat ):
@@ -522,7 +527,7 @@ class Laminate:
     self.materials[name] = mat
 
 #------------------------------------------------------------------------------
-#
+#  addLayer
 #------------------------------------------------------------------------------
 
   def addLayer( self , name , theta , thick ):
@@ -541,7 +546,8 @@ class Laminate:
     self.h += -0.5*self.thick*ones( len(self.h) )
 
 #------------------------------------------------------------------------------
-#
+#  removeAllLayers
+#    Erases all layers from the laminate
 #------------------------------------------------------------------------------
 
   def removeAllLayers( self ):
@@ -549,7 +555,8 @@ class Laminate:
     self.layers = []
 
 #------------------------------------------------------------------------------
-#
+#  getA
+#    Returns the A matrix
 #------------------------------------------------------------------------------
 
   def getA( self ):
@@ -565,7 +572,8 @@ class Laminate:
     return self.A
 
 #------------------------------------------------------------------------------
-#
+#  getB
+#    Returns the B matrix
 #------------------------------------------------------------------------------
 
   def getB( self ):
@@ -581,7 +589,8 @@ class Laminate:
     return self.B
 
 #------------------------------------------------------------------------------
-#
+#  getD
+#    Returns the D matrix
 #------------------------------------------------------------------------------
 
   def getD( self ):
@@ -597,7 +606,8 @@ class Laminate:
     return self.D
 
 #------------------------------------------------------------------------------
-#
+#  getTs
+#    Returns the thermal extension array Ts 
 #------------------------------------------------------------------------------
 
   def getTs( self ):
@@ -614,6 +624,11 @@ class Laminate:
 
     return self.Ts
 
+#------------------------------------------------------------------------------
+#  getTss
+#    Returns the thermal bending array Tss 
+#------------------------------------------------------------------------------
+
   def getTss( self ):
 
     self.Tss = zeros( 3 )
@@ -629,7 +644,24 @@ class Laminate:
     return self.Tss
 
 #------------------------------------------------------------------------------
-#
+#  getRhoh
+#    Returns the term rho*h for a lamminate
+#------------------------------------------------------------------------------
+
+  def getRhoh( self ):
+
+    rhoh = 0.
+
+    for i,layer in enumerate(self.layers):
+      name  = layer.name
+
+      rhoh += self.materials[name].rho * (self.h[i+1]-self.h[i])
+
+    return rhoh
+
+#------------------------------------------------------------------------------
+#  getInverseMatrices
+#    Returns the inverse matrices A1, B1, C1, D1 of a laminate
 #------------------------------------------------------------------------------
 
   def getInverseMatrices( self ):
@@ -650,7 +682,8 @@ class Laminate:
     return self.A1,self.B1,self.C1,self.D1
 
 #------------------------------------------------------------------------------
-#
+#  getQbar
+#    Returns Qbar for layer i in laminate
 #------------------------------------------------------------------------------
 
   def getQbar( self , i ):
@@ -661,7 +694,8 @@ class Laminate:
     return self.materials[name].getQbar( theta )
 
 #------------------------------------------------------------------------------
-#
+#  getElastic
+#    Returns the apparent elastic properties of a laminate
 #------------------------------------------------------------------------------
 
   def getElastic( self ):
@@ -675,75 +709,23 @@ class Laminate:
 
     return [Ex,Ey,nuxy,Gxy]
 
-#
-#
-#
-
-def stressGlob2Mat( sglob , theta ):
-
-  T = getT( theta )
-
-  return dot( T , sglob )
-
-def stressMat2Glob( smat , theta ):
-
-  T = getT( theta )
-
-  return dot( T.transpose() , smat )
-
-def strainGlob2Mat( eglob , theta ):
-
-  R,Rinv = getR()
-
-  T = getT( theta )
-
-  return dot( R , dot ( T , dot ( Rinv , eglob ) ) )
-
-def strainMat2Glob( emat , theta ):
-
-  R,Rinv = getR()
-
-  T = getT( theta )
-
-  return dot( Rinv , dot ( T.transpose() , dot ( R , emat ) ) )
-
-def getR():
-
-  R = ones( shape=(3,3) )
-  R[2,2] = 2.0
-
-  Rinv = ones( shape=(3,3) )
-  Rinv[2,2] = 0.5
-
-def getR():
-
-  T = zeros( shape=(3,3) )
-  
-  rad = theta*pi/180.
-
-  s = sin(rad)
-  c = cos(rad)
-
-  T[0,0] = c*c
-  T[0,1] = c*c
-  T[0,2] = c*c
-  T[1,0] = c*c
-  T[1,1] = c*c
-  T[1,2] = c*c
-  T[2,0] = c*c
-  T[2,1] = c*c
-  T[2,2] = c*c
+#==============================================================================
+#  Utility functions
+#==============================================================================
 
 #------------------------------------------------------------------------------
-#
+#  stressTransformation 
+#    Transforms stress from 12 coordinate system to xy coordinate system
 #------------------------------------------------------------------------------
 
 def stressTransformation( sigma , theta ):
 
   signew = zeros( 3 )
 
-  c = cos(theta)
-  s = sin(theta)
+  rad = theta*pi/180.
+
+  c = cos(rad)
+  s = sin(rad)
 
   signew[0] = sigma[0]*c*c + sigma[1]*s*s + 2.*sigma[2]*c*s
   signew[1] = sigma[0]*s*s + sigma[1]*c*c - 2.*sigma[2]*c*s
@@ -751,23 +733,31 @@ def stressTransformation( sigma , theta ):
    
   return signew
 
-#
-#
-#
+#------------------------------------------------------------------------------
+#  strainTransformation 
+#    Transforms strain from 12 coordinate system to xy coordinate system
+#------------------------------------------------------------------------------
 
 def strainTransformation( eps , theta ):
 
-
   epsnew = zeros( 3 )
 
-  c = cos(theta)
-  s = sin(theta)
+  rad = theta*pi/180.
+
+  c = cos(rad)
+  s = sin(rad)
 
   epsnew[0] = eps[0]*c*c + eps[1]*s*s + eps[2]*c*s
   epsnew[1] = eps[0]*s*s + eps[1]*c*c - eps[2]*c*s
   epsnew[2] = 2.0*( eps[1] - eps[0] )*c*s + eps[2]*( c*c - s*s )
 
   return epsnew
+
+#------------------------------------------------------------------------------
+#  mixMaterials 
+#    Simple Voigt and Reuss volume averaging to determine the homogenised 
+#    elastic properties of two materials with volume fraction vf.
+#------------------------------------------------------------------------------
   
 def mixMaterials ( fibre , matrix , vf ):
 
@@ -782,6 +772,9 @@ def mixMaterials ( fibre , matrix , vf ):
 
   return mat
 
+#------------------------------------------------------------------------------
+#  Macauley
+#------------------------------------------------------------------------------
 
 def Macauley( x ):
 
