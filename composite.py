@@ -65,7 +65,7 @@ class TransverseIsotropic:
       self.Xc = F[1]
       self.Yt = F[2]
       self.Yc = F[3]
-      self.S  = F[4]
+      self.Sl = F[4]
     else:
       print('error')
 
@@ -111,7 +111,7 @@ class TransverseIsotropic:
       msg += "  -----------------------------------------------------------\n"
       msg += "  Xt     :  {:12.3e} , Xc     :  {:12.3e} \n".format(self.Xt,self.Xc)
       msg += "  Yt     :  {:12.3e} , Yc     :  {:12.3e} \n".format(self.Yt,self.Yc)
-      msg += "  S      :  {:12.3e}\n".format(self.S)
+      msg += "  S      :  {:12.3e}\n".format(self.Sl)
 
     return msg
 
@@ -253,14 +253,12 @@ class TransverseIsotropic:
 
     rad = theta*pi/180.
 
-    s2 = sin(2.*rad)
-    s4 = sin(4.*rad)
-
-    c2 = cos(2.*rad)
-    c4 = cos(4.*rad)
-
-    alpha[0] = self.alpha1
-    alpha[1] = self.alpha2
+    s = sin(rad)
+    c = cos(rad)
+ 
+    alpha[0] = self.alpha1*c*c+self.alpha2*s*s
+    alpha[1] = self.alpha1*s*s+self.alpha2*c*c
+    alpha[2] = 2.*s*c*(self.alpha1-self.alpha2)
 
     return alpha
 
@@ -287,7 +285,7 @@ class TransverseIsotropic:
     if sigma[2] == 0.:
       FI6 = 0.
     else:
-      FI6 = abs(sigma[2]/self.S)
+      FI6 = abs(sigma[2]/self.Sl)
   
     return max(FI1,FI2,FI6)
 
@@ -317,7 +315,7 @@ class TransverseIsotropic:
     if sigma[2] == 0.:
       FI6 = 0.
     else:
-      FI6 = abs(sigma[2]/self.S)
+      FI6 = abs(sigma[2]/self.Sl)
 
     return max(FI1,FI2,FI6)
 
@@ -326,12 +324,11 @@ class TransverseIsotropic:
 #
   def getFITsaiWu( self , sigma ):
     
-    print(self.Xt)
-    f1  = 1.0/self.Xt - 1.0/self.Yc
+    f1  = 1.0/self.Xt - 1.0/self.Xc
     f2  = 1.0/self.Yt - 1.0/self.Yc
     f11 = 1.0/(self.Xt*self.Xc)
     f22 = 1.0/(self.Yt*self.Yc)
-    f66 = 1.0/(self.S*self.S)
+    f66 = 1.0/(self.Sl*self.Sl)
     
     f12 = -sqrt(f11*f22)/2
         
@@ -344,6 +341,43 @@ class TransverseIsotropic:
     
     return 1.0/SfTsaiWu1
 
+#
+#
+#
+
+  def getFIHashin73( self , sigma ):
+
+    FIf = 0.0
+    FIm = 0.0
+ 
+    if sigma[0] >= 0:
+      FIf = ( sigma[0] / self.Xt )**2 + ( sigma[2] / self.Sl )**2
+    else: 
+      FIf = -sigma[0] / self.Xc
+
+    if sigma[1] >= 0:
+      FIm = ( sigma[1] / self.Yt )**2 + ( sigma[2] / self.Sl )**2
+    else:
+      FIm = ( sigma[1] / self.Yc )**2 + ( sigma[2] / self.Sl )**2
+    
+    return max(FIf,FIm)
+
+  def getFIHashin80( self , sigma ):
+
+    FIf = 0.0
+    FIm = 0.0
+ 
+    if sigma[0] >= 0:
+      FIf = ( sigma[0] / self.Xt )**2 + ( sigma[2] / self.Sl )**2
+    else: 
+      FIf = -sigma[0] / self.Xc
+
+    if sigma[1] >= 0:
+      FIm = ( sigma[1] / self.Yt )**2 + ( sigma[2] / self.Sl )**2
+    else:
+      FIm = ( sigma[1] / (2*self.Sl) )**2 + (( self.Yc / (2*self.Sl) )**2-1.0)*sigma[1]/self.Yc+( sigma[2] / self.Sl )**2
+    
+    return max(FIf,FIm)
 #
 #
 #
@@ -401,7 +435,7 @@ class TransverseIsotropic:
 #        FIm = ( taumTeff / ST )**2 + ( taumLeff / SLis )**2
         FIm = ( tauTeff / ST )**2 + ( tauLeff / SLis )**2
       else:
-        FIm = ( tauTeff / ST )**2 + ( tauLeff / Slis )**2
+        FIm = ( tauTeff / ST )**2 + ( tauLeff / SLis )**2
      
     # Fibre failure
 
@@ -413,7 +447,7 @@ class TransverseIsotropic:
       else:
         FIf = (1.0 - self.g)*(sigmam[1]/YTis)+self.g*(sigmam[1]/YTis)**2+(sigmam[2]/SLis)**2
 
-    return [FIf,FIm]
+    return max(FIf,FIm)
 
 #
 #
@@ -580,9 +614,9 @@ class Laminate:
 
     return self.Ts
 
-  def getTs( self ):
+  def getTss( self ):
 
-    self.Ts = zeros( 3 )
+    self.Tss = zeros( 3 )
 
     for i,layer in enumerate(self.layers):
       name  = layer.name
@@ -590,9 +624,9 @@ class Laminate:
 
       Qalpha = dot( self.materials[name].getQbar( theta ) , self.materials[name].getAlpha( theta ) )
 
-      self.Ts += 0.5 * Qalpha * (self.h[i+1]**2-self.h[i]**2)
+      self.Tss += 0.5 * Qalpha * (self.h[i+1]**2-self.h[i]**2)
 
-    return self.Ts
+    return self.Tss
 
 #------------------------------------------------------------------------------
 #
