@@ -12,14 +12,14 @@ from math import sin,cos,pi,sqrt,tan,atan
 
 #------------------------------------------------------------------------------
 #  class Transverse Isotropic.
-#    constructor: 
+#    constructor:
 #    E     Young's modulus, can be a a list in case of an orthotropic material
 #    nu12  Poisson ratio
 #    G12   Shear modulus
 #------------------------------------------------------------------------------
 
 class TransverseIsotropic:
-  
+
   def __init__( self , E , nu12 , G12 = 0. , alpha = 0. , rho = 0. ):
 
     if type(E) is list:
@@ -35,8 +35,8 @@ class TransverseIsotropic:
       self.E1    = E
       self.E2    = E
 
-    self.nu12  = nu12      
-    self.G12   = G12    
+    self.nu12  = nu12
+    self.G12   = G12
     self.nu21  = self.E2/self.E1*self.nu12
 
     if type(alpha) is list:
@@ -59,7 +59,7 @@ class TransverseIsotropic:
 #    F is a vector with length 5 containing Xt,Xc,Yt,Yc,S
 #------------------------------------------------------------------------------
   def setFailureProperties( self, F , Gfrac = 0 , alpha0deg = 53. ):
- 
+
     if len(F) is 5:
       self.Xt = F[0]
       self.Xc = F[1]
@@ -89,7 +89,7 @@ class TransverseIsotropic:
 
     self.lam22 = 2.0*(1.0/self.E2-self.nu21*self.nu21/self.E1)
     self.lam44 = 1.0/self.G12
-  
+
 #------------------------------------------------------------------------------
 #  setSLis
 #    sets SLis parameter for LaRC03 model
@@ -107,7 +107,7 @@ class TransverseIsotropic:
 
     msg  = "  Elastic Properties:\n"
     msg += "  -----------------------------------------------------------\n"
-    msg += "  E1     :  {:12.3e} , E2     :  {:12.3e} \n".format(self.E1,self.E2) 
+    msg += "  E1     :  {:12.3e} , E2     :  {:12.3e} \n".format(self.E1,self.E2)
     msg += "  nu12   :  {:12.2f} , G12    :  {:12.3e} \n".format(self.nu12,self.G12)
 
     if self.rho > 0.:
@@ -141,7 +141,7 @@ class TransverseIsotropic:
       self.Q[1,1] = self.E2/(1.-self.nu12*self.nu21)
       self.Q[1,0] = self.Q[0,1]
       self.Q[2,2] = self.G12
-  
+
     return self.Q
 
 #------------------------------------------------------------------------------
@@ -178,13 +178,13 @@ class TransverseIsotropic:
     self.S[2,2] = 1./self.G12
 
     return self.S
-  
+
 #------------------------------------------------------------------------------
 #  getV
 #------------------------------------------------------------------------------
 
   def getV( self ):
- 
+
     if not hasattr( self , 'V' ):
       self.getS()
 
@@ -275,7 +275,7 @@ class TransverseIsotropic:
 
     s = sin(rad)
     c = cos(rad)
- 
+
     alpha[0] = self.alpha1*c*c+self.alpha2*s*s
     alpha[1] = self.alpha1*s*s+self.alpha2*c*c
     alpha[2] = 2.*s*c*(self.alpha1-self.alpha2)
@@ -287,26 +287,26 @@ class TransverseIsotropic:
 #------------------------------------------------------------------------------
 
   def getFIMaximumStress( self , sigma ):
-    
-    if sigma[0] > 0.: 
+
+    if sigma[0] > 0.:
       FI1 = sigma[0]/self.Xt
     elif sigma[0] < 0.:
       FI1 = abs(sigma[0]/self.Xc);
     else:
       FI1 = 0.;
-    
-    if sigma[1] > 0.: 
+
+    if sigma[1] > 0.:
       FI2 = sigma[1]/self.Yt
     elif sigma[1] < 0.:
       FI2 = abs(sigma[1]/self.Yc);
     else:
       FI2 = 0.
-    
+
     if sigma[2] == 0.:
       FI6 = 0.
     else:
       FI6 = abs(sigma[2]/self.Sl)
-  
+
     return max(FI1,FI2,FI6)
 
 #------------------------------------------------------------------------------
@@ -314,7 +314,7 @@ class TransverseIsotropic:
 #------------------------------------------------------------------------------
 
   def getFIMaximumStrain( self , sigma ):
-    
+
     eps1 = 1.0/self.E1*(sigma[0]-self.nu12*sigma[1])
     eps2 = 1.0/self.E2*(sigma[1]-self.nu21*sigma[0])
 
@@ -329,9 +329,9 @@ class TransverseIsotropic:
       FI2 = (sigma[1]-self.nu21*sigma[0])/self.Yt
     elif eps2 < 0.:
       FI2 = abs((sigma[1]-self.nu21*sigma[0])/self.Yc)
-    else:  
+    else:
       FI2 = 0.
-    
+
     if sigma[2] == 0.:
       FI6 = 0.
     else:
@@ -341,70 +341,70 @@ class TransverseIsotropic:
 
 #------------------------------------------------------------------------------
 #  getFITsaiWu
-#    Returns the TsaiWu failure index 
+#    Returns the TsaiWu failure index
 #------------------------------------------------------------------------------
 
   def getFITsaiWu( self , sigma ):
-    
+
     f1  = 1.0/self.Xt - 1.0/self.Xc
     f2  = 1.0/self.Yt - 1.0/self.Yc
     f11 = 1.0/(self.Xt*self.Xc)
     f22 = 1.0/(self.Yt*self.Yc)
     f66 = 1.0/(self.Sl*self.Sl)
-    
+
     f12 = -sqrt(f11*f22)/2
-        
+
     a = f11*sigma[0]**2 + f22*sigma[1]**2 + f66*sigma[2]**2 + 2*f12*sigma[0]*sigma[1]
     b = f1*sigma[0] + f2*sigma[1]
-    
+
     Discr = b*b + 4*a
     SfTsaiWu1 = (-b + sqrt(Discr)) / (2*a)
     SfTsaiWu2 = (-b - sqrt(Discr)) / (2*a)
-    
+
     return 1.0/SfTsaiWu1
 
 #------------------------------------------------------------------------------
 #  getFIHashin73
-#    Returns the Hashin73 failure index 
+#    Returns the Hashin73 failure index
 #------------------------------------------------------------------------------
 
   def getFIHashin73( self , sigma ):
 
     FIf = 0.0
     FIm = 0.0
- 
+
     if sigma[0] >= 0:
       FIf = ( sigma[0] / self.Xt )**2 + ( sigma[2] / self.Sl )**2
-    else: 
+    else:
       FIf = -sigma[0] / self.Xc
 
     if sigma[1] >= 0:
       FIm = ( sigma[1] / self.Yt )**2 + ( sigma[2] / self.Sl )**2
     else:
       FIm = ( sigma[1] / self.Yc )**2 + ( sigma[2] / self.Sl )**2
-    
+
     return max(FIf,FIm)
 
 #------------------------------------------------------------------------------
 #  getFIHashin80
-#    Returns the Hashin80 failure index 
+#    Returns the Hashin80 failure index
 #------------------------------------------------------------------------------
 
   def getFIHashin80( self , sigma ):
 
     FIf = 0.0
     FIm = 0.0
- 
+
     if sigma[0] >= 0:
       FIf = ( sigma[0] / self.Xt )**2 + ( sigma[2] / self.Sl )**2
-    else: 
+    else:
       FIf = -sigma[0] / self.Xc
 
     if sigma[1] >= 0:
       FIm = ( sigma[1] / self.Yt )**2 + ( sigma[2] / self.Sl )**2
     else:
       FIm = ( sigma[1] / (2*self.Sl) )**2 + (( self.Yc / (2*self.Sl) )**2-1.0)*sigma[1]/self.Yc+( sigma[2] / self.Sl )**2
-    
+
     return max(FIf,FIm)
 
 #------------------------------------------------------------------------------
@@ -418,7 +418,7 @@ class TransverseIsotropic:
 
     eps1 = 1.0/self.E1*(sigma[0]-self.nu12*sigma[1])
     epsFail1 = self.Xt / self.E1
-   
+
     YTis = sqrt(8.0*self.GIc/(pi*t*self.lam22))
 
     if not hasattr( self , 'SLis' ):
@@ -428,19 +428,19 @@ class TransverseIsotropic:
 
     etaT = -1./self.tan2a0
     etaL = -SLis*self.cos2a0/(self.Yc*self.cosa0*self.cosa0)
- 
+
     tauTeff = 0.0
     tauLeff = 0.0
 
     for i in range(18):
       alp = i*5
       alpr = alp * pi/180
-      
+
       aa = Macauley( -sigma[1]*cos(alpr)*(sin(alpr)-etaT*cos(alpr) ) )
-  
+
       if (aa > tauTeff):
         tauTeff = aa
-   
+
       aa = Macauley( cos(alpr)*abs(sigma[2]+etaL*sigma[1]*cos(alpr)) )
 
       if (aa > tauLeff):
@@ -466,7 +466,7 @@ class TransverseIsotropic:
         FIm = ( tauTeff / ST )**2 + ( tauLeff / SLis )**2
       else:
         FIm = ( tauTeff / ST )**2 + ( tauLeff / SLis )**2
-     
+
     # Fibre failure
 
     if sigma[0] >= 0:
@@ -486,7 +486,7 @@ class TransverseIsotropic:
 class Layer:
 
   def __init__( self , name , theta , thick ):
-   
+
     self.name  = name
     self.theta = theta
     self.thick = thick
@@ -497,7 +497,7 @@ class Layer:
 
 class Laminate:
 
-  def __init__( self ): 
+  def __init__( self ):
 
     self.materials = {}
     self.layers    = []
@@ -538,7 +538,7 @@ class Laminate:
 
     self.h     = zeros( len(self.layers)+1 )
     self.thick = 0.
-    
+
     for i,layer in enumerate(self.layers):
       self.h[i+1] = self.thick+layer.thick
       self.thick += layer.thick
@@ -607,7 +607,7 @@ class Laminate:
 
 #------------------------------------------------------------------------------
 #  getTs
-#    Returns the thermal extension array Ts 
+#    Returns the thermal extension array Ts
 #------------------------------------------------------------------------------
 
   def getTs( self ):
@@ -626,7 +626,7 @@ class Laminate:
 
 #------------------------------------------------------------------------------
 #  getTss
-#    Returns the thermal bending array Tss 
+#    Returns the thermal bending array Tss
 #------------------------------------------------------------------------------
 
   def getTss( self ):
@@ -699,7 +699,7 @@ class Laminate:
 #------------------------------------------------------------------------------
 
   def getElastic( self ):
-    
+
     self.getA()
 
     Ex   = (self.A[0,0]*self.A[1,1]-self.A[0,1]*self.A[0,1])/(self.thick*self.A[1,1])
@@ -714,7 +714,7 @@ class Laminate:
 #==============================================================================
 
 #------------------------------------------------------------------------------
-#  stressTransformation 
+#  stressTransformation
 #    Transforms stress from 12 coordinate system to xy coordinate system
 #------------------------------------------------------------------------------
 
@@ -730,11 +730,11 @@ def stressTransformation( sigma , theta ):
   signew[0] = sigma[0]*c*c + sigma[1]*s*s + 2.*sigma[2]*c*s
   signew[1] = sigma[0]*s*s + sigma[1]*c*c - 2.*sigma[2]*c*s
   signew[2] = ( sigma[1] - sigma[0] )*c*s + sigma[2]*( c*c - s*s )
-   
+
   return signew
 
 #------------------------------------------------------------------------------
-#  strainTransformation 
+#  strainTransformation
 #    Transforms strain from 12 coordinate system to xy coordinate system
 #------------------------------------------------------------------------------
 
@@ -754,11 +754,11 @@ def strainTransformation( eps , theta ):
   return epsnew
 
 #------------------------------------------------------------------------------
-#  mixMaterials 
-#    Simple Voigt and Reuss volume averaging to determine the homogenised 
+#  mixMaterials
+#    Simple Voigt and Reuss volume averaging to determine the homogenised
 #    elastic properties of two materials with volume fraction vf.
 #------------------------------------------------------------------------------
-  
+
 def mixMaterials ( fibre , matrix , vf ):
 
   E1   = fibre.E1*vf+matrix.E1*(1.-vf)
