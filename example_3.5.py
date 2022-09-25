@@ -20,3 +20,5 @@ print("The strain in the steel is       : ",dot ( steel.getS()      , stress ),'
 print("The strain in the boron-epoxy is : ",dot ( boronEpoxy.getS() , stress ),'\n')
 print("The strain in the boron-epoxy is : ",dot ( boronEpoxy.getSbar(45.) , stress ),'\n')
 
+print(steel)
+

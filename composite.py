@@ -62,6 +62,21 @@ class TransverseIsotropic:
       self.alpha2    = alpha
 
     self.rho = rho
+    
+  def setAlpha( self , alpha ):
+  
+    if type(alpha) == list:
+      if len(alpha) == 2:
+        self.alpha1 = alpha[0]
+        self.alpha2 = alpha[1]
+      elif len(alpha) == 1:
+        self.alpha1 = alpha[0]
+        self.alpha2 = alpha[0]
+      else:
+        print('error')
+    else:
+      self.alpha1    = alpha
+      self.alpha2    = alpha
 
   def setFailureProperties( self, F , Gfrac = 0 , alpha0deg = 53. ):
 
@@ -681,10 +696,29 @@ class Laminate:
       rhoh += self.materials[name].rho * (self.h[i+1]-self.h[i])
 
     return rhoh
+    
+  def getZcoord( self , j ):
 
+    '''Calculates and returns the z coordinate of layer j. The z coordinate is
+       defined as the centre of the layer.
+       
+       Args:
+         j     layer number.'''  
+         
+    return 0.5*(self.h[j] + self.h[j+1])  
+
+  def getLayerBounds( self , j ):
+
+    '''Returns the z coordinates of the top and the bottom of layer j.      
+       
+       Args:
+         j     layer number.'''  
+         
+    return (self.h[j],self.h[j+1]) 
+    
   def getInverseMatrices( self ):
   
-    '''Calculate and returns the for inverse matrices A1, B1, C1, D1 as 4
+    '''Calculate and returns the four inverse matrices A1, B1, C1, D1 as 4
        numpy arrays of shape (3x3).'''
 
     self.getA()
