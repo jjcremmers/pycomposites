@@ -90,15 +90,22 @@ class TransverseIsotropic:
                  Yt (transverse tensile strength)
                  Yc (transverse compressive strength)
                  Sl (transverse shear strength)
-         Gfrac:  FRacture toughness (needed for Larc03 model
+                 
+               For the Tsai-Wu failure criterion, the f12 parameter is
+               entered as the 6th parameter in F. In that case:
+               F=[Xt,Xc,Yt,Yc,Sl,f12]
+         Gfrac:  Fracture toughness (needed for Larc03 model
          alpha0deg: alpgha0 in degrees (needed for Larc03)'''
 
-    if len(F) == 5:
+    if len(F) == 5 or len(F) == 6:
       self.Xt = F[0]
       self.Xc = F[1]
       self.Yt = F[2]
       self.Yc = F[3]
       self.Sl = F[4]
+      
+      if len(F) == 6:
+        self.f12 = F[5]
     else:
       print('error')
 
@@ -106,22 +113,19 @@ class TransverseIsotropic:
       if len(Gfrac) == 2:
         self.GIc  = Gfrac[0]
         self.GIIc = Gfrac[1]
-        self.g = self.GIc/self.GIIc
     else:
       self.GIc  = Gfrac
       self.GIIc = Gfrac
-      self.g    = 1.0
 
-    self.alpha0 = alpha0deg*pi/180
+    self.a0deg  = alpha0deg
+    
+    alpha0 = alpha0deg*pi/180
 
-    self.cosa0  = cos( self.alpha0 )
-    self.sina0  = sin( self.alpha0 )
+    self.cosa0  = cos( alpha0 )
+    self.sina0  = sin( alpha0 )
 
-    self.cos2a0 = cos( 2.0*self.alpha0 )
-    self.tan2a0 = tan( 2.0*self.alpha0 )
-
-    self.lam22 = 2.0*(1.0/self.E2-self.nu21*self.nu21/self.E1)
-    self.lam44 = 1.0/self.G12
+    self.cos2a0 = cos( 2.0*alpha0 )
+    self.tan2a0 = tan( 2.0*alpha0 )
 
   def setSLis( self , SLis ):
 
@@ -157,7 +161,16 @@ class TransverseIsotropic:
       msg += "  -----------------------------------------------------------\n"
       msg += "  Xt     :  {:12.3e} , Xc     :  {:12.3e} \n".format(self.Xt,self.Xc)
       msg += "  Yt     :  {:12.3e} , Yc     :  {:12.3e} \n".format(self.Yt,self.Yc)
-      msg += "  S      :  {:12.3e}\n".format(self.Sl)
+      msg += "  S      :  {:12.3e}".format(self.Sl)
+      
+      if hasattr( self, "f12" ):
+        msg += " , f12    : {:12.3e} \n".format(self.f12)
+      else:
+        msg += "\n"
+        
+      if hasattr( self, "GIc" ):
+        msg += "  GIc    :  {:12.3e} , GIIc   :  {:12.3e} \n".format(self.GIc,self.GIIc)
+        msg += "  alpha0 :  {:12.3e}\n".format(self.a0deg)
 
     return msg
 
@@ -383,7 +396,10 @@ class TransverseIsotropic:
     f22 = 1.0/(self.Yt*self.Yc)
     f66 = 1.0/(self.Sl*self.Sl)
     
-    f12 = -sqrt(f11*f22)/2
+    if hasattr( self , 'f12'):
+      f12 = self.f12
+    else:
+      f12 = -sqrt(f11*f22)/2
         
     a = f11*sigma[0]**2 + f22*sigma[1]**2 + f66*sigma[2]**2 + 2*f12*sigma[0]*sigma[1]
     b = f1*sigma[0] + f2*sigma[1]
@@ -449,14 +465,19 @@ class TransverseIsotropic:
          sigma:    The current stress state.'''
 
     t = 0.1
+    
+    lam22 = 2.0*(1.0/self.E2-self.nu21*self.nu21/self.E1)
+    lam44 = 1.0/self.G12  
+    
+    g     = self.GIc/self.GIIc  
 
-    eps1 = 1.0/self.E1*(sigma[0]-self.nu12*sigma[1])
+    eps1     = 1.0/self.E1*(sigma[0]-self.nu12*sigma[1])
     epsFail1 = self.Xt / self.E1
    
-    YTis = sqrt(8.0*self.GIc/(pi*t*self.lam22))
+    YTis     = sqrt(8.0*self.GIc/(pi*t*lam22))
 
     if not hasattr( self , 'SLis' ):
-      SLis = sqrt(8.0*self.GIIc/(pi*t*self.lam44))
+      SLis = sqrt(8.0*self.GIIc/(pi*t*lam44))
     else:
       SLis = self.SLis
 
@@ -475,43 +496,47 @@ class TransverseIsotropic:
       if (aa > tauTeff):
         tauTeff = aa
    
-      aa = Macauley( cos(alpr)*abs(sigma[2]+etaL*sigma[1]*cos(alpr)) )
+      aa = Macauley( cos(alpr)*(abs(sigma[2])+etaL*sigma[1]*cos(alpr)))
 
       if (aa > tauLeff):
         tauLeff = aa
 
     ST = self.Yc * self.cosa0 * ( self.sina0 + self.cosa0 / self.tan2a0 )
 
-    c1 = SLis/self.Xc
+    c1 = self.SLis/self.Xc
     c2 = ( 1. - sqrt( 1. - 4.*(c1+etaL)*c1))/(2.0*(c1+etaL))
+    
     phiC = atan( c2 )
 
     phi = (abs(sigma[2])+(self.G12-self.Xc)*phiC)/(self.G12+sigma[0]-sigma[1])
 
-    sigmam = stressTransformation( sigma , phi )
+    sigmam = stressTransformation( sigma , 180*phi/pi )
 
-    # Matrix cracking
+    # --- Matrix cracking ---
 
     if sigma[1] >= 0:
-      FIm = (1.0 - self.g)*(sigma[1]/YTis)+self.g*(sigma[1]/YTis)**2+(sigma[2]/SLis)**2
+      FIm = (1.0 - g)*(sigma[1]/YTis)+g*(sigma[1]/YTis)**2+(sigma[2]/SLis)**2
     else:
       if sigma[0] < self.Yc:
-#        FIm = ( taumTeff / ST )**2 + ( taumLeff / SLis )**2
         FIm = ( tauTeff / ST )**2 + ( tauLeff / SLis )**2
       else:
         FIm = ( tauTeff / ST )**2 + ( tauLeff / SLis )**2
      
-    # Fibre failure
-
+    # --- Fibre failure ---
+    
     if sigma[0] >= 0:
       FIf = eps1 / epsFail1
     else:
       if sigmam[1] < 0:
         FIf = Macauley( ( abs( sigmam[2] ) + etaL*sigmam[1] ) / SLis )
       else:
-        FIf = (1.0 - self.g)*(sigmam[1]/YTis)+self.g*(sigmam[1]/YTis)**2+(sigmam[2]/SLis)**2
+        FIf = (1.0 - g)*(sigmam[1]/YTis)+g*(sigmam[1]/YTis)**2+(sigmam[2]/SLis)**2
 
     return max(FIf,FIm)
+
+#===============================================================================
+#  Class Layer
+#===============================================================================
 
 class Layer:
 
@@ -533,6 +558,10 @@ class Layer:
     self.name  = name
     self.theta = theta
     self.thick = thick
+
+#===============================================================================
+#  Class Laminate
+#===============================================================================
 
 class Laminate:
   

@@ -14,9 +14,12 @@ from pylab import *
 
 glassepoxy = TransverseIsotropic( [39.0e9,8.6e9],0.28,3.254e9)
 
-glassepoxy.setFailureProperties( [1080e6,620e6,39e6,128e6,89e6] )
+glassepoxy.setFailureProperties( [1080e6,620e6,39e6,128e6,89e6] , 30e6 )
+glassepoxy.setSLis(20e6)
+print(glassepoxy)
 
-phi    = linspace(0,2*pi,1000);
+n     = 1000;
+phi   = linspace(0,2*pi,n);
 sigma = zeros(3)
 
 sig1plot = zeros(1000)
@@ -26,10 +29,23 @@ for i,p in enumerate(phi):
   sigma[0] = cos( p );
   sigma[1] = sin( p );
   
-  sf   = glassepoxy.getFITsaiWu( sigma )
-
-  sig1plot[i] = 1.0/sf*sigma[0];
-  sig2plot[i] = 1.0/sf*sigma[1];
+  tiny    = 1.0e-6
+  fi      = 0.0
+  sf_low  = 0.0
+  sf_high = 1.0e15
+  
+  while fi > 1.+tiny or fi < 1.0-tiny:
+    sf = 0.5*(sf_low+sf_high)
+    
+    fi = glassepoxy.getFILarc03( sf*sigma )
+    
+    if fi > 1.0:
+      sf_high = sf
+    else:
+      sf_low  = sf
+  
+  sig1plot[i] = sf*sigma[0];
+  sig2plot[i] = sf*sigma[1];
 
 figure()
 plot(sig1plot, sig2plot, 'r')
