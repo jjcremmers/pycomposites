@@ -1,5 +1,0 @@
-\rm -rf dist
-
-python3 setup.py sdist
-
-pip install dist/pycomp*.tar.gz
