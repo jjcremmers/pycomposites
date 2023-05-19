@@ -12,3 +12,7 @@ Failure models and models for the analysis plates, Sandwiches and shells.
 ## Examples
 
 Examples can be found in the directory testcases.
+
+## License
+
+[LICENSE.txt](LICENSE.txt)
