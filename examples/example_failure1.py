@@ -10,7 +10,7 @@
 
 from composite import TransverseIsotropic,mixMaterials,Laminate
 from numpy import array,dot,linspace,zeros,pi,cos,sin
-from pylab import *
+
 
 glassepoxy = TransverseIsotropic( [39.0e9,8.6e9],0.28,3.254e9)
 
@@ -24,6 +24,7 @@ splot = zeros(shape=(4,n))
 
 sigma = zeros(3)
 tiny  = 1.0e-6
+
 
 for i,t in enumerate(theta):
   sigma[0] = cos( t )**2
@@ -54,12 +55,14 @@ for i,t in enumerate(theta):
   splot[3,i] = 180/pi*t
   
 
-figure()
-plot(splot[3,:] , splot[0,:] , 'r-.')
-plot(splot[3,:] , splot[1,:] , 'b--')
-plot(splot[3,:] , splot[2,:] , 'g')
-xlabel('theta')
-ylabel('sigma')
-title('title')
-show()
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.plot(splot[3,:] , splot[0,:] , 'r-.' , label="Max. Stress")
+plt.plot(splot[3,:] , splot[1,:] , 'b--' , label="Max. Strain")
+plt.plot(splot[3,:] , splot[2,:] , 'g'   , label="Tsai-Wu")
+plt.xlabel('angle')
+plt.ylabel('Strength [Pa]')
+plt.legend()
+plt.savefig("f.png")
 
