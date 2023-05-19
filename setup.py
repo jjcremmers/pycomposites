@@ -1,16 +1,20 @@
-import setuptools
+from setuptools import find_packages, setup
 
-setuptools.setup(
-    include_package_data=True,
-    name="composites",
+with open("README.md","r") as f:
+    long_description = f.read()
+
+setup(
+    name="pyComposites",
     version="1.0.0",
-    author="Joris Remmers",
-    author_email="j.j.c.remmers@tue.nl",
     description="A collection of class and function for the thermo-mechanical analysis of composite materials",
+    package_dir={"": "app"},
+    packages=find_packages(where="app"),    
     long_description="pycomposites module",
     long_description_content_type="text/markdown",
-    #url="https://github.com/yourusername/dawn",
-    packages=setuptools.find_packages(),
+    url="https://gitlab.tue.nl/jremmers/pycomposites.git",
+    author="Joris Remmers",
+    author_email="j.j.c.remmers@tue.nl",    
+    license="MIT",
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
