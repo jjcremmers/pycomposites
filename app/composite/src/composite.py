@@ -849,11 +849,16 @@ def mixMaterials ( fibre , matrix , vf ):
        fibre:   the material model of the fibre material
        matrix:  the material model of the matrix material
        vf:      the fibre volume fraction.'''
+       
+  if vf < 0.0 or vf > 1.0:
+    raise RuntimeError('Volumefraction must be between 0.0 and 1.0.')       
 
-  E1   = fibre.E1*vf+matrix.E1*(1.-vf)
-  E2   = fibre.E1*matrix.E1/(fibre.E2*(1.0-vf)+matrix.E2*vf)
-  nu12 = fibre.nu12*vf+matrix.nu12*(1.-vf)
-  G12  = fibre.G12*matrix.G12/(fibre.G12*(1.0-vf)+matrix.G12*vf)
+  vm   = 1.0-vf
+  
+  E1   = fibre.E1*vf+matrix.E1*vm
+  E2   = fibre.E2*matrix.E2/(fibre.E2*vm+matrix.E2*vf)
+  nu12 = fibre.nu12*vf+matrix.nu12*vm
+  G12  = fibre.G12*matrix.G12/(fibre.G12*vm+matrix.G12*vf)
 
   mat = TransverseIsotropic( [E1,E2] , nu12 , G12 )
 

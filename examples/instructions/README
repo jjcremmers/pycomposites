@@ -1,0 +1,102 @@
+Instructions to use the Jupyter hub for the course:
+
+Composite and Lightweight Materials: Design and Analysis (4MM00)
+
+Auhor: Joris Remmers
+
+INTRODUCTION
+
+The python libraries and the jupyter scripts in this folder can be
+used to solve the problems presented in the lectures on 
+Classical Laminate Theory, Failure, Plate Equations and
+Design and Structures. These codes can also be used to answer the
+questions and to generate the report Assignment III.
+
+CONTENTS
+
+The files are organised in a number of directories.
+
+|
+|---lib
+|---general
+|---examples
+    |
+    |---clt
+    |---designStructures
+    |---failure
+    |---plateEquations
+
+    
+The directory lib contains the latest version of the python library
+copmposite.py. In principle, you do not have to change or add code 
+in this file, but you are encouraged to have a look at it in order
+to improve your understanding of the models and the programming
+language Python. The examples for the various modules are stored
+in the corresponding subdirectories under examples. The directory
+general contains a few example jupyter file.
+
+Please note that the library composite.py is copied into all 
+subdirectories that contain files that use this library.
+
+FIRST USE
+
+You can use a Jupyter notebook file (a file with the extension .ipynb)
+by simply clicking it. You can not make modifications or produce a 
+latex text output as long as this file is located in the /share directory
+for the simple reason that you don't have permission to write in this
+directory.
+
+In order to modify notebook file, or ucreate a new file, you must 
+copy the file (and the library composite.py) to your own root folder (/)
+or create a directory first. Here you can make modifications, create 
+new files and export your notobook to a pdf (via File -> Download as ->
+PDF via LaTeX).
+
+THE TERMINAL
+
+In order to copy and move files, Jupyter notebook offers little GUI 
+support. Instead, you can use the built-in terminal to move files
+and create directories.
+
+To open a terminal, one can click in the pulldown menu new in the
+Jupyter hub main page the option terminal (new -> terminal). This
+will open a new tab in your webbrowser with a terminal with a black
+background. You are currently in the root directory. 
+
+You can type in commands after the ~$. A concise, but far from complete
+list of commands is given here.
+
+  ls          shows the contents (files and directories) in the current \
+              directory.
+  
+  pwd         shows the path to the current directory.
+  
+  mkdir NAME  creates a new directory NAME in the current directory.
+  
+  cd NAME     you go to the directory NAME. By typing cd .. you go one 
+              directory up.
+              
+  cp A B      copies the file A to file B. In case file A is in a different
+              directory you must add the relative path, e.g.:
+              
+              cp share/A  B    
+              
+                copies the file in share/A to file B in the current directory
+              
+              cp ../tmp/A .
+              
+                copies the file A in the directory ../tmp to the current 
+                directory, denoted by the (.).
+                
+  mv A B      moves file A to B. Similar to copy, but the original file will 
+              be deleted.
+              
+  rm A        removes (deletes) file A. Note: this cannot be undone.
+  
+  rmdir D     removes (deletes) directory D. The directory needs to be empty. 
+              Note: this cannot be undone.
+    
+
+
+
+
