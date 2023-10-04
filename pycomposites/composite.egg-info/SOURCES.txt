@@ -1,0 +1,5 @@
+setup.py
+composite.egg-info/PKG-INFO
+composite.egg-info/SOURCES.txt
+composite.egg-info/dependency_links.txt
+composite.egg-info/top_level.txt

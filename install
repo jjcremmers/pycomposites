@@ -1,2 +1,2 @@
-python3 setup.py sdist
+cd pycomposites
 pip install .
