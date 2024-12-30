@@ -110,12 +110,32 @@ class TransverseIsotropic:
             self.alpha1 = alpha
             self.alpha2 = alpha
 
-#-------------------------------------------------------------------------------
 #
-#-------------------------------------------------------------------------------
+#
+#
 
-    def setFailureProperties(self, F: list[float], Gfrac: list[float] = 0.0, 
-                                   alpha0deg: float = 53.0) -> None:
+    def setFailureProperties(self, F: list[float], Gfrac: list[float] = 0.0, alpha0deg: float = 53.0) -> None:
+
+        """
+        Set the failure properties of the material.
+
+        Args:
+            F (list[float]): A list containing the main failure parameters:
+                             F = [Xt, Xc, Yt, Yc, Sl] where:
+                                  - Xt: Longitudinal tensile strength
+                                  - Xc: Longitudinal compressive strength
+                                  - Yt: Transverse tensile strength
+                                  - Yc: Transverse compressive strength
+                                  - Sl: Transverse shear strength
+                              For the Tsai-Wu failure criterion, f12 can be provided as the 6th parameter:
+                              F = [Xt, Xc, Yt, Yc, Sl, f12].                              
+            Gfrac (list[float], optional): Fracture toughness. Can be a single value or a list of two values 
+                [GIc, GIIc]. Defaults to 0.                                                   
+            alpha0deg (float, optional): Alpha0 in degrees, needed for the Larc03 model. Defaults to 53.0.
+        Raises:
+            ValueError: If `F` has an invalid length.            
+        """
+        
         if len(F) == 5 or len(F) == 6:
             self.Xt, self.Xc, self.Yt, self.Yc, self.Sl = F[:5]
             if len(F) == 6:
@@ -132,7 +152,7 @@ class TransverseIsotropic:
             self.GIc = GIIc = Gfrac
 
         self.a0deg = alpha0deg
-        alpha0 = alpha0deg * pi / 180.
+        alpha0 = alpha0deg * pi / 180
 
         self.cosa0 = cos(alpha0)
         self.sina0 = sin(alpha0)
