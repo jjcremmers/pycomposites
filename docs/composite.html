@@ -1,0 +1,605 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>composite module &mdash; PyComposites  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="setup module" href="setup.html" />
+    <link rel="prev" title="pycomposites" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyComposites
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pycomposites</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">composite module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#composite.TransverseIsotropic"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.setAlpha"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.setAlpha()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.setFailureProperties"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.setFailureProperties()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.setSLis"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.setSLis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getQ"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getQ()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getU"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getU()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getS"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getV"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getV()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getQbar"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getQbar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getSbar"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getSbar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getAlpha"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getAlpha()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getFIMaximumStress"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getFIMaximumStress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getFIMaximumStrain"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getFIMaximumStrain()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getFITsaiWu"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getFITsaiWu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getFIHashin73"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getFIHashin73()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getFIHashin80"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getFIHashin80()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.TransverseIsotropic.getFILarc03"><code class="docutils literal notranslate"><span class="pre">TransverseIsotropic.getFILarc03()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#composite.Layer"><code class="docutils literal notranslate"><span class="pre">Layer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#composite.Laminate"><code class="docutils literal notranslate"><span class="pre">Laminate</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.addMaterial"><code class="docutils literal notranslate"><span class="pre">Laminate.addMaterial()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.addLayer"><code class="docutils literal notranslate"><span class="pre">Laminate.addLayer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.removeAllLayers"><code class="docutils literal notranslate"><span class="pre">Laminate.removeAllLayers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getA"><code class="docutils literal notranslate"><span class="pre">Laminate.getA()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getB"><code class="docutils literal notranslate"><span class="pre">Laminate.getB()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getD"><code class="docutils literal notranslate"><span class="pre">Laminate.getD()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getTs"><code class="docutils literal notranslate"><span class="pre">Laminate.getTs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getTss"><code class="docutils literal notranslate"><span class="pre">Laminate.getTss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getRhoh"><code class="docutils literal notranslate"><span class="pre">Laminate.getRhoh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getZcoord"><code class="docutils literal notranslate"><span class="pre">Laminate.getZcoord()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getLayerBounds"><code class="docutils literal notranslate"><span class="pre">Laminate.getLayerBounds()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getInverseMatrices"><code class="docutils literal notranslate"><span class="pre">Laminate.getInverseMatrices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getQbar"><code class="docutils literal notranslate"><span class="pre">Laminate.getQbar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#composite.Laminate.getElastic"><code class="docutils literal notranslate"><span class="pre">Laminate.getElastic()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#composite.stressTransformation"><code class="docutils literal notranslate"><span class="pre">stressTransformation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#composite.strainTransformation"><code class="docutils literal notranslate"><span class="pre">strainTransformation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#composite.mixMaterials"><code class="docutils literal notranslate"><span class="pre">mixMaterials()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#composite.Macauley"><code class="docutils literal notranslate"><span class="pre">Macauley()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyComposites</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pycomposites</a></li>
+      <li class="breadcrumb-item active">composite module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/composite.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="composite-module">
+<h1>composite module<a class="headerlink" href="#composite-module" title="Link to this heading"></a></h1>
+<p>This is an example text.”Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.”</p>
+<dl class="py class" id="module-composite">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TransverseIsotropic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu12</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G12</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to represent a transversely isotropic material model.</p>
+<p>This class models materials that exhibit isotropic properties in a plane
+perpendicular to a single axis of symmetry and anisotropic behavior along
+the axis of symmetry.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.setAlpha">
+<span class="sig-name descname"><span class="pre">setAlpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.setAlpha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.setAlpha" title="Link to this definition"></a></dt>
+<dd><p>Set the thermal expansion coefficients (alpha) for the material.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>alpha</strong> (<em>float</em><em> or </em><em>list</em><em>[</em><em>float</em><em>]</em>) – Thermal expansion coefficients. Can be a single float value
+or a list of one or two float values. If a single value is
+provided, it is assigned to both <cite>alpha1</cite> and <cite>alpha2</cite>.
+If a list of two values is provided, the first value is
+assigned to <cite>alpha1</cite> and the second to <cite>alpha2</cite>.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the list has more than two elements.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.setFailureProperties">
+<span class="sig-name descname"><span class="pre">setFailureProperties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Gfrac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha0deg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">53.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.setFailureProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.setFailureProperties" title="Link to this definition"></a></dt>
+<dd><p>Set the failure properties of the material.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>F</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – <p>A list containing the main failure parameters:
+F = [Xt, Xc, Yt, Yc, Sl] where:</p>
+<blockquote>
+<div><ul>
+<li><p>Xt: Longitudinal tensile strength</p></li>
+<li><p>Xc: Longitudinal compressive strength</p></li>
+<li><p>Yt: Transverse tensile strength</p></li>
+<li><p>Yc: Transverse compressive strength</p></li>
+<li><p>Sl: Transverse shear strength</p></li>
+</ul>
+</div></blockquote>
+<p>For the Tsai-Wu failure criterion, <cite>f12</cite> can be provided as the 6th parameter:
+F = [Xt, Xc, Yt, Yc, Sl, f12].</p>
+</p></li>
+<li><p><strong>Gfrac</strong> (<em>float</em><em> or </em><em>list</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Fracture toughness. Can be a single value or a list of two values
+<cite>[GIc, GIIc]</cite>. Defaults to 0.</p></li>
+<li><p><strong>alpha0deg</strong> (<em>float</em><em>, </em><em>optional</em>) – Alpha0 in degrees, needed for the Larc03 model. Defaults to 53.0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <cite>F</cite> has an invalid length.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.setSLis">
+<span class="sig-name descname"><span class="pre">setSLis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SLis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.setSLis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.setSLis" title="Link to this definition"></a></dt>
+<dd><p>Set the interlaminar shear strength (SLis) for the Larc03 model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>SLis</strong> (<em>float</em>) – Interlaminar shear strength.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getQ">
+<span class="sig-name descname"><span class="pre">getQ</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getQ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getQ" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the stiffness matrix Q of the material model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A 3x3 numpy array representing the stiffness matrix Q.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getU">
+<span class="sig-name descname"><span class="pre">getU</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getU" title="Link to this definition"></a></dt>
+<dd><p>Returns the stiffness matrix invariant terms U[1..5].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A numpy array of size 5 containing the invariant terms.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getS">
+<span class="sig-name descname"><span class="pre">getS</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getS" title="Link to this definition"></a></dt>
+<dd><p>Returns the compliance matrix S of the material.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A 3x3 numpy array representing the compliance matrix S.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getV">
+<span class="sig-name descname"><span class="pre">getV</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getV" title="Link to this definition"></a></dt>
+<dd><p>Returns the compliance matrix invariant terms V[1..5].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A numpy array of size 5 containing the invariant terms.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getQbar">
+<span class="sig-name descname"><span class="pre">getQbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getQbar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getQbar" title="Link to this definition"></a></dt>
+<dd><p>Calculates the global stiffness matrix Q for a given fiber angle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> – Angle of the fiber direction with respect to the global x-axis, in degrees.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 3x3 numpy array representing the global stiffness matrix Q.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getSbar">
+<span class="sig-name descname"><span class="pre">getSbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getSbar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getSbar" title="Link to this definition"></a></dt>
+<dd><p>Calculates the global compliance matrix S for a given fiber angle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> – Angle of the fiber direction with respect to the global x-axis, in degrees.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 3x3 numpy array representing the global compliance matrix S.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getAlpha">
+<span class="sig-name descname"><span class="pre">getAlpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getAlpha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getAlpha" title="Link to this definition"></a></dt>
+<dd><p>Calculate the thermal expansion vector alpha for a given angle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theta</strong> (<em>float</em>) – Angle of the fibre direction with respect to the global x-axis in degrees.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A numpy array representing the thermal expansion vector.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getFIMaximumStress">
+<span class="sig-name descname"><span class="pre">getFIMaximumStress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getFIMaximumStress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getFIMaximumStress" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the Failure index for a given stress state according to the maximum stress criterion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sigma</strong> – The current stress state.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Failure index based on the maximum stress criterion.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getFIMaximumStrain">
+<span class="sig-name descname"><span class="pre">getFIMaximumStrain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getFIMaximumStrain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getFIMaximumStrain" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the Failure index for a given stress state according to the maximum strain criterion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sigma</strong> – The current stress state.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Failure index based on the maximum strain criterion.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getFITsaiWu">
+<span class="sig-name descname"><span class="pre">getFITsaiWu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getFITsaiWu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getFITsaiWu" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the Failure index for a given stress state according to the maximum Tsai-Wu criterion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sigma</strong> – The current stress state.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Failure index based on the Tsai-Wu criterion.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getFIHashin73">
+<span class="sig-name descname"><span class="pre">getFIHashin73</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getFIHashin73"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getFIHashin73" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the Failure index for a given stress state according to the Hashin 73 criterion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sigma</strong> – The current stress state.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Failure index based on the Hashin 73 criterion.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getFIHashin80">
+<span class="sig-name descname"><span class="pre">getFIHashin80</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getFIHashin80"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getFIHashin80" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the Failure index for a given stress state according to the Hashin 80 criterion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sigma</strong> – The current stress state.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Failure index based on the Hashin 80 criterion.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.TransverseIsotropic.getFILarc03">
+<span class="sig-name descname"><span class="pre">getFILarc03</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/composite.html#TransverseIsotropic.getFILarc03"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.TransverseIsotropic.getFILarc03" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the Failure index for a given stress state according to the Larc03 criterion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sigma</strong> – The current stress state.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Failure index based on the Larc03 criterion.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="composite.Layer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thick</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Layer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The layer class specifies the properties of a single layer.</p>
+<p>These properties are the name of the transversely isotropitc
+material, the orientation of the fibre direction with respect to the global
+x-axis and the thickness of the layer.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="composite.Laminate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Laminate</span></span><a class="reference internal" href="_modules/composite.html#Laminate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to describe the stacking sequency of a laminate.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.addMaterial">
+<span class="sig-name descname"><span class="pre">addMaterial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.addMaterial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.addMaterial" title="Link to this definition"></a></dt>
+<dd><p>Adds a material to the laminate class.</p>
+<p>Adding a material model with a name to the created laminate structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the material model. This will be used as an identifier.</p></li>
+<li><p><strong>mat</strong> – The instance of the transverse material model.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Usage:</p>
+<blockquote>
+<div><p>mat = TransverseIsotropic(..args..)</p>
+<p>lam = Laminate()</p>
+<p>lam.addMaterial( “glassfibre”, mat )</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.addLayer">
+<span class="sig-name descname"><span class="pre">addLayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thick</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.addLayer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.addLayer" title="Link to this definition"></a></dt>
+<dd><p>Adding a layer to the created laminate structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – name of the material type</p></li>
+<li><p><strong>theta</strong> – angle with respect to x-axis in degrees.</p></li>
+<li><p><strong>thick</strong> – thickness of the layer.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.removeAllLayers">
+<span class="sig-name descname"><span class="pre">removeAllLayers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.removeAllLayers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.removeAllLayers" title="Link to this definition"></a></dt>
+<dd><p>Erases all layers from the current laminate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getA">
+<span class="sig-name descname"><span class="pre">getA</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getA" title="Link to this definition"></a></dt>
+<dd><p>Return the extensional stiffness matrix A for the given laminate as
+a (3x3) numpy matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getB">
+<span class="sig-name descname"><span class="pre">getB</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getB" title="Link to this definition"></a></dt>
+<dd><p>Return the coupling stiffness matrix B for the given laminate as
+a (3x3) numpy matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getD">
+<span class="sig-name descname"><span class="pre">getD</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getD" title="Link to this definition"></a></dt>
+<dd><p>Return the bending stiffness matrix D for the given laminate as
+a (3x3) numpy matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getTs">
+<span class="sig-name descname"><span class="pre">getTs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getTs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getTs" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the thermal exansion array T* pf the laminate as
+a numpy array of length 3x1.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getTss">
+<span class="sig-name descname"><span class="pre">getTss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getTss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getTss" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the thermal exansion array T** of the laminate as
+a numpy array of length 3x1.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getRhoh">
+<span class="sig-name descname"><span class="pre">getRhoh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getRhoh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getRhoh" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the mass per unit area of the laminate (rho*h) fo the laminate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getZcoord">
+<span class="sig-name descname"><span class="pre">getZcoord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getZcoord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getZcoord" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the z coordinate of layer j. The z coordinate is
+defined as the centre of the layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number.</strong> (<em>j     layer</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getLayerBounds">
+<span class="sig-name descname"><span class="pre">getLayerBounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getLayerBounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getLayerBounds" title="Link to this definition"></a></dt>
+<dd><p>Returns the z coordinates of the top and the bottom of layer j.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number.</strong> (<em>j     layer</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getInverseMatrices">
+<span class="sig-name descname"><span class="pre">getInverseMatrices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getInverseMatrices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getInverseMatrices" title="Link to this definition"></a></dt>
+<dd><p>Calculate and returns the four inverse matrices A1, B1, C1, D1 as 4
+numpy arrays of shape (3x3).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getQbar">
+<span class="sig-name descname"><span class="pre">getQbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">j</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getQbar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getQbar" title="Link to this definition"></a></dt>
+<dd><p>Returns the stiffness matrix Qbar for a given layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number.</strong> (<em>j    layer</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="composite.Laminate.getElastic">
+<span class="sig-name descname"><span class="pre">getElastic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Laminate.getElastic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Laminate.getElastic" title="Link to this definition"></a></dt>
+<dd><p>Calculates and returns the 4 apparent elastic properties of the laminate as
+a list: [Ex,Ey,nuxy,Gxy].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="composite.stressTransformation">
+<span class="sig-name descname"><span class="pre">stressTransformation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#stressTransformation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.stressTransformation" title="Link to this definition"></a></dt>
+<dd><p>Function to transform stress from the 12 coordinate system
+(aligned with the fibre direction) to xy coordinate system (global axis)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sigma</strong> – The stress state in the 12 frame of reference</p></li>
+<li><p><strong>theta</strong> – the angle between 122 and xy in degrees.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="composite.strainTransformation">
+<span class="sig-name descname"><span class="pre">strainTransformation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#strainTransformation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.strainTransformation" title="Link to this definition"></a></dt>
+<dd><p>Function to transform strain from the 12 coordinate system
+(aligned with the fibre direction) to xy coordinate system (global axis)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eps</strong> – The stress state in the 12 frame of reference</p></li>
+<li><p><strong>theta</strong> – the angle between the 12 and xy coordinate frame in degrees.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="composite.mixMaterials">
+<span class="sig-name descname"><span class="pre">mixMaterials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fibre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#mixMaterials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.mixMaterials" title="Link to this definition"></a></dt>
+<dd><p>Simple Voigt and Reuss volume averaging to determine the
+homogenised elastic properties of two materials with fibre
+volume fraction vf.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fibre</strong> – the material model of the fibre material</p></li>
+<li><p><strong>matrix</strong> – the material model of the matrix material</p></li>
+<li><p><strong>vf</strong> – the fibre volume fraction.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="composite.Macauley">
+<span class="sig-name descname"><span class="pre">Macauley</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/composite.html#Macauley"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#composite.Macauley" title="Link to this definition"></a></dt>
+<dd><p>The Macauley operater. Returns argument x when x &gt; 0. Otherwise 0.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="pycomposites" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="setup.html" class="btn btn-neutral float-right" title="setup module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Joris Remmers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
