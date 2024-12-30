@@ -5,4 +5,3 @@ pycomposites
    :maxdepth: 4
 
    composite
-   setup
