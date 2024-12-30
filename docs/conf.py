@@ -8,7 +8,7 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../pycomposites'))
+sys.path.insert(0, os.path.abspath('../../pycomposites'))
 
 project = 'PyComposites'
 copyright = '2024, Joris Remmers'
@@ -29,7 +29,8 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 autodoc_default_flags = ['members', 'undoc-members', 'private-members']
-
+add_module_names = False
+autodoc_member_order = 'bysource'
 
 
 # -- Options for HTML output -------------------------------------------------

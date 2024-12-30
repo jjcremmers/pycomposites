@@ -15,7 +15,9 @@ documentation for details.
    :maxdepth: 2
    :caption: Contents:
 
+   install
    modules
+   examples
 
 Indices and tables
 ==================
