@@ -4,7 +4,7 @@ Examples
 .. raw:: html
 
    <div class="blue-block">
-       The examples in are obtained from.
+       The examples in are obtained from abcd
    </div>
    
    <div class="green-block">
