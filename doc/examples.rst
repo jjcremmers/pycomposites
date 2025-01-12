@@ -1,6 +1,20 @@
 Examples
 ========
 
+.. raw:: html
+
+   <div class="blue-block">
+       The examples in are obtained from.
+   </div>
+   
+   <div class="green-block">
+       The examples in are obtained from.
+   </div>
+   
+   <div class="red-block">
+       The examples in are obtained from.
+   </div>
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
 sed do eiusmod tempor incididunt ut labore et dolore magna 
 aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
