@@ -1,7 +1,7 @@
-"""A set of classes and functions to read and transform hdf5 files in the NDF 
-    file format.
-
-  (c) Joris Remmers (2021-2023)
+"""
+  Unittests
+  
+  (c) Joris Remmers (2025)
   
 """
 import unittest,os
