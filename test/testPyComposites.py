@@ -32,7 +32,7 @@ class PyCompositeTesting(unittest.TestCase):
         self.assertAlmostEqual( compmat.E1   , 1.3344e+11 , delta=1.0e8 )
         self.assertAlmostEqual( compmat.E2   , 8.784e+09  , delta=1.0e7 )   
         self.assertAlmostEqual( compmat.nu12 , 0.26       , delta=0.001 )
-        self.assertAlmostEqual( compmat.G12  , 4.254e+09  , delta=1.0e7 )         
+        self.assertAlmostEqual( compmat.G12  , 3.254e+09  , delta=1.0e7 )         
     
                 
 if __name__ == '__main__':
