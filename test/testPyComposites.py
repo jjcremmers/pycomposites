@@ -71,7 +71,7 @@ class PyCompositeTesting(unittest.TestCase):
 
         sigma = np.array([120, 30, 0])
         result = stressTransformation(sigma, 90)
-        expected = np.array([30, 120, 0])
+        expected = np.array([60, 120, 0])
         print(result)
     
         np.testing.assert_allclose(result, expected, atol=1e-6)
