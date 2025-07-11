@@ -75,6 +75,22 @@ class PyCompositeTesting(unittest.TestCase):
         print(result)
     
         np.testing.assert_allclose(result, expected, atol=1e-6)
+
+
+    def testElasticCalculation(self):
+        carbon = TransverseIsotropic( 220e9,0.2,91.7e9)
+        epoxy  = TransverseIsotropic( 3.6e9,0.35,1.33e9)
+        
+        compmat = mixMaterials( carbon , epoxy , 0.6 )
+
+        lam = Laminate()
+        
+        lam.addMaterial('comp', compmat)
+        lam.addLayer('comp', 0, 0.2e-3)
                 
+        elastic = lam.getElastic()
+        self.assertEqual(len(elastic), 4)
+        self.assertTrue(all(e > 0 for e in elastic))
+
 if __name__ == '__main__':
     unittest.main()
