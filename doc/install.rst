@@ -1,16 +1,21 @@
 Installation Guide
 ==================
 
-PyComposites can be installed directly from the
+PyComposites Installation Guide
+===============================
+
+PyComposites is a Python library for the analysis and design of composite materials.  
+It can be installed directly from the
 `GitHub source <https://github.com/jjcremmers/pycomposites>`_.
-It provides a **Python API** for composite material analysis.
+
+Only the **Python API** is provided (no command-line interface).
 
 Requirements
 ------------
 
 - Python **3.9 or newer**
 - ``pip`` (Python package manager)
-- (Optional but recommended) a virtual environment:
+- (Optional but recommended) a virtual environment for isolating dependencies:
 
 .. code-block:: bash
 
@@ -34,8 +39,7 @@ Installation Steps
 
       pip install .
 
-   For developers who want to make local changes and test immediately, 
-   install in editable mode:
+   For developers who want to make local changes and test immediately, install in editable mode:
 
    .. code-block:: bash
 
@@ -44,20 +48,37 @@ Installation Steps
 Verifying the Installation
 --------------------------
 
-After installation, verify that the API is available.
-
-**Example usage**
+After installation, verify that the API is available by starting Python and importing the package:
 
 .. code-block:: python
 
    import pycomposites
+   print("PyComposites successfully installed, version:", pycomposites.__version__)
 
-   # Example: access a function or class
-   # (replace with actual usage in your project)
-   result = pycomposites.__version__
-   print("PyComposites version:", result)
+Quick Start Example
+-------------------
 
-If this runs without errors, the installation is successful.
+The following example shows how to use PyComposites after installation.
+Replace the function names with the relevant routines from your project.
+
+.. code-block:: python
+
+   from pycomposites import Laminate, Material
+
+   # Define a unidirectional carbon/epoxy ply
+   carbon_epoxy = Material(E1=135e9, E2=10e9, G12=5e9, nu12=0.3)
+
+   # Create a simple cross-ply laminate [0/90/0]
+   laminate = Laminate([carbon_epoxy, carbon_epoxy, carbon_epoxy],
+                       [0, 90, 0])
+
+   # Compute stiffness matrix
+   A, B, D = laminate.abd_matrix()
+
+   print("A-matrix:")
+   print(A)
+
+If this example runs without errors, the installation is successful.
 
 Updating PyComposites
 ---------------------
@@ -69,3 +90,4 @@ To update to the latest version from GitHub:
    cd pycomposites
    git pull origin main
    pip install --upgrade .
+
