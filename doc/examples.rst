@@ -25,8 +25,10 @@ that can be executed directly, making them useful as templates for custom projec
 
       pip install jupyterlab
       jupyter lab
-
       
+
+For a more in-depth explanation of selected examples, please refer to the
+sections listed in the table of contents below.      
       
 .. toctree::
    :maxdepth: 4
