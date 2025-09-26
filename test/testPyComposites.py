@@ -5,7 +5,7 @@
   
 """
 import unittest,os
-from pycomposites.composite import TransverseIsotropic,mixMaterials
+from composite import TransverseIsotropic,mixMaterials
 
   
 class PyCompositeTesting(unittest.TestCase):
