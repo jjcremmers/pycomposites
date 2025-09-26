@@ -65,13 +65,14 @@ yplot = linspace(0,b,nplot)
 q = np.zeros((nplot,nplot))
 w = np.zeros((nplot,nplot))
 
+for i,x in enumerate(xplot):
+  for j,y in enumerate(yplot):
+    for m in range(1,nmax):
+      for n in range(1,nmax):
+        q[j,i] += B[m,n]*sin(m*pi*x/a)*sin(n*pi*y/b)
+        w[j,i] += A[m,n]*sin(m*pi*x/a)*sin(n*pi*y/b)
+
 x, y = np.meshgrid(xplot,yplot)
-
-for m in range(1,nmax):
-  for n in range(1,nmax):
-    q += B[m,n]*sin(m*pi*x/a)*sin(n*pi*y/b)
-    w += A[m,n]*sin(m*pi*x/a)*sin(n*pi*y/b)
-
 
 fig = plt.figure()
 ax = fig.gca(projection='3d')                
