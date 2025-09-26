@@ -1,0 +1,26 @@
+.blue-block {
+    background-color: #f0f8ff; /* Light blue background */
+    color: #000; /* Black text */
+    border: 1px solid #ccc; /* Optional border */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.green-block {
+    background-color: #90EE90; /* Light green background */
+    color: #000; /* Black text */
+    border: 1px solid #ccc; /* Optional border */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.red-block {
+    background-color: #FFCCCB; /* Light red background */
+    color: #000; /* Black text */
+    border: 1px solid #ccc; /* Optional border */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}

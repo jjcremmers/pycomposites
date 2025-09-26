@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Failure &mdash; PyComposites  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=01e3a115" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Plate Equations" href="plateeq.html" />
+    <link rel="prev" title="Classical Laminate Theory" href="clt.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyComposites
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clt.html">Classical Laminate Theory</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Failure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plateeq.html">Plate Equations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="composite.html">Composite module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyComposites</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Failure</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/failure.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="failure">
+<h1>Failure<a class="headerlink" href="#failure" title="Link to this heading"></a></h1>
+<p><strong>Problem Statement</strong></p>
+<p>Calculate the strength of a single layer of E-glass/epoxy composite loaded by a uniaxial force under an
+angle <span class="math notranslate nohighlight">\(\theta\)</span>. The elastic properties of the material are:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(E_1 = 39.0 \, \text{GPa}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(E_2 = 8.6 \, \text{GPa}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\nu_{12} = 0.28\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(G_{12} = 3.254 \, \text{GPa}\)</span></p></li>
+</ul>
+<p>The strengths of the material are:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X_T = 1080 \, \text{MPa}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(X_C = 620 \, \text{MPa}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(Y_T = 39 \, \text{MPa}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(Y_C = 128 \, \text{MPa}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(S = 89 \, \text{MPa}\)</span></p></li>
+</ul>
+<p>Determine the strength for all angles <span class="math notranslate nohighlight">\(0 &lt; \theta &lt; 90\)</span> using the following failure criteria:</p>
+<ol class="arabic simple">
+<li><p>Maximum Stress</p></li>
+<li><p>Maximum Strain</p></li>
+<li><p>Tsai-Wu failure criterion</p></li>
+</ol>
+<p>For the Tsai-Wu criterion, you may assume:</p>
+<div class="math notranslate nohighlight">
+\[f_{12} = -12\sqrt{f_{11}f_{22}}\]</div>
+<p>Plot the results for each failure criterion in a graph.</p>
+<p><strong>Solution</strong></p>
+<p>Create the material object
+and assign the fracture properties. Print the properties to verify.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">composite</span> <span class="kn">import</span> <span class="n">TransverseIsotropic</span>
+
+<span class="n">glassepoxy</span> <span class="o">=</span> <span class="n">TransverseIsotropic</span><span class="p">([</span><span class="mf">39.0e9</span><span class="p">,</span> <span class="mf">8.6e9</span><span class="p">],</span> <span class="mf">0.28</span><span class="p">,</span> <span class="mf">3.254e9</span><span class="p">)</span>
+<span class="n">glassepoxy</span><span class="o">.</span><span class="n">setFailureProperties</span><span class="p">([</span><span class="mf">1080e6</span><span class="p">,</span> <span class="mf">620e6</span><span class="p">,</span> <span class="mf">39e6</span><span class="p">,</span> <span class="mf">128e6</span><span class="p">,</span> <span class="mf">89e6</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">glassepoxy</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Elastic</span> <span class="n">Properties</span><span class="p">:</span>
+<span class="o">-----------------------------------------------------------</span>
+<span class="n">E1</span>     <span class="p">:</span>     <span class="mf">3.900e+10</span> <span class="p">,</span> <span class="n">E2</span>     <span class="p">:</span>     <span class="mf">8.600e+09</span>
+<span class="n">nu12</span>   <span class="p">:</span>          <span class="mf">0.28</span> <span class="p">,</span> <span class="n">G12</span>    <span class="p">:</span>     <span class="mf">3.254e+09</span>
+
+<span class="n">Strengths</span> <span class="ow">and</span> <span class="n">failure</span> <span class="n">model</span> <span class="n">parameters</span><span class="p">:</span>
+<span class="o">-----------------------------------------------------------</span>
+<span class="n">Xt</span>     <span class="p">:</span>     <span class="mf">1.080e+09</span> <span class="p">,</span> <span class="n">Xc</span>     <span class="p">:</span>     <span class="mf">6.200e+08</span>
+<span class="n">Yt</span>     <span class="p">:</span>     <span class="mf">3.900e+07</span> <span class="p">,</span> <span class="n">Yc</span>     <span class="p">:</span>     <span class="mf">1.280e+08</span>
+<span class="n">S</span>      <span class="p">:</span>     <span class="mf">8.900e+07</span>
+</pre></div>
+</div>
+<p>To calculate the maximum allowable stress, the process involves:</p>
+<ol class="arabic simple">
+<li><p>Creating a unit stress vector for a stress magnitude of 1 Pa under an angle <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+<li><p>Multiplying the unit stress by a scaling factor <span class="math notranslate nohighlight">\(sf\)</span>, which is iteratively adjusted until the failure index exceeds 1.0.</p></li>
+<li><p>Storing the corresponding <span class="math notranslate nohighlight">\(sf\)</span> as the maximum allowable stress for that angle.</p></li>
+</ol>
+<p>The calculations are performed for 90 intervals between angles <span class="math notranslate nohighlight">\(0^\circ\)</span> and <span class="math notranslate nohighlight">\(90^\circ\)</span>.</p>
+<p>Initialize the required lists and parameters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">linspace</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span>
+
+<span class="n">theta</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">91</span><span class="p">))</span>
+<span class="n">maxStress</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">maxStrain</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">TsaiWu</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">tiny</span> <span class="o">=</span> <span class="mf">1.0e-6</span>
+</pre></div>
+</div>
+<p>Loop over all angles, calculate the stress components, and evaluate the failure criteria:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">theta</span><span class="p">:</span>
+    <span class="n">trad</span> <span class="o">=</span> <span class="n">t</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span>
+
+    <span class="n">sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">trad</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">sigma</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">trad</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">sigma</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">trad</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">trad</span><span class="p">)</span>
+
+    <span class="c1"># Maximum Stress</span>
+    <span class="n">fi</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">sf_low</span><span class="p">,</span> <span class="n">sf_high</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0e15</span>
+
+    <span class="k">while</span> <span class="n">fi</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">tiny</span> <span class="ow">or</span> <span class="n">fi</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">tiny</span><span class="p">:</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">sf_low</span> <span class="o">+</span> <span class="n">sf_high</span><span class="p">)</span>
+        <span class="n">fi</span> <span class="o">=</span> <span class="n">glassepoxy</span><span class="o">.</span><span class="n">getFIMaximumStress</span><span class="p">(</span><span class="n">sf</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fi</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">sf_high</span> <span class="o">=</span> <span class="n">sf</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sf_low</span> <span class="o">=</span> <span class="n">sf</span>
+
+    <span class="n">maxStress</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+
+    <span class="c1"># Maximum Strain</span>
+    <span class="n">fi</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">sf_low</span><span class="p">,</span> <span class="n">sf_high</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0e15</span>
+
+    <span class="k">while</span> <span class="n">fi</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">tiny</span> <span class="ow">or</span> <span class="n">fi</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">tiny</span><span class="p">:</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">sf_low</span> <span class="o">+</span> <span class="n">sf_high</span><span class="p">)</span>
+        <span class="n">fi</span> <span class="o">=</span> <span class="n">glassepoxy</span><span class="o">.</span><span class="n">getFIMaximumStrain</span><span class="p">(</span><span class="n">sf</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fi</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">sf_high</span> <span class="o">=</span> <span class="n">sf</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sf_low</span> <span class="o">=</span> <span class="n">sf</span>
+
+    <span class="n">maxStrain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+
+    <span class="c1"># Tsai-Wu</span>
+    <span class="n">fi</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">sf_low</span><span class="p">,</span> <span class="n">sf_high</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0e15</span>
+
+    <span class="k">while</span> <span class="n">fi</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">tiny</span> <span class="ow">or</span> <span class="n">fi</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">tiny</span><span class="p">:</span>
+        <span class="n">sf</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">sf_low</span> <span class="o">+</span> <span class="n">sf_high</span><span class="p">)</span>
+        <span class="n">fi</span> <span class="o">=</span> <span class="n">glassepoxy</span><span class="o">.</span><span class="n">getFITsaiWu</span><span class="p">(</span><span class="n">sf</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fi</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">sf_high</span> <span class="o">=</span> <span class="n">sf</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sf_low</span> <span class="o">=</span> <span class="n">sf</span>
+
+    <span class="n">TsaiWu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Plot the results for each failure criterion:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">maxStress</span><span class="p">,</span> <span class="s1">&#39;r-.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Max. Stress&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">maxStrain</span><span class="p">,</span> <span class="s1">&#39;b--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Max. Strain&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">TsaiWu</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Tsai-Wu&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Angle (degrees)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Strength [Pa]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This generates a plot showing the strength values for each failure criterion as a function of angle.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="clt.html" class="btn btn-neutral float-left" title="Classical Laminate Theory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plateeq.html" class="btn btn-neutral float-right" title="Plate Equations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joris Remmers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
