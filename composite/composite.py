@@ -749,11 +749,21 @@ class Layer:
 #
 #-------------------------------------------------------------------------------
 
-    def __init__( self , name , theta , thick ):
+    def __init__(self, name: str, theta: float, thick: float) -> None:
+
    
-        '''
-        Inits the class layer.
-        '''
+        """
+        Initialize a composite layer.
+
+        Parameters
+        ----------
+        name : str
+            Identifier for the material model.
+        theta : float
+            Ply angle (degrees).
+        thick : float
+            Ply thickness.
+        """
       
         self.name  = name
         self.theta = theta
@@ -765,13 +775,13 @@ class Layer:
 
 class Laminate:
   
-    """
-    Composite laminate (stack of layers).
+    """"
+    Composite laminate consisting of multiple layers.
 
     Provides methods to:
       - add materials and layers
       - compute A, B, D stiffness matrices
-      - compute effective properties
+      - compute effective laminate properties
       - extract geometry and z-coordinates
     """
 
@@ -779,8 +789,12 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
  
-    def __init__( self ): 
+    def __init__( self ) -> None: 
 
+        """
+        Initialize an empty laminate.
+        """
+        
         self.materials = {}
         self.layers    = []
 
@@ -788,9 +802,16 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def __str__( self ):
+    def __str__( self ) -> str:
   
-        '''Prints information about the created laminate structure.'''
+        """
+        Return formatted string with laminate stacking information.
+
+        Returns
+        -------
+        str
+            Table of layer indices, thicknesses, orientations, and materials.
+        """
 
         msg  = "  Laminate properties\n"
         msg += "  -----------------------------------------------------------\n"
@@ -806,28 +827,25 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def addMaterial( self , name , mat ):
+    def addMaterial(self, name: str, mat: TransverseIsotropic) -> None:
 
-        """ Adds a material to the laminate class.
-    
-        Adding a material model with a name to the created laminate structure.
-    
-        Args:
-          name:      Name of the material model. This will be used as an identifier.
-          mat:       The instance of the transverse material model.
-         
-        Example:
-         
-          mat = TransverseIsotropic(..args..)      
-          lam = Laminate()       
-          lam.addMaterial( "glassfibre", mat )
-         
-          Here's an example of how to use this function:
 
-          >>> result = function_name(5, 'example')
-          >>> print(result)
-         True
-         """  
+        """
+        Add a material to the laminate.
+
+        Parameters
+        ----------
+        name : str
+            Identifier for the material model.
+        mat : TransverseIsotropic
+            Instance of the material model.
+
+        Examples
+        --------
+        >>> mat = TransverseIsotropic(70e9, 0.2, 5e9)
+        >>> lam = Laminate()
+        >>> lam.addMaterial("glassfibre", mat)
+        """
          
         self.materials[name] = mat
 
@@ -835,14 +853,20 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def addLayer( self , name , theta , thick ):
+    def addLayer(self, name: str, theta: float, thick: float) -> None:
+        
+        """
+        Add a ply (layer) to the laminate.
 
-        '''Adding a layer to the created laminate structure
-    
-       Args:
-         name:    name of the material type
-         theta:   angle with respect to x-axis in degrees.
-         thick:   thickness of the layer.'''
+        Parameters
+        ----------
+        name : str
+            Material identifier.
+        theta : float
+            Ply angle (degrees).
+        thick : float
+            Ply thickness.
+        """
                 
         layer = Layer( name , theta , thick )
 
@@ -861,9 +885,11 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
   
-    def removeAllLayers( self ):
-
-        '''Erases all layers from the current laminate.'''
+    def removeAllLayers(self) -> None:
+        
+        """
+        Remove all layers from the laminate.
+        """
     
         self.layers = []
 
@@ -871,10 +897,16 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def getA( self ):
-  
-        '''Return the extensional stiffness matrix A for the given laminate as
-           a (3x3) numpy matrix.'''
+    def getA(self) -> np.ndarray:
+        
+        """
+        Compute extensional stiffness matrix A.
+
+        Returns
+        -------
+        np.ndarray
+            3x3 matrix A.
+        """
 
         self.A = zeros( shape = ( 3,3) )
 
@@ -890,11 +922,16 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def getB( self ):
-  
-        '''Return the coupling stiffness matrix B for the given laminate as
-        a (3x3) numpy matrix.'''  
+    def getB(self) -> np.ndarray:
+        
+        """
+        Compute coupling stiffness matrix B.
 
+        Returns
+        -------
+        np.ndarray
+            3x3 matrix B.
+        """
         self.B = zeros( shape = ( 3,3) )
 
         for i,layer in enumerate(self.layers):
@@ -909,11 +946,16 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def getD( self ):
-  
-        '''Return the bending stiffness matrix D for the given laminate as
-          a (3x3) numpy matrix.'''
+    def getD(self) -> np.ndarray:
+    
+        """
+        Compute bending stiffness matrix D.
 
+        Returns
+        -------
+        np.ndarray
+            3x3 matrix D.
+        """
         self.D = zeros( shape = ( 3,3) )
 
         for i,layer in enumerate(self.layers):
@@ -928,10 +970,16 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def getTs( self ):
+    def getTs(self) -> np.ndarray:
+        
+        """
+        Compute thermal resultants T*.
 
-        '''Calculates and returns the thermal exansion array T* pf the laminate as
-           a numpy array of length 3x1.'''
+        Returns
+        -------
+        np.ndarray
+            3x1 vector of thermal forces.
+        """
        
         self.Ts = zeros( 3 )
 
@@ -949,10 +997,16 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def getTss( self ):
-  
-        '''Calculates and returns the thermal exansion array T** of the laminate as
-           a numpy array of length 3x1.'''
+    def getTss(self) -> np.ndarray:
+        
+        """
+        Compute thermal resultants T**.
+
+        Returns
+        -------
+        np.ndarray
+            3x1 vector of thermal moments.
+        """
 
         self.Tss = zeros( 3 )
 
@@ -970,9 +1024,16 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def getRhoh( self ):
+    def getRhoh(self) -> float:
+        
+        """
+        Compute mass per unit area of the laminate.
 
-        '''Calculates and returns the mass per unit area of the laminate (rho*h) fo the laminate.'''
+        Returns
+        -------
+        float
+            Areal mass density (ρh).
+        """
     
         rhoh = 0.
 
@@ -987,18 +1048,20 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
     
-    def getZcoord( self , j : int ) -> float:
+    def getZcoord(self, j: int) -> float:
+        """
+        Get z-coordinate of the centroid of a given layer.
 
-        '''
-        Calculates and returns the z coordinate of layer j. The z coordinate is
-        defined as the centre of the layer.
-       
-        Args:
-          j     layer ID.
-         
-        Returns:
-           z (float): z coordinate of the layer. 
-        '''  
+        Parameters
+        ----------
+        j : int
+            Layer index.
+
+        Returns
+        -------
+        float
+            z-coordinate of the layer centroid.
+        """
          
         return 0.5*(self.h[j] + self.h[j+1])  
 
@@ -1008,10 +1071,20 @@ class Laminate:
 
     def getLayerBounds( self , j ):
 
-        '''Returns the z coordinates of the top and the bottom of layer j.      
-       
-        Args:
-          j     layer number.'''  
+       def getLayerBounds(self, j: int) -> tuple[float, float]:
+        """
+        Get top and bottom z-coordinates of a given layer.
+
+        Parameters
+        ----------
+        j : int
+            Layer index.
+
+        Returns
+        -------
+        tuple of float
+            (z_top, z_bottom).
+        """
          
         return (self.h[j],self.h[j+1]) 
 
@@ -1019,11 +1092,17 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
     
-    def getInverseMatrices( self ):
-  
-        '''Calculate and returns the four inverse matrices A1, B1, C1, D1 as 4
-           numpy arrays of shape (3x3).'''
+    def getInverseMatrices(self) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        
+        """
+        Compute inverse stiffness matrices A1, B1, C1, D1.
 
+        Returns
+        -------
+        tuple of np.ndarray
+            A1, B1, C1, D1 (all 3x3).
+        """
+        
         self.getA()
         self.getB()
         self.getD()
@@ -1043,12 +1122,21 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def getQbar( self , j : int ) -> np.ndarray:
+    def getQbar(self, j: int) -> np.ndarray:
+        
+        """
+        Get Q̅ matrix for a specific layer.
 
-        '''Returns the stiffness matrix Qbar for a given layer.
-    
-         Args:
-         j    layer number.'''
+        Parameters
+        ----------
+        j : int
+            Layer index.
+
+        Returns
+        -------
+        np.ndarray
+            3x3 Q̅ matrix for the layer.
+        """
          
         name  = self.layers[j].name
         theta = self.layers[j].theta
@@ -1059,10 +1147,16 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def getElastic( self ) -> list[float]:
-  
-        '''Calculates and returns the 4 apparent elastic properties of the laminate as
-           a list: [Ex,Ey,nuxy,Gxy].'''
+    def getElastic(self) -> list[float]:
+    
+        """
+        Compute effective laminate properties.
+
+        Returns
+        -------
+        list of float
+            [Ex, Ey, νxy, Gxy].
+        """
     
         self.getA()
 
@@ -1077,15 +1171,23 @@ class Laminate:
 #  Utility functions
 #==============================================================================
 
-def stressTransformation( sigma : np.ndarray , theta : float ) -> np.ndarray:
+def stressTransformation(sigma: np.ndarray, theta: float) -> np.ndarray:
 
-    '''
-    Function to transform stress from the 12 coordinate system 
-    (aligned with the fibre direction) to xy coordinate system (global axis)
-     
-    Args:
-        sigma:     The stress state in the 12 frame of reference
-        theta:     the angle between 122 and xy in degrees.'''
+    """
+    Transform stresses from local (1–2) to global (x–y) axes.
+
+    Parameters
+    ----------
+    sigma : np.ndarray
+        Stress vector [σ1, σ2, τ12] in local coordinates.
+    theta : float
+        Ply angle (degrees).
+
+    Returns
+    -------
+    np.ndarray
+        Stress vector [σx, σy, τxy] in global coordinates.
+    """
        
     signew = zeros( 3 )
 
@@ -1104,16 +1206,23 @@ def stressTransformation( sigma : np.ndarray , theta : float ) -> np.ndarray:
 #
 #-------------------------------------------------------------------------------
 
-def strainTransformation( eps : np.ndarray , theta : float ) -> np.ndarray:
+def strainTransformation(eps: np.ndarray, theta: float) -> np.ndarray:
 
-    '''
-    Function to transform strain from the 12 coordinate system 
-    (aligned with the fibre direction) to xy coordinate system (global axis)
-     
-    Args:
-        eps:       The stress state in the 12 frame of reference
-        theta:     the angle between the 12 and xy coordinate frame in degrees.
-    '''
+    """
+    Transform strains from local (1–2) to global (x–y) axes.
+
+    Parameters
+    ----------
+    eps : np.ndarray
+        Strain vector [ε1, ε2, γ12] in local coordinates.
+    theta : float
+        Ply angle (degrees).
+
+    Returns
+    -------
+    np.ndarray
+        Strain vector [εx, εy, γxy] in global coordinates.
+    """
 
     epsnew = zeros( 3 )
 
@@ -1133,24 +1242,32 @@ def strainTransformation( eps : np.ndarray , theta : float ) -> np.ndarray:
 #-------------------------------------------------------------------------------
   
 
-def mixMaterials ( fibre : TransverseIsotropic , matrix  : TransverseIsotropic , vf : float ) ->  TransverseIsotropic:
+def mixMaterials(fibre: TransverseIsotropic,
+                 matrix: TransverseIsotropic,
+                 vf: float) -> TransverseIsotropic:
+                 
+    """
+    Homogenize fiber and matrix into an equivalent ply (rule of mixtures).
 
-    '''
-    Simple Voigt and Reuss volume averaging to determine the 
-    homogenised elastic properties of two materials with fibre 
-    volume fraction vf.
-     
-    Args:
-        fibre(TransverseIsotropic):   the material model of the fibre material
-        matrix(TransverseIsotropic):  the material model of the matrix material
-        vf(float):      the fibre volume fraction.
-        
-    Returns:
-        TransverseIsotropic:   The matrials
-        
-    Raises:      
-        ValueError: when vf is not between 0 and 1.
-    '''
+    Parameters
+    ----------
+    fibre : TransverseIsotropic
+        Fiber material.
+    matrix : TransverseIsotropic
+        Matrix material.
+    vf : float
+        Fiber volume fraction (0 ≤ vf ≤ 1).
+
+    Returns
+    -------
+    TransverseIsotropic
+        Homogenized material model.
+
+    Raises
+    ------
+    RuntimeError
+        If vf is outside [0, 1].
+    """
        
     if vf < 0.0 or vf > 1.0:
         raise RuntimeError('Volumefraction must be between 0.0 and 1.0.')       
@@ -1170,9 +1287,21 @@ def mixMaterials ( fibre : TransverseIsotropic , matrix  : TransverseIsotropic ,
 #
 #-------------------------------------------------------------------------------
 
-def Macauley( x ):
+def Macauley(x: float) -> float:
 
-    '''The Macauley operater. Returns argument x when x > 0. Otherwise 0.'''
+    """
+    Macauley operator ⟨x⟩.
+
+    Parameters
+    ----------
+    x : float
+        Input value.
+
+    Returns
+    -------
+    float
+        x if x > 0, else 0.
+    """
 
     if x > 0:
         return x
