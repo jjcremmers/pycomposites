@@ -5,6 +5,8 @@
   
 """
 import unittest,os
+import numpy as np
+
 from composite import  (
     TransverseIsotropic, Laminate, mixMaterials,
     stressTransformation, strainTransformation, Macauley
