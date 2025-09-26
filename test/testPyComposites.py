@@ -117,7 +117,7 @@ class PyCompositeTesting(unittest.TestCase):
         I = A1 @ A
         self.assertTrue(np.allclose(I, np.eye(3), atol=1e-6))
         
-        I = B1 @ B
+        I = D1 @ D
         self.assertTrue(np.allclose(I, np.eye(3), atol=1e-6))
 
     def test_elastic_effective(self):
