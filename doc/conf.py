@@ -40,3 +40,17 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_css_files = ['custom.css']
 
+html_theme_options = {
+    "description": (
+        "A lightweight Python module for Classical Laminate Theory (CLT). "
+        "It provides classes for transversely isotropic plies, layers, and "
+        "laminates, along with utilities for stress/strain transformations "
+        "and homogenization. The code includes stiffness/compliance matrices, "
+        "thermal expansion, and classical failure criteria (Maximum Stress, "
+        "Maximum Strain, Tsai–Wu, Hashin, Larc03). Designed for education "
+        "(TU/e course 4MM00) but suitable for research, it balances clarity "
+        "and functionality. Useful for teaching, assignments, and prototyping "
+        "composite laminate analyses."
+    )
+}
+
