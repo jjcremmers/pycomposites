@@ -1,5 +1,5 @@
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
 Classical Laminate Theory
 =========================
@@ -23,8 +23,7 @@ Classical Laminate Theory
 Example: Homogenisation
 -----------------------
 
-Problem Statement
-~~~~~~~~~~~~~~~~~
+**Problem Statement**
 
 Consider a fibre-reinforced plastic that consists of uni-directional 
 carbon fibres embedded in an epoxy matrix. The fibre volume fraction 
@@ -38,8 +37,7 @@ The properties of the isotropic epoxy matrix are:
 
 Determine the homogenised properties of the composite.
 
-Solution
-~~~~~~~~
+**Solution**
 
 .. currentmodule:: pycomposites.composite
    
@@ -114,8 +112,7 @@ Material properties of the composite material:
 Example 2: Classical Laminate Theory
 ------------------------------------
 
-Problem Statement
-~~~~~~~~~~~~~~~~~
+**Problem Statement**
 
 Consider a fibre-reinforced plastic consisting of uni-directional carbon fibres embedded in an epoxy matrix. The fibre volume fraction is :math:`V_f = 0.6`. The properties of the transversely isotropic fibre are:
 
@@ -132,8 +129,7 @@ The properties of the isotropic epoxy matrix are:
 
 Determine the :math:`\mathbf{Q}` matrix of this material, as well as the rotated matrices :math:`\mathbf{Q}^{20}` and :math:`\mathbf{Q}^{-20}`. Evaluate the results.
 
-Solution
-~~~~~~~~
+**Solution**
 
 Import the necessary classes and functions:
 

@@ -3,9 +3,6 @@ Plate Equations
 
 .. currentmodule:: pycomposites.composite
 
-Example: Point load
--------------------
-
 **Problem Statement**
 
 A flat, simply supported panel with dimensions :math:`a = 400 \, \text{mm}` and :math:`b = 600 \, \text{mm}` is loaded by a point load with magnitude :math:`F = 1200 \, \text{N}` at the point :math:`x_0 = 150 \, \text{mm}` and :math:`y_0 = 350 \, \text{mm}`. The panel is made of 6 layers of UCHSC200_SE84 UD material (see Canvas for the properties), stacked in the sequence :math:`[0, 90, 0]_S`.

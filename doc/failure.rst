@@ -3,13 +3,10 @@ Failure
 
 .. currentmodule:: pycomposites.composite
 
-Example 1
----------
+**Problem Statement**
 
-Problem Statement
-~~~~~~~~~~~~~~~~~
-
-Calculate the strength of a single layer of E-glass/epoxy composite loaded by a uniaxial force under an angle :math:`\theta`. The elastic properties of the material are:
+Calculate the strength of a single layer of E-glass/epoxy composite loaded by a uniaxial force under an 
+angle :math:`\theta`. The elastic properties of the material are:
 
 - :math:`E_1 = 39.0 \, \text{GPa}`
 - :math:`E_2 = 8.6 \, \text{GPa}`
@@ -38,10 +35,10 @@ For the Tsai-Wu criterion, you may assume:
 
 Plot the results for each failure criterion in a graph.
 
-Solution
-~~~~~~~~
+**Solution**
 
-Create the material and assign the fracture properties. Print the properties to verify.
+Create the material object 
+and assign the fracture properties. Print the properties to verify.
 
 .. code-block:: python
 
@@ -67,10 +64,6 @@ Output:
     Yt     :     3.900e+07 , Yc     :     1.280e+08 
     S      :     8.900e+07
 
-
-Methodology
-~~~~~~~~~~~
-
 To calculate the maximum allowable stress, the process involves:
 
 1. Creating a unit stress vector for a stress magnitude of 1 Pa under an angle :math:`\theta`.
@@ -78,9 +71,6 @@ To calculate the maximum allowable stress, the process involves:
 3. Storing the corresponding :math:`sf` as the maximum allowable stress for that angle.
 
 The calculations are performed for 90 intervals between angles :math:`0^\circ` and :math:`90^\circ`.
-
-Code Implementation
-~~~~~~~~~~~~~~~~~~~
 
 Initialize the required lists and parameters:
 
@@ -151,9 +141,6 @@ Loop over all angles, calculate the stress components, and evaluate the failure 
 
         TsaiWu.append(sf)
 
-Results
-~~~~~~~
-
 Plot the results for each failure criterion:
 
 .. code-block:: python
@@ -170,7 +157,4 @@ Plot the results for each failure criterion:
     plt.show()
 
 This generates a plot showing the strength values for each failure criterion as a function of angle.
-
-Example 2
----------
 

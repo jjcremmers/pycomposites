@@ -31,7 +31,7 @@ For a more in-depth explanation of selected examples, please refer to the
 sections listed in the table of contents below.      
       
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
    
    clt
    failure
