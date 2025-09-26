@@ -16,27 +16,39 @@ Composite and Lightweight Materials - Design and Analysis (4MM00)
 class TransverseIsotropic:
 
     """
-    A class to represent a transversely isotropic material model.
+    Material model representing a transversely isotropic (or orthotropic) solid
+    in plane stress conditions.
 
-    This class models materials that exhibit isotropic properties in a plane
-    perpendicular to a single axis of symmetry and anisotropic behavior along
-    the axis of symmetry.
-    
-    Args:
-        E (float or list[float]): Young's modulus. 
-            If `E` is a list, 
-            it should contain `E1` and `E2` for an orthotropic material. 
-            If `E` is a float, `E1` and `E2` are considered equal to `E`.    
-        nu12 (float): Poisson's ratio.
-        G12 (float, optional): Shear modulus.  Defaults to 0.
-            If not specified, it is assumed 
-            that the material is isotropic, and `G` is 
-            calculated as 
-            $$
-            G = E / (2 * (1 + nu))
-            $$
-        alpha (float or list[float], optional): Thermal expansion coefficients. Can be a single value or a list. Defaults to 0.
-        rho (float, optional): Density of the material. Defaults to 0.                       
+    Transversely isotropic materials are isotropic in one plane and have
+    distinct properties along a single axis of symmetry (e.g. fiber-reinforced
+    composites).
+
+    Parameters
+    ----------
+    E : float or list of float
+        Young's modulus. If a list is given:
+          - [E1, E2] for orthotropic materials
+          - [E] for isotropic materials
+        If a single float is given, both E1 and E2 are set to that value.
+    nu12 : float
+        Poisson's ratio ν₁₂.
+    G12 : float, optional
+        In-plane shear modulus. Default is 0. If not specified, it is assumed
+        isotropic and computed as G = E / [2(1 + ν)].
+    alpha : float or list of float, optional
+        Thermal expansion coefficient(s). Either:
+          - single float, applied in both directions, or
+          - [α1, α2]. Default is 0.
+    rho : float, optional
+        Density. Default is 0.
+
+    Notes
+    -----
+    Provides methods to:
+      - compute stiffness and compliance matrices (Q, S)
+      - compute rotated properties (Q̅, S̅)
+      - evaluate failure indices (Maximum Stress, Maximum Strain, Tsai-Wu,
+        Hashin, Larc03).
     """
 
     def __init__(self, E: float | list[float], nu12: float, 
@@ -86,15 +98,19 @@ class TransverseIsotropic:
     def setAlpha(self, alpha: float | list[float]) -> None:
     
         """
-        Set the thermal expansion coefficients (alpha) for the material.
+        Set thermal expansion coefficients.
 
-        :param alpha: Thermal expansion coefficients. Can be a single float value 
-                      or a list of one or two float values. If a single value is 
-                      provided, it is assigned to both `alpha1` and `alpha2`. 
-                      If a list of two values is provided, the first value is 
-                      assigned to `alpha1` and the second to `alpha2`.
-        :type alpha:  float or list[float]
-        :raises ValueError: If the list has more than two elements.
+        Parameters
+        ----------
+        alpha : float or list of float
+            Thermal expansion coefficients. Can be:
+              - single float (applied to both directions)
+              - [α1, α2]
+
+        Raises
+        ------
+        ValueError
+            If a list with more than two elements is provided.
         """
         
         if isinstance(alpha, list):
@@ -117,23 +133,23 @@ class TransverseIsotropic:
     def setFailureProperties(self, F: list[float], Gfrac: list[float] = 0.0, alpha0deg: float = 53.0) -> None:
 
         """
-        Set the failure properties of the material.
+        Set material failure properties.
 
-        Args:
-            F (list[float]): A list containing the main failure parameters:
-                             F = [Xt, Xc, Yt, Yc, Sl] where:
-                                  - Xt: Longitudinal tensile strength
-                                  - Xc: Longitudinal compressive strength
-                                  - Yt: Transverse tensile strength
-                                  - Yc: Transverse compressive strength
-                                  - Sl: Transverse shear strength
-                              For the Tsai-Wu failure criterion, f12 can be provided as the 6th parameter:
-                              F = [Xt, Xc, Yt, Yc, Sl, f12].                              
-            Gfrac (list[float], optional): Fracture toughness. Can be a single value or a list of two values 
-                [GIc, GIIc]. Defaults to 0.                                                   
-            alpha0deg (float, optional): Alpha0 in degrees, needed for the Larc03 model. Defaults to 53.0.
-        Raises:
-            ValueError: If `F` has an invalid length.            
+        Parameters
+        ----------
+        F : list of float
+            Failure parameters. Expected length:
+              - 5 values: [Xt, Xc, Yt, Yc, Sl]
+              - 6 values: [Xt, Xc, Yt, Yc, Sl, f12] (for Tsai-Wu)
+        Gfrac : float or list of float, optional
+            Fracture toughness values [GIc, GIIc]. Default is 0.
+        alpha0deg : float, optional
+            Fiber orientation angle (degrees) for Larc03 model. Default is 53°.
+
+        Raises
+        ------
+        ValueError
+            If F does not have length 5 or 6, or if Gfrac is invalid.
         """
         
         if len(F) == 5 or len(F) == 6:
@@ -166,10 +182,12 @@ class TransverseIsotropic:
     def setSLis(self, SLis: float) -> None:
         
         """
-        Set the interlaminar shear strength (SLis) for the Larc03 model.
+        Set interlaminar shear strength (for Larc03).
 
-        :param SLis: Interlaminar shear strength.
-        :type SLis: float
+        Parameters
+        ----------
+        SLis : float
+            Interlaminar shear strength.
         """
         
         self.SLis = SLis
@@ -181,10 +199,12 @@ class TransverseIsotropic:
     def __str__(self) -> str:
         
         """
-        Print the properties of the TransverseIsotropic material model.
+        Return formatted string with material properties.
 
-        :return: Formatted string containing the material properties.
-        :rtype: str
+        Returns
+        -------
+        str
+            Elastic, thermal, and strength properties (if defined).
         """
         
         msg = "\n  Elastic Properties:\n"
@@ -224,9 +244,12 @@ class TransverseIsotropic:
     def getQ(self) -> np.ndarray:
         
         """
-        Calculates and returns the stiffness matrix Q of the material model.
+        Compute reduced stiffness matrix Q.
 
-        :return: A 3x3 numpy array representing the stiffness matrix Q.
+        Returns
+        -------
+        np.ndarray
+            3x3 reduced stiffness matrix Q.
         """
         
         if not hasattr(self, 'Q'):
@@ -248,9 +271,12 @@ class TransverseIsotropic:
     def getU(self) -> np.ndarray:
 
         """
-        Returns the stiffness matrix invariant terms U[1..5].
+        Compute stiffness invariants U.
 
-        :return: A numpy array of size 5 containing the invariant terms.
+        Returns
+        -------
+        np.ndarray
+            Array [U1..U5].
         """
 
         if not hasattr(self, 'U'):
@@ -272,9 +298,12 @@ class TransverseIsotropic:
     def getS(self) -> np.ndarray:
 
         """
-        Returns the compliance matrix S of the material.
+        Compute reduced compliance matrix S.
 
-        :return: A 3x3 numpy array representing the compliance matrix S.
+        Returns
+        -------
+        np.ndarray
+            3x3 compliance matrix S.
         """
 
         S = np.zeros((3, 3))
@@ -294,9 +323,12 @@ class TransverseIsotropic:
     def getV(self) -> np.ndarray:
 
         """
-        Returns the compliance matrix invariant terms V[1..5].
+        Compute compliance invariants V.
 
-        :return: A numpy array of size 5 containing the invariant terms.
+        Returns
+        -------
+        np.ndarray
+            Array [V1..V5].
         """
 
         if not hasattr(self, 'V'):
@@ -318,10 +350,17 @@ class TransverseIsotropic:
     def getQbar(self, theta: float) -> np.ndarray:
 
         """
-        Calculates the global stiffness matrix Q for a given fiber angle.
+        Compute global stiffness matrix Q̅ for a ply angle.
 
-        :param theta: Angle of the fiber direction with respect to the global x-axis, in degrees.
-        :return: A 3x3 numpy array representing the global stiffness matrix Q.
+        Parameters
+        ----------
+        theta : float
+            Ply angle (degrees).
+
+        Returns
+        -------
+        np.ndarray
+            3x3 rotated stiffness matrix Q̅.
         """
 
         if not hasattr(self, 'U'):
@@ -354,10 +393,17 @@ class TransverseIsotropic:
     def getSbar(self, theta: float) -> np.ndarray:
 
         """
-        Calculates the global compliance matrix S for a given fiber angle.
+        Compute global compliance matrix S̅ for a ply angle.
 
-        :param theta: Angle of the fiber direction with respect to the global x-axis, in degrees.
-        :return: A 3x3 numpy array representing the global compliance matrix S.
+        Parameters
+        ----------
+        theta : float
+            Ply angle (degrees).
+
+        Returns
+        -------
+        np.ndarray
+            3x3 rotated compliance matrix S̅.
         """
 
         if not hasattr(self, 'V'):
@@ -388,13 +434,17 @@ class TransverseIsotropic:
     def getAlpha(self, theta: float) -> np.ndarray:
         
         """
-        Calculate the thermal expansion vector alpha for a given angle.
+        Compute thermal expansion vector in global axes.
 
-        Args:
-            theta (float): Angle of the fibre direction with respect to the global x-axis in degrees.
+        Parameters
+        ----------
+        theta : float
+            Ply angle (degrees).
 
-        Returns:
-            np.ndarray: A numpy array representing the thermal expansion vector.
+        Returns
+        -------
+        np.ndarray
+            Vector [αx, αy, αxy].
         """
         
         alpha = np.zeros(3)
@@ -415,13 +465,18 @@ class TransverseIsotropic:
 
     def getFIMaximumStress(self, sigma: np.ndarray ) -> float:
         
-        """Calculates and returns the Failure index for a given stress state according to the maximum stress criterion.
+        """
+        Compute failure index (Maximum Stress criterion).
 
-        Args:
-            sigma: The current stress state.
+        Parameters
+        ----------
+        sigma : np.ndarray
+            Stress vector [σx, σy, τxy].
 
-        Returns:
-            The Failure index based on the maximum stress criterion.
+        Returns
+        -------
+        float
+            Failure index.
         """
         
         if sigma[0] > 0.:
@@ -445,15 +500,26 @@ class TransverseIsotropic:
 
         return max(FI1, FI2, FI6)
 
+#-------------------------------------------------------------------------------
+#
+#-------------------------------------------------------------------------------
+
     def getFIMaximumStrain(self, sigma: np.ndarray ) -> float:
-        """Calculates and returns the Failure index for a given stress state according to the maximum strain criterion.
-
-        Args:
-            sigma: The current stress state.
-
-        Returns:
-            The Failure index based on the maximum strain criterion.
+        
         """
+        Compute failure index (Maximum Strain criterion).
+
+        Parameters
+        ----------
+        sigma : np.ndarray
+            Stress vector [σx, σy, τxy].
+
+        Returns
+        -------
+        float
+            Failure index.
+        """
+        
         eps1 = 1.0 / self.E1 * (sigma[0] - self.nu12 * sigma[1])
         eps2 = 1.0 / self.E2 * (sigma[1] - self.nu21 * sigma[0])
 
@@ -479,14 +545,21 @@ class TransverseIsotropic:
         return max(FI1, FI2, FI6)
 
     def getFITsaiWu(self, sigma: np.ndarray ) -> float:
-        """Calculates and returns the Failure index for a given stress state according to the maximum Tsai-Wu criterion.
-
-        Args:
-            sigma: The current stress state.
-
-        Returns:
-            The Failure index based on the Tsai-Wu criterion.
+        
         """
+        Compute failure index (Tsai-Wu criterion).
+
+        Parameters
+        ----------
+        sigma : np.ndarray
+            Stress vector [σx, σy, τxy].
+
+        Returns
+        -------
+        float
+            Failure index.
+        """
+        
         f1 = 1.0 / self.Xt - 1.0 / self.Xc
         f2 = 1.0 / self.Yt - 1.0 / self.Yc
         f11 = 1.0 / (self.Xt * self.Xc)
@@ -508,14 +581,21 @@ class TransverseIsotropic:
         return 1.0 / SfTsaiWu1
 
     def getFIHashin73(self, sigma: np.ndarray ) -> float:
-        """Calculates and returns the Failure index for a given stress state according to the Hashin 73 criterion.
-
-        Args:
-            sigma: The current stress state.
-
-        Returns:
-            The Failure index based on the Hashin 73 criterion.
+        
         """
+        Compute failure index (Hashin 1973 criterion).
+
+        Parameters
+        ----------
+        sigma : np.ndarray
+            Stress vector [σx, σy, τxy].
+
+        Returns
+        -------
+        float
+            Failure index.
+        """
+        
         FIf = 0.0
         FIm = 0.0
 
@@ -532,14 +612,21 @@ class TransverseIsotropic:
         return max(FIf, FIm)
 
     def getFIHashin80(self, sigma: np.ndarray ) -> float:
-        """Calculates and returns the Failure index for a given stress state according to the Hashin 80 criterion.
-
-        Args:
-            sigma: The current stress state.
-
-        Returns:
-            The Failure index based on the Hashin 80 criterion.
+        
         """
+        Compute failure index (Hashin 1980 criterion).
+
+        Parameters
+        ----------
+        sigma : np.ndarray
+            Stress vector [σx, σy, τxy].
+
+        Returns
+        -------
+        float
+            Failure index.
+        """
+        
         FIf = 0.0
         FIm = 0.0
 
@@ -556,14 +643,21 @@ class TransverseIsotropic:
         return max(FIf, FIm)
 
     def getFILarc03(self, sigma: np.ndarray ) -> float:
-        """Calculates and returns the Failure index for a given stress state according to the Larc03 criterion.
-
-        Args:
-            sigma: The current stress state.
-
-        Returns:
-            The Failure index based on the Larc03 criterion.
+        
         """
+        Compute failure index (Larc03 criterion).
+
+        Parameters
+        ----------
+        sigma : np.ndarray
+            Stress vector [σx, σy, τxy].
+
+        Returns
+        -------
+        float
+            Failure index.
+        """
+        
         t = 0.1
 
         lam22 = 2.0 * (1.0 / self.E2 - self.nu21 * self.nu21 / self.E1)
@@ -638,18 +732,18 @@ class TransverseIsotropic:
 
 class Layer:
 
-  '''
-  The layer class specifies the properties of a single layer.
-  
-  These properties are the name of the transversely isotropitc
-  material, the orientation of the fibre direction with respect to the global
-  x-axis and the thickness of the layer.
-     
-  Args:
-    name:     name of the material model used.
-    theta:    theorientation of the fibre direction in degrees.
-    thick:    the thickness of the layer.         
-  '''
+    """
+    Composite layer definition.
+
+    Parameters
+    ----------
+    name : str
+        Identifier for the material.
+    theta : float
+        Ply orientation (degrees).
+    thick : float
+        Ply thickness.
+    """
 
 #-------------------------------------------------------------------------------
 #
@@ -671,7 +765,15 @@ class Layer:
 
 class Laminate:
   
-  '''A class to describe the stacking sequency of a laminate.'''
+    """
+    Composite laminate (stack of layers).
+
+    Provides methods to:
+      - add materials and layers
+      - compute A, B, D stiffness matrices
+      - compute effective properties
+      - extract geometry and z-coordinates
+    """
 
 #-------------------------------------------------------------------------------
 #
