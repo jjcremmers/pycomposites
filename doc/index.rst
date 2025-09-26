@@ -11,7 +11,9 @@ This is the documentation for PyComposites
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: API Reference
+   
+   composite
 
    install
    modules
