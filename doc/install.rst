@@ -1,9 +1,6 @@
 Installation Guide
 ==================
 
-PyComposites Installation Guide
-===============================
-
 PyComposites is a Python library for the analysis and design of composite materials.  
 It can be installed directly from the
 `GitHub source <https://github.com/jjcremmers/pycomposites>`_.
@@ -52,8 +49,8 @@ After installation, verify that the API is available by starting Python and impo
 
 .. code-block:: python
 
-   import pycomposites
-   print("PyComposites successfully installed, version:", pycomposites.__version__)
+   import composites
+   print("PyComposites successfully installed, version:", composites.__version__)
 
 Quick Start Example
 -------------------
@@ -63,7 +60,7 @@ Replace the function names with the relevant routines from your project.
 
 .. code-block:: python
 
-   from pycomposites import Laminate, Material
+   from composites import Laminate, Material
 
    # Define a unidirectional carbon/epoxy ply
    carbon_epoxy = Material(E1=135e9, E2=10e9, G12=5e9, nu12=0.3)
