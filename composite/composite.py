@@ -749,15 +749,15 @@ class Layer:
 #
 #-------------------------------------------------------------------------------
 
-  def __init__( self , name , theta , thick ):
+    def __init__( self , name , theta , thick ):
    
-    '''
-    Inits the class layer.
-    '''
+        '''
+        Inits the class layer.
+        '''
       
-    self.name  = name
-    self.theta = theta
-    self.thick = thick
+        self.name  = name
+        self.theta = theta
+        self.thick = thick
 
 #===============================================================================
 #  Class Laminate
@@ -779,36 +779,36 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
  
-  def __init__( self ): 
+    def __init__( self ): 
 
-    self.materials = {}
-    self.layers    = []
+        self.materials = {}
+        self.layers    = []
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def __str__( self ):
+    def __str__( self ):
   
-    '''Prints information about the created laminate structure.'''
+        '''Prints information about the created laminate structure.'''
 
-    msg  = "  Laminate properties\n"
-    msg += "  -----------------------------------------------------------\n"
-    msg += "  layer   thick orient.  material\n"
-    msg += "  -----------------------------------------------------------\n"
+        msg  = "  Laminate properties\n"
+        msg += "  -----------------------------------------------------------\n"
+        msg += "  layer   thick orient.  material\n"
+        msg += "  -----------------------------------------------------------\n"
 
-    for i,lay in enumerate(self.layers):
-      msg += "   {:4}   {:4}   {:4}   {:4}\n".format(i,lay.thick,lay.theta,lay.name)
+        for i,lay in enumerate(self.layers):
+            msg += "   {:4}   {:4}   {:4}   {:4}\n".format(i,lay.thick,lay.theta,lay.name)
 
-    return msg
+        return msg
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def addMaterial( self , name , mat ):
+    def addMaterial( self , name , mat ):
 
-    """ Adds a material to the laminate class.
+        """ Adds a material to the laminate class.
     
         Adding a material model with a name to the created laminate structure.
     
@@ -827,251 +827,251 @@ class Laminate:
           >>> result = function_name(5, 'example')
           >>> print(result)
          True
-    """  
+         """  
          
-    self.materials[name] = mat
+         self.materials[name] = mat
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def addLayer( self , name , theta , thick ):
+    def addLayer( self , name , theta , thick ):
 
-    '''Adding a layer to the created laminate structure
+        '''Adding a layer to the created laminate structure
     
        Args:
          name:    name of the material type
          theta:   angle with respect to x-axis in degrees.
          thick:   thickness of the layer.'''
                 
-    layer = Layer( name , theta , thick )
+        layer = Layer( name , theta , thick )
 
-    self.layers.append( layer )
+        self.layers.append( layer )
 
-    self.h     = zeros( len(self.layers)+1 )
-    self.thick = 0.
+        self.h     = zeros( len(self.layers)+1 )
+        self.thick = 0.
     
-    for i,layer in enumerate(self.layers):
-      self.h[i+1] = self.thick+layer.thick
-      self.thick += layer.thick
+        for i,layer in enumerate(self.layers):
+            self.h[i+1] = self.thick+layer.thick
+            self.thick += layer.thick
 
-    self.h += -0.5*self.thick*ones( len(self.h) )
+        self.h += -0.5*self.thick*ones( len(self.h) )
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
   
-  def removeAllLayers( self ):
+    def removeAllLayers( self ):
 
-    '''Erases all layers from the current laminate.'''
+        '''Erases all layers from the current laminate.'''
     
-    self.layers = []
+        self.layers = []
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def getA( self ):
+    def getA( self ):
   
-    '''Return the extensional stiffness matrix A for the given laminate as
-       a (3x3) numpy matrix.'''
+        '''Return the extensional stiffness matrix A for the given laminate as
+           a (3x3) numpy matrix.'''
 
-    self.A = zeros( shape = ( 3,3) )
+        self.A = zeros( shape = ( 3,3) )
 
-    for i,layer in enumerate(self.layers):
-      name  = layer.name
-      theta = layer.theta
+        for i,layer in enumerate(self.layers):
+            name  = layer.name
+            theta = layer.theta
 
-      self.A 	+= self.materials[name].getQbar( theta ) * (self.h[i+1]-self.h[i])
+            self.A += self.materials[name].getQbar( theta ) * (self.h[i+1]-self.h[i])
 
-    return self.A
+        return self.A
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def getB( self ):
+    def getB( self ):
   
-    '''Return the coupling stiffness matrix B for the given laminate as
-       a (3x3) numpy matrix.'''  
+        '''Return the coupling stiffness matrix B for the given laminate as
+        a (3x3) numpy matrix.'''  
 
-    self.B = zeros( shape = ( 3,3) )
+        self.B = zeros( shape = ( 3,3) )
 
-    for i,layer in enumerate(self.layers):
-      name  = layer.name
-      theta = layer.theta
+        for i,layer in enumerate(self.layers):
+            name  = layer.name
+            theta = layer.theta
 
-      self.B += 0.5*self.materials[name].getQbar( theta ) * (self.h[i+1]**2-self.h[i]**2)
+            self.B += 0.5*self.materials[name].getQbar( theta ) * (self.h[i+1]**2-self.h[i]**2)
 
-    return self.B
+        return self.B
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def getD( self ):
+    def getD( self ):
   
-    '''Return the bending stiffness matrix D for the given laminate as
-       a (3x3) numpy matrix.'''
+        '''Return the bending stiffness matrix D for the given laminate as
+          a (3x3) numpy matrix.'''
 
-    self.D = zeros( shape = ( 3,3) )
+        self.D = zeros( shape = ( 3,3) )
 
-    for i,layer in enumerate(self.layers):
-      name  = layer.name
-      theta = layer.theta
+        for i,layer in enumerate(self.layers):
+            name  = layer.name
+            theta = layer.theta
 
-      self.D += 1.0/3.0*self.materials[name].getQbar( theta ) * (self.h[i+1]**3-self.h[i]**3)
+            self.D += 1.0/3.0*self.materials[name].getQbar( theta ) * (self.h[i+1]**3-self.h[i]**3)
 
-    return self.D
+        return self.D
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def getTs( self ):
+    def getTs( self ):
 
-    '''Calculates and returns the thermal exansion array T* pf the laminate as
-       a numpy array of length 3x1.'''
+        '''Calculates and returns the thermal exansion array T* pf the laminate as
+           a numpy array of length 3x1.'''
        
-    self.Ts = zeros( 3 )
+        self.Ts = zeros( 3 )
 
-    for i,layer in enumerate(self.layers):
-      name  = layer.name
-      theta = layer.theta
+        for i,layer in enumerate(self.layers):
+            name  = layer.name
+            theta = layer.theta
 
-      Qalpha = dot( self.materials[name].getQbar( theta ) , self.materials[name].getAlpha( theta ) )
+            Qalpha = dot( self.materials[name].getQbar( theta ) , self.materials[name].getAlpha( theta ) )
 
-      self.Ts += Qalpha * (self.h[i+1]-self.h[i])
+            self.Ts += Qalpha * (self.h[i+1]-self.h[i])
 
-    return self.Ts
+        return self.Ts
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def getTss( self ):
+    def getTss( self ):
   
-    '''Calculates and returns the thermal exansion array T** of the laminate as
-       a numpy array of length 3x1.'''
+        '''Calculates and returns the thermal exansion array T** of the laminate as
+           a numpy array of length 3x1.'''
 
-    self.Tss = zeros( 3 )
+        self.Tss = zeros( 3 )
 
-    for i,layer in enumerate(self.layers):
-      name  = layer.name
-      theta = layer.theta
+        for i,layer in enumerate(self.layers):
+            name  = layer.name
+            theta = layer.theta
 
-      Qalpha = dot( self.materials[name].getQbar( theta ) , self.materials[name].getAlpha( theta ) )
+            Qalpha = dot( self.materials[name].getQbar( theta ) , self.materials[name].getAlpha( theta ) )
 
-      self.Tss += 0.5 * Qalpha * (self.h[i+1]**2-self.h[i]**2)
+            self.Tss += 0.5 * Qalpha * (self.h[i+1]**2-self.h[i]**2)
 
-    return self.Tss
-
-#-------------------------------------------------------------------------------
-#
-#-------------------------------------------------------------------------------
-
-  def getRhoh( self ):
-
-    '''Calculates and returns the mass per unit area of the laminate (rho*h) fo the laminate.'''
-    
-    rhoh = 0.
-
-    for i,layer in enumerate(self.layers):
-      name  = layer.name
-
-      rhoh += self.materials[name].rho * (self.h[i+1]-self.h[i])
-
-    return rhoh
+        return self.Tss
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
-    
-  def getZcoord( self , j : int ) -> float:
 
-    '''
-    Calculates and returns the z coordinate of layer j. The z coordinate is
-    defined as the centre of the layer.
+    def getRhoh( self ):
+
+        '''Calculates and returns the mass per unit area of the laminate (rho*h) fo the laminate.'''
+    
+        rhoh = 0.
+
+        for i,layer in enumerate(self.layers):
+            name  = layer.name
+
+            rhoh += self.materials[name].rho * (self.h[i+1]-self.h[i])
+
+        return rhoh
+
+#-------------------------------------------------------------------------------
+#
+#-------------------------------------------------------------------------------
+    
+    def getZcoord( self , j : int ) -> float:
+
+        '''
+        Calculates and returns the z coordinate of layer j. The z coordinate is
+        defined as the centre of the layer.
        
-    Args:
-      j     layer ID.
+        Args:
+          j     layer ID.
          
-    Returns:
-      z (float): z coordinate of the layer. 
-    '''  
+        Returns:
+           z (float): z coordinate of the layer. 
+        '''  
          
-    return 0.5*(self.h[j] + self.h[j+1])  
+        return 0.5*(self.h[j] + self.h[j+1])  
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def getLayerBounds( self , j ):
+    def getLayerBounds( self , j ):
 
-    '''Returns the z coordinates of the top and the bottom of layer j.      
+        '''Returns the z coordinates of the top and the bottom of layer j.      
        
-       Args:
-         j     layer number.'''  
+        Args:
+          j     layer number.'''  
          
-    return (self.h[j],self.h[j+1]) 
+        return (self.h[j],self.h[j+1]) 
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
     
-  def getInverseMatrices( self ):
+    def getInverseMatrices( self ):
   
-    '''Calculate and returns the four inverse matrices A1, B1, C1, D1 as 4
-       numpy arrays of shape (3x3).'''
+        '''Calculate and returns the four inverse matrices A1, B1, C1, D1 as 4
+           numpy arrays of shape (3x3).'''
 
-    self.getA()
-    self.getB()
-    self.getD()
+        self.getA()
+        self.getB()
+        self.getD()
 
-    Ainv  = inv(self.A)
-    Dstar = self.D-dot(self.B,dot(Ainv,self.B))
-    Dsinv = inv(Dstar)
+        Ainv  = inv(self.A)
+        Dstar = self.D-dot(self.B,dot(Ainv,self.B))
+        Dsinv = inv(Dstar)
 
-    self.A1 = Ainv + dot(Ainv,dot(self.B,dot(Dsinv,dot(self.B,Ainv))))
-    self.B1 = -dot(Ainv,dot(self.B,Dsinv))
-    self.C1 = transpose(self.B1)
-    self.D1 = Dsinv
+        self.A1 = Ainv + dot(Ainv,dot(self.B,dot(Dsinv,dot(self.B,Ainv))))
+        self.B1 = -dot(Ainv,dot(self.B,Dsinv))
+        self.C1 = transpose(self.B1)
+        self.D1 = Dsinv
 
-    return self.A1,self.B1,self.C1,self.D1
+        return self.A1,self.B1,self.C1,self.D1
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def getQbar( self , j : int ) -> np.ndarray:
+    def getQbar( self , j : int ) -> np.ndarray:
 
-    '''Returns the stiffness matrix Qbar for a given layer.
+        '''Returns the stiffness matrix Qbar for a given layer.
     
-       Args:
+         Args:
          j    layer number.'''
          
-    name  = self.layers[j].name
-    theta = self.layers[j].theta
+        name  = self.layers[j].name
+        theta = self.layers[j].theta
 
-    return self.materials[name].getQbar( theta )
+        return self.materials[name].getQbar( theta )
 
 #-------------------------------------------------------------------------------
 #
 #-------------------------------------------------------------------------------
 
-  def getElastic( self ) -> list[float]:
+    def getElastic( self ) -> list[float]:
   
-    '''Calculates and returns the 4 apparent elastic properties of the laminate as
-       a list: [Ex,Ey,nuxy,Gxy].'''
+        '''Calculates and returns the 4 apparent elastic properties of the laminate as
+           a list: [Ex,Ey,nuxy,Gxy].'''
     
-    self.getA()
+        self.getA()
 
-    Ex   = (self.A[0,0]*self.A[1,1]-self.A[0,1]*self.A[0,1])/(self.thick*self.A[1,1])
-    Ey   = (self.A[0,0]*self.A[1,1]-self.A[0,1]*self.A[0,1])/(self.thick*self.A[0,0])
-    nuxy = self.A[0,1]/self.A[1,1]
-    Gxy  = self.A[2,2]/self.thick
+        Ex   = (self.A[0,0]*self.A[1,1]-self.A[0,1]*self.A[0,1])/(self.thick*self.A[1,1])
+        Ey   = (self.A[0,0]*self.A[1,1]-self.A[0,1]*self.A[0,1])/(self.thick*self.A[0,0])
+        nuxy = self.A[0,1]/self.A[1,1]
+        Gxy  = self.A[2,2]/self.thick
 
-    return [Ex,Ey,nuxy,Gxy]
+        return [Ex,Ey,nuxy,Gxy]
 
 #==============================================================================
 #  Utility functions
@@ -1172,9 +1172,9 @@ def mixMaterials ( fibre : TransverseIsotropic , matrix  : TransverseIsotropic ,
 
 def Macauley( x ):
 
-  '''The Macauley operater. Returns argument x when x > 0. Otherwise 0.'''
+    '''The Macauley operater. Returns argument x when x > 0. Otherwise 0.'''
 
-  if x > 0:
-    return x
-  else:
-    return 0.
+    if x > 0:
+        return x
+    else:
+        return 0.
