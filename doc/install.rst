@@ -10,9 +10,9 @@ Only the **Python API** is provided (no command-line interface).
 Requirements
 ------------
 
-- Python **3.9 or newer**
+- Python **3.6 or newer**
 - ``pip`` (Python package manager)
-- (Optional but recommended) a virtual environment for isolating dependencies:
+- (Optional) a virtual environment for isolating dependencies:
 
 .. code-block:: bash
 
@@ -49,8 +49,8 @@ After installation, verify that the API is available by starting Python and impo
 
 .. code-block:: python
 
-   import composites
-   print("PyComposites successfully installed, version:", composites.__version__)
+   from composite import Layer
+   print(Layer)
 
 Quick Start Example
 -------------------

@@ -7,7 +7,7 @@ Failure models and models for the analysis plates, Sandwiches and shells.
 
 ## Installation
 
-./install
+pip install .
 
 ## Examples
 
