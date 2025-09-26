@@ -41,6 +41,15 @@ html_static_path = ['_static']
 html_css_files = ['custom.css']
 
 html_theme_options = {
+    "navigation_depth": 3,   # controls depth in sidebar
+}
+
+# Hide "Contents" at bottom of each page
+html_context = {
+    "default_mode": "sidebar",
+}
+
+html_theme_options = {
     "description": (
         "A lightweight Python module for Classical Laminate Theory (CLT). "
         "It provides classes for transversely isotropic plies, layers, and "
