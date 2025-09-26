@@ -101,6 +101,24 @@ class PyCompositeTesting(unittest.TestCase):
         B = lam.getB()
         D = lam.getD()
         self.assertTrue(np.allclose(B, np.zeros((3,3)), atol=1e-12))
+        
+    def test_laminate_inverseABD(self):
+    
+        mat = TransverseIsotropic([100e9, 10e9], 0.25, 5e9)
+        lam = Laminate()
+        lam.addMaterial("m", mat)
+        lam.addLayer("m", 0, 0.1)
+        lam.addLayer("m", 0, 0.1)
+        A = lam.getA()
+        D = lam.getD()
+        
+        (A1,B1,C1,D1) = getInverseMatrices(self)
+        
+        I = A1 @ A
+        self.assertTrue(np.allclose(I, np.eye(3), atol=1e-6))
+        
+        I = B1 @ B
+        self.assertTrue(np.allclose(I, np.eye(3), atol=1e-6))
 
     def test_elastic_effective(self):
     
