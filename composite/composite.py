@@ -829,7 +829,7 @@ class Laminate:
          True
          """  
          
-         self.materials[name] = mat
+        self.materials[name] = mat
 
 #-------------------------------------------------------------------------------
 #
