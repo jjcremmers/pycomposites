@@ -56,5 +56,23 @@ While lightweight by design, it captures the essential mechanics of
 laminated composites and serves as a solid foundation for more advanced 
 analytical or numerical models.
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+   
+   install
+   examples
+   
+   :caption: API Reference
+   
+   composite
 
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
