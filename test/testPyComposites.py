@@ -112,7 +112,7 @@ class PyCompositeTesting(unittest.TestCase):
         A = lam.getA()
         D = lam.getD()
         
-        (A1,B1,C1,D1) = getInverseMatrices(self)
+        (A1,B1,C1,D1) = lam.getInverseMatrices(self)
         
         I = A1 @ A
         self.assertTrue(np.allclose(I, np.eye(3), atol=1e-6))
