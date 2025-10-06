@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classical Laminate Theory &mdash; PyComposites  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=01e3a115" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Failure" href="failure.html" />
+    <link rel="prev" title="Examples" href="examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyComposites
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Classical Laminate Theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-homogenisation">Example: Homogenisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-2-classical-laminate-theory">Example 2: Classical Laminate Theory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="failure.html">Failure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plateeq.html">Plate Equations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="composite.html">Composite module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyComposites</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Classical Laminate Theory</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/clt.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="toctree-wrapper compound">
+</div>
+<section id="classical-laminate-theory">
+<h1>Classical Laminate Theory<a class="headerlink" href="#classical-laminate-theory" title="Link to this heading"></a></h1>
+<div class="blue-block">
+    The examples in are obtained from abcd
+</div>
+
+<div class="green-block">
+    The examples in are obtained from.
+</div>
+
+<div class="red-block">
+    The examples in are obtained from.
+</div><section id="example-homogenisation">
+<h2>Example: Homogenisation<a class="headerlink" href="#example-homogenisation" title="Link to this heading"></a></h2>
+<p><strong>Problem Statement</strong></p>
+<p>Consider a fibre-reinforced plastic that consists of uni-directional
+carbon fibres embedded in an epoxy matrix. The fibre volume fraction
+<span class="math notranslate nohighlight">\(V_f = 0.6\)</span>. The properties of the transversely isotropic fibre are:
+<span class="math notranslate nohighlight">\(E_{fL} = 220 \, \text{GPa}\)</span>, <span class="math notranslate nohighlight">\(E_{fT} = 20 \, \text{GPa}\)</span>,
+<span class="math notranslate nohighlight">\(\nu_f = 0.2\)</span>, <span class="math notranslate nohighlight">\(G_{\text{f}} = 91.7 \, \text{GPa}\)</span>.</p>
+<p>The properties of the isotropic epoxy matrix are:
+<span class="math notranslate nohighlight">\(E_{\text{m}} = 3.6 \, \text{GPa}\)</span>, <span class="math notranslate nohighlight">\(\nu_{\text{m}} = 0.35\)</span>,
+<span class="math notranslate nohighlight">\(G_{\text{m}} = 1.33 \, \text{GPa}\)</span>.</p>
+<p>Determine the homogenised properties of the composite.</p>
+<p><strong>Solution</strong></p>
+<p>Import the functions <code class="xref py py-func docutils literal notranslate"><span class="pre">TransverseIsotropic()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">mixMaterials()</span></code> from the
+<cite>composite</cite> module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">composite</span> <span class="kn">import</span> <span class="n">TransverseIsotropic</span><span class="p">,</span> <span class="n">mixMaterials</span>
+</pre></div>
+</div>
+<p>Create two materials, <cite>carbon</cite> and <cite>epoxy</cite>, with the correct properties. Note
+that <cite>carbon</cite> is transversely isotropic and <cite>epoxy</cite> is isotropic.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">carbon</span> <span class="o">=</span> <span class="n">TransverseIsotropic</span><span class="p">([</span><span class="mf">220e9</span><span class="p">,</span> <span class="mf">22e9</span><span class="p">],</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">91.7e9</span><span class="p">)</span>
+<span class="n">epoxy</span> <span class="o">=</span> <span class="n">TransverseIsotropic</span><span class="p">(</span><span class="mf">3.6e9</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">1.33e9</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The properties of carbon are:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">carbon</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The properties of epoxy are:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">epoxy</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The properties of carbon are:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Elastic Properties:
+-----------------------------------------------------------
+E1     :     2.200e+11 , E2     :     2.200e+10
+nu12   :          0.20 , G12    :     9.170e+10
+
+Thermal expansion coefficients:
+-----------------------------------------------------------
+alpha1 :     0.000e+00 , alpha2 :     0.000e+00
+</pre></div>
+</div>
+<p>The properties of epoxy are:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Elastic Properties:
+-----------------------------------------------------------
+E1     :     3.600e+09 , E2     :     3.600e+09
+nu12   :          0.35 , G12    :     1.330e+09
+
+Thermal expansion coefficients:
+-----------------------------------------------------------
+alpha1 :     0.000e+00 , alpha2 :     0.000e+00
+</pre></div>
+</div>
+<p>The properties of the composite can be calculated using the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">mixMaterials()</span></code>
+function, which takes the two materials and the volume fraction as input.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">udcomp</span> <span class="o">=</span> <span class="n">mixMaterials</span><span class="p">(</span><span class="n">carbon</span><span class="p">,</span> <span class="n">epoxy</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Material properties of the composite material:</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">udcomp</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Material properties of the composite material:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Elastic Properties:
+-----------------------------------------------------------
+E1     :     1.334e+11 , E2     :     7.226e+09
+nu12   :          0.26 , G12    :     3.254e+09
+
+Thermal expansion coefficients:
+-----------------------------------------------------------
+alpha1 :     0.000e+00 , alpha2 :     0.000e+00
+</pre></div>
+</div>
+</section>
+<section id="example-2-classical-laminate-theory">
+<h2>Example 2: Classical Laminate Theory<a class="headerlink" href="#example-2-classical-laminate-theory" title="Link to this heading"></a></h2>
+<p><strong>Problem Statement</strong></p>
+<p>Consider a fibre-reinforced plastic consisting of uni-directional carbon fibres embedded in an epoxy matrix. The fibre volume fraction is <span class="math notranslate nohighlight">\(V_f = 0.6\)</span>. The properties of the transversely isotropic fibre are:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(E_f^L = 220 \, \text{GPa}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(E_f^T = 20 \, \text{GPa}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\nu_f = 0.2\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(G_f = 91.7 \, \text{GPa}\)</span></p></li>
+</ul>
+<p>The properties of the isotropic epoxy matrix are:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(E_m = 3.6 \, \text{GPa}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\nu_m = 0.35\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(G_m = 1.33 \, \text{GPa}\)</span></p></li>
+</ul>
+<p>Determine the <span class="math notranslate nohighlight">\(\mathbf{Q}\)</span> matrix of this material, as well as the rotated matrices <span class="math notranslate nohighlight">\(\mathbf{Q}^{20}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{Q}^{-20}\)</span>. Evaluate the results.</p>
+<p><strong>Solution</strong></p>
+<p>Import the necessary classes and functions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">composite</span> <span class="kn">import</span> <span class="n">TransverseIsotropic</span><span class="p">,</span> <span class="n">mixMaterials</span>
+</pre></div>
+</div>
+<p>For this carbon fibre composite material, the carbon fibres and the epoxy matrix are
+modeled as separate transversely isotropic materials. The T-300 carbon fibres have
+the following properties: <span class="math notranslate nohighlight">\(E_1 = 220 \, \text{GPa}\)</span>, <span class="math notranslate nohighlight">\(E_2 = 22 \, \text{GPa}\)</span>,
+<span class="math notranslate nohighlight">\(\nu_{12} = 0.2\)</span> and <span class="math notranslate nohighlight">\(G_{12} = 91.7 \, \text{GPa}\)</span>.
+The epoxy matrix is isotropic with the following properties: <span class="math notranslate nohighlight">\(E = 3.6 \, \text{GPa}\)</span>,
+<span class="math notranslate nohighlight">\(\nu = 0.35\)</span> and <span class="math notranslate nohighlight">\(G = 1.33 \, \text{GPa}\)</span>.</p>
+<p>Define the materials in Python using the function
+<code class="xref py py-func docutils literal notranslate"><span class="pre">TransverseIsotropic()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">carbon</span> <span class="o">=</span> <span class="n">TransverseIsotropic</span><span class="p">([</span><span class="mf">220e9</span><span class="p">,</span> <span class="mf">22e9</span><span class="p">],</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">91.7e9</span><span class="p">)</span>
+<span class="n">epoxy</span> <span class="o">=</span> <span class="n">TransverseIsotropic</span><span class="p">(</span><span class="mf">3.6e9</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">1.33e9</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The properties of the carbon fibre and epoxy matrix are:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">carbon</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">epoxy</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Elastic</span> <span class="n">Properties</span><span class="p">:</span>
+<span class="o">-----------------------------------------------------------</span>
+<span class="n">E1</span>     <span class="p">:</span>     <span class="mf">2.200e+11</span> <span class="p">,</span> <span class="n">E2</span>     <span class="p">:</span>     <span class="mf">2.200e+11</span>
+<span class="n">nu12</span>   <span class="p">:</span>          <span class="mf">0.20</span> <span class="p">,</span> <span class="n">G12</span>    <span class="p">:</span>     <span class="mf">9.170e+10</span>
+
+<span class="n">Elastic</span> <span class="n">Properties</span><span class="p">:</span>
+<span class="o">-----------------------------------------------------------</span>
+<span class="n">E1</span>     <span class="p">:</span>     <span class="mf">3.600e+09</span> <span class="p">,</span> <span class="n">E2</span>     <span class="p">:</span>     <span class="mf">3.600e+09</span>
+<span class="n">nu12</span>   <span class="p">:</span>          <span class="mf">0.35</span> <span class="p">,</span> <span class="n">G12</span>    <span class="p">:</span>     <span class="mf">1.330e+09</span>
+</pre></div>
+</div>
+<p>—</p>
+<p><strong>Composite Material Properties</strong></p>
+<p>The composite consists of 60% fibres and 40% epoxy. Use simple homogenisation
+<code class="xref py py-func docutils literal notranslate"><span class="pre">maxMaterials()</span></code> to calculate the composite properties:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">udcomp</span> <span class="o">=</span> <span class="n">mixMaterials</span><span class="p">(</span><span class="n">carbon</span><span class="p">,</span> <span class="n">epoxy</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Print the properties of the UD material:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">udcomp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Elastic</span> <span class="n">Properties</span><span class="p">:</span>
+<span class="o">-----------------------------------------------------------</span>
+<span class="n">E1</span>     <span class="p">:</span>     <span class="mf">1.334e+11</span> <span class="p">,</span> <span class="n">E2</span>     <span class="p">:</span>     <span class="mf">8.784e+09</span>
+<span class="n">nu12</span>   <span class="p">:</span>          <span class="mf">0.26</span> <span class="p">,</span> <span class="n">G12</span>    <span class="p">:</span>     <span class="mf">3.254e+09</span>
+</pre></div>
+</div>
+<p>—</p>
+<p><strong>Stiffness Matrix</strong></p>
+<p>The stiffness matrix <span class="math notranslate nohighlight">\(\mathbf{Q}\)</span> can be calculated as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span> <span class="o">=</span> <span class="n">udcomp</span><span class="o">.</span><span class="n">getQ</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The Q matrix of the composite is:</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mf">1.34036479e+11</span> <span class="mf">2.29414891e+09</span> <span class="mf">0.00000000e+00</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">2.29414891e+09</span> <span class="mf">8.82364964e+09</span> <span class="mf">0.00000000e+00</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.00000000e+00</span> <span class="mf">0.00000000e+00</span> <span class="mf">3.25420247e+09</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p><strong>Rotated Matrices</strong></p>
+<p>Calculate the rotated stiffness matrix at 20°:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Qbar</span> <span class="o">=</span> <span class="n">udcomp</span><span class="o">.</span><span class="n">getQbar</span><span class="p">(</span><span class="mf">20.0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The Q matrix of the composite under an angle of 20 degrees is:</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">Qbar</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following output is written to the screen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mf">1.06262605e+11</span> <span class="mf">1.47349731e+10</span> <span class="mf">3.56698011e+10</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">1.47349731e+10</span> <span class="mf">9.22203891e+09</span> <span class="mf">5.04355063e+09</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">3.56698011e+10</span> <span class="mf">5.04355063e+09</span> <span class="mf">1.61034402e+10</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Calculate the rotated stiffness matrix at -20°:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Qbar</span> <span class="o">=</span> <span class="n">udcomp</span><span class="o">.</span><span class="n">getQbar</span><span class="p">(</span><span class="o">-</span><span class="mf">20.0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The Q matrix of the composite under an angle of minus 20 degrees is:</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">Qbar</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will give the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span> <span class="mf">1.06262605e+11</span>  <span class="mf">1.47349731e+10</span> <span class="o">-</span><span class="mf">3.56698011e+10</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">1.47349731e+10</span>  <span class="mf">9.22203891e+09</span> <span class="o">-</span><span class="mf">5.04355063e+09</span><span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">3.56698011e+10</span> <span class="o">-</span><span class="mf">5.04355063e+09</span>  <span class="mf">1.61034402e+10</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p><strong>Observations</strong></p>
+<p>Note that the <span class="math notranslate nohighlight">\(Q_{11}\)</span>, <span class="math notranslate nohighlight">\(Q_{12}\)</span>, <span class="math notranslate nohighlight">\(Q_{21}\)</span>, <span class="math notranslate nohighlight">\(Q_{22}\)</span>, and <span class="math notranslate nohighlight">\(Q_{66}\)</span>
+terms of the stiffness matrices <span class="math notranslate nohighlight">\(\mathbf{Q}^{20}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{Q}^{-20}\)</span> matrices
+are identical. The <span class="math notranslate nohighlight">\(Q_{16}\)</span> and <span class="math notranslate nohighlight">\(Q_{26}\)</span> terms switch signs between the two matrices.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="failure.html" class="btn btn-neutral float-right" title="Failure" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joris Remmers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
