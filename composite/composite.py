@@ -231,7 +231,7 @@ class TransverseIsotropic:
             else:
                 msg += "\n"
 
-            if hasattr(self, "GIc"):
+            if hasattr(self, "GIc") and hasattr(self, "GIIc"):
                 msg += f"  GIc    :  {self.GIc:12.3e} , GIIc   :  {self.GIIc:12.3e} \n"
                 msg += f"  alpha0 :  {self.a0deg:12.3e}\n"
 

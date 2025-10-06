@@ -5,7 +5,7 @@ with open("README.md","r") as f:
     
 setup(
     name="pycomposites",
-    version="1.2.0",
+    version="1.2.1",
     description="A collection of classes and functions to anaylse the thermo mechanicalbehaviour of composites.",
     packages=find_packages(),
     long_description=long_description,
