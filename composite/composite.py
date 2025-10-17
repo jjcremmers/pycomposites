@@ -91,9 +91,9 @@ class TransverseIsotropic:
 
         self.rho = rho
 
-#-
+#-------------------------------------------------------------------------------
 #
-#-
+#-------------------------------------------------------------------------------
    
     def setAlpha(self, alpha: float | list[float]) -> None:
     
@@ -126,9 +126,9 @@ class TransverseIsotropic:
             self.alpha1 = alpha
             self.alpha2 = alpha
 
+#-------------------------------------------------------------------------------
 #
-#
-#
+#-------------------------------------------------------------------------------
 
     def setFailureProperties(self, F: list[float], Gfrac: list[float] = 0.0, alpha0deg: float = 53.0) -> None:
 
@@ -1174,7 +1174,7 @@ class Laminate:
 def stressTransformation(sigma: np.ndarray, theta: float) -> np.ndarray:
 
     """
-    Transform stresses from local (1–2) to global (x–y) axes.
+    Transform stresses from global (x–y) to local (1–2) axes.
 
     Parameters
     ----------
@@ -1209,7 +1209,7 @@ def stressTransformation(sigma: np.ndarray, theta: float) -> np.ndarray:
 def strainTransformation(eps: np.ndarray, theta: float) -> np.ndarray:
 
     """
-    Transform strains from local (1–2) to global (x–y) axes.
+    Transform strains from global (x–y) to local (1–2) axes.
 
     Parameters
     ----------
