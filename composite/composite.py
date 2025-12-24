@@ -426,6 +426,9 @@ class TransverseIsotropic:
         Sbar[2, 0] = Sbar[0, 2]
         Sbar[2, 1] = Sbar[1, 2]
         #Sbar[2, 2] TO HERE
+        Sbar[2, 2] = self.V[4] - self.V[2] * c4
+
+        return Sbar
 
 #-------------------------------------------------------------------------------
 #
@@ -1069,9 +1072,7 @@ class Laminate:
 #
 #-------------------------------------------------------------------------------
 
-    def getLayerBounds( self , j ):
-
-       def getLayerBounds(self, j: int) -> tuple[float, float]:
+    def getLayerBounds(self, j: int) -> tuple[float, float]:
         """
         Get top and bottom z-coordinates of a given layer.
 
@@ -1082,11 +1083,11 @@ class Laminate:
 
         Returns
         -------
-        tuple of float
+        tuple[float, float]
             (z_top, z_bottom).
         """
-         
-        return (self.h[j],self.h[j+1]) 
+
+        return (self.h[j], self.h[j+1])
 
 #-------------------------------------------------------------------------------
 #
