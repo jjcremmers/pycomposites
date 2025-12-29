@@ -1,0 +1,260 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plate Equations &mdash; PyComposites  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=01e3a115" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Composite module" href="composite.html" />
+    <link rel="prev" title="Failure" href="failure.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyComposites
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clt.html">Classical Laminate Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="failure.html">Failure</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Plate Equations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="composite.html">Composite module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyComposites</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Plate Equations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/plateeq.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plate-equations">
+<h1>Plate Equations<a class="headerlink" href="#plate-equations" title="Link to this heading"></a></h1>
+<p><strong>Problem Statement</strong></p>
+<p>A flat, simply supported panel with dimensions <span class="math notranslate nohighlight">\(a = 400 \, \text{mm}\)</span> and <span class="math notranslate nohighlight">\(b = 600 \, \text{mm}\)</span> is loaded by a point load with magnitude <span class="math notranslate nohighlight">\(F = 1200 \, \text{N}\)</span> at the point <span class="math notranslate nohighlight">\(x_0 = 150 \, \text{mm}\)</span> and <span class="math notranslate nohighlight">\(y_0 = 350 \, \text{mm}\)</span>. The panel is made of 6 layers of UCHSC200_SE84 UD material (see Canvas for the properties), stacked in the sequence <span class="math notranslate nohighlight">\([0, 90, 0]_S\)</span>.</p>
+<p>Calculate the out-of-plane displacement of the panel. Plot the results as a contour plot.</p>
+<p><strong>Solution</strong></p>
+<p>Create the transverse isotropic material model and the laminate. Calculate the <span class="math notranslate nohighlight">\(\mathbf{D}\)</span> matrix and the parameters <span class="math notranslate nohighlight">\(D_1\)</span>, <span class="math notranslate nohighlight">\(D_2\)</span>, and <span class="math notranslate nohighlight">\(D_3\)</span>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">composite</span> <span class="kn">import</span> <span class="n">TransverseIsotropic</span><span class="p">,</span> <span class="n">Laminate</span>
+
+<span class="n">compUD</span> <span class="o">=</span> <span class="n">TransverseIsotropic</span><span class="p">([</span><span class="mf">130e9</span><span class="p">,</span> <span class="mf">7.2e9</span><span class="p">],</span> <span class="mf">0.337</span><span class="p">,</span> <span class="mf">4.2e9</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.57e-6</span><span class="p">,</span> <span class="mf">35.1e-6</span><span class="p">],</span> <span class="mf">1514.</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">compUD</span><span class="p">)</span>
+
+<span class="n">lam</span> <span class="o">=</span> <span class="n">Laminate</span><span class="p">()</span>
+<span class="n">lam</span><span class="o">.</span><span class="n">addMaterial</span><span class="p">(</span><span class="s1">&#39;UCHSC200_SE84&#39;</span><span class="p">,</span> <span class="n">compUD</span><span class="p">)</span>
+<span class="n">lam</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="s1">&#39;UCHSC200_SE84&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2e-3</span><span class="p">)</span>
+<span class="n">lam</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="s1">&#39;UCHSC200_SE84&#39;</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mf">0.2e-3</span><span class="p">)</span>
+<span class="n">lam</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="s1">&#39;UCHSC200_SE84&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2e-3</span><span class="p">)</span>
+<span class="n">lam</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="s1">&#39;UCHSC200_SE84&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2e-3</span><span class="p">)</span>
+<span class="n">lam</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="s1">&#39;UCHSC200_SE84&#39;</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mf">0.2e-3</span><span class="p">)</span>
+<span class="n">lam</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="s1">&#39;UCHSC200_SE84&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2e-3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span>
+
+<span class="n">D</span> <span class="o">=</span> <span class="n">lam</span><span class="o">.</span><span class="n">getD</span><span class="p">()</span>
+<span class="n">D1</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">D2</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">D3</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">D</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;D1: &quot;</span><span class="p">,</span> <span class="n">D1</span><span class="p">,</span> <span class="s2">&quot; D2: &quot;</span><span class="p">,</span> <span class="n">D2</span><span class="p">,</span> <span class="s2">&quot; D3: &quot;</span><span class="p">,</span> <span class="n">D3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The output of this snippet of code is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Elastic</span> <span class="n">Properties</span><span class="p">:</span>
+<span class="o">-----------------------------------------------------------</span>
+<span class="n">E1</span>     <span class="p">:</span>     <span class="mf">1.300e+11</span> <span class="p">,</span> <span class="n">E2</span>     <span class="p">:</span>     <span class="mf">7.200e+09</span>
+<span class="n">nu12</span>   <span class="p">:</span>          <span class="mf">0.34</span> <span class="p">,</span> <span class="n">G12</span>    <span class="p">:</span>     <span class="mf">4.200e+09</span>
+<span class="n">rho</span>    <span class="p">:</span>       <span class="mf">1514.00</span>
+
+<span class="n">Thermal</span> <span class="n">expansion</span> <span class="n">coefficients</span><span class="p">:</span>
+<span class="o">-----------------------------------------------------------</span>
+<span class="n">alpha1</span> <span class="p">:</span>     <span class="mf">5.700e-07</span> <span class="p">,</span> <span class="n">alpha2</span> <span class="p">:</span>     <span class="mf">3.510e-05</span>
+
+<span class="n">Laminate</span> <span class="n">properties</span><span class="p">:</span>
+<span class="o">-----------------------------------------------------------</span>
+<span class="n">layer</span>   <span class="n">thick</span> <span class="n">orient</span><span class="o">.</span>  <span class="n">material</span>
+<span class="o">-----------------------------------------------------------</span>
+    <span class="mi">0</span>   <span class="mf">0.0002</span>      <span class="mi">0</span>   <span class="n">UCHSC200_SE84</span>
+    <span class="mi">1</span>   <span class="mf">0.0002</span>     <span class="mi">90</span>   <span class="n">UCHSC200_SE84</span>
+    <span class="mi">2</span>   <span class="mf">0.0002</span>      <span class="mi">0</span>   <span class="n">UCHSC200_SE84</span>
+    <span class="mi">3</span>   <span class="mf">0.0002</span>      <span class="mi">0</span>   <span class="n">UCHSC200_SE84</span>
+    <span class="mi">4</span>   <span class="mf">0.0002</span>     <span class="mi">90</span>   <span class="n">UCHSC200_SE84</span>
+    <span class="mi">5</span>   <span class="mf">0.0002</span>      <span class="mi">0</span>   <span class="n">UCHSC200_SE84</span>
+
+<span class="n">D1</span><span class="p">:</span>  <span class="mf">14.224941196641147</span>  <span class="n">D2</span><span class="p">:</span>  <span class="mf">5.656915190635289</span>  <span class="n">D3</span><span class="p">:</span>  <span class="mf">1.5612132386157986</span>
+</pre></div>
+</div>
+<p>Next, the dimensions of the panel and the loacation and magnitude of the point load
+are entered.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1200</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="mf">0.15</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="mf">0.35</span>
+</pre></div>
+</div>
+<p>With these variables, the terms <span class="math notranslate nohighlight">\(\mathbb{A}\)</span> and <span class="math notranslate nohighlight">\(\mathbb{B}\)</span> can be
+calculated. In the analysis we will use the first 5 terms in both <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>
+direction, i.e. <span class="math notranslate nohighlight">\(m=1..5\)</span> and <span class="math notranslate nohighlight">\(n=1..5\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{B}_{mn} = \frac{4F}{ab} \sin \left( \frac{m \pi x_0}{a} \right) \sin \left( \frac{n \pi y_0}{b} \right)\]</div>
+<div class="math notranslate nohighlight">
+\[\mathbb{A}_{mn} = \frac{\mathbb{B}_{mn}}{\pi^4 \left( D_1 \frac{m^4}{a^4} + 2 D_3 \frac{m^2 n^2}{a^2 b^2} + D_2 \frac{n^4}{b^4} \right)}\]</div>
+<p>In the python code, this looks as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">pi</span>
+
+<span class="n">nmax</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nmax</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmax</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nmax</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmax</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmax</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmax</span><span class="p">):</span>
+        <span class="n">B</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">F</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">x0</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">y0</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">A</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">pi</span><span class="o">**</span><span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="n">D1</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">D3</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">D2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that we create numpy matrices of dimensions 6 by 6 for this. The first row and column remain unused.</p>
+<p>The displacement field <span class="math notranslate nohighlight">\(w(x,y)\)</span> and the distributed load can
+.. math:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">w</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="mi">5</span><span class="p">}</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="mi">5</span><span class="p">}</span> \<span class="n">mathbb</span><span class="p">{</span><span class="n">A</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="n">mn</span><span class="p">}</span> \<span class="n">sin</span> \<span class="n">left</span><span class="p">(</span> \<span class="n">frac</span><span class="p">{</span><span class="n">m</span> \<span class="n">pi</span> <span class="n">x</span><span class="p">}{</span><span class="n">a</span><span class="p">}</span> \<span class="n">right</span><span class="p">)</span> \<span class="n">sin</span> \<span class="n">left</span><span class="p">(</span> \<span class="n">frac</span><span class="p">{</span><span class="n">n</span> \<span class="n">pi</span> <span class="n">y</span><span class="p">}{</span><span class="n">b</span><span class="p">}</span> \<span class="n">right</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[q(x, y) = \sum_{m=1}^{5} \sum_{n=1}^{5} \mathbb{B}_{mn} \sin \left( \frac{m \pi x}{a} \right) \sin \left( \frac{n \pi y}{b} \right)\]</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nplot</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">xplot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">nplot</span><span class="p">)</span>
+<span class="n">yplot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nplot</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nplot</span><span class="p">,</span> <span class="n">nplot</span><span class="p">))</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nplot</span><span class="p">,</span> <span class="n">nplot</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">yplot</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">xplot</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmax</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nmax</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">B</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">y</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+                <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">A</span><span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">y</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The load <span class="math notranslate nohighlight">\(q(x, y)\)</span> can be plotted as a 3D surface plot or a contour plot.</p>
+<p>3D Surface Plot:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="s2">&quot;3d&quot;</span><span class="p">})</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xplot</span><span class="p">,</span> <span class="n">yplot</span><span class="p">)</span>
+<span class="n">surf</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">-</span><span class="n">q</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Point Load q(x, y)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Contour Plot:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">contourplot</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contourplot</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Point Load q(x, y)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Out-of-plane Displacement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="s2">&quot;3d&quot;</span><span class="p">})</span>
+<span class="n">surf</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Vertical Displacement w(x, y)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="failure.html" class="btn btn-neutral float-left" title="Failure" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="composite.html" class="btn btn-neutral float-right" title="Composite module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joris Remmers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
