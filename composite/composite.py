@@ -1,17 +1,70 @@
 import numpy as np
-from numpy import zeros,ones,dot,transpose
+from numpy import zeros,ones
 from numpy.linalg import inv
 from math import sin,cos,pi,sqrt,tan,atan
 
-'''
-A set of classes and functions to perform Classical Laminate calculations
+"""
+PyComposites - Classical Laminate Theory Analysis Module
+=========================================================
 
-This module contains a set of classes and functions to perform classical
-laminate calculations for the course:
+A comprehensive Python package for performing Classical Laminate Theory (CLT) 
+calculations on composite materials and laminates.
+
+This module provides tools for analyzing transversely isotropic materials and 
+composite laminates under plane stress conditions, including:
+
+- Material property definitions and transformations
+- Stiffness and compliance matrix calculations  
+- Laminate stacking sequence analysis
+- Thermal effects and expansion coefficients
+- Multiple failure criteria (Maximum Stress, Maximum Strain, Tsai-Wu, Hashin, Larc03)
+- Effective laminate properties
+
+Classes
+-------
+TransverseIsotropic
+    Material model for orthotropic/transversely isotropic materials
+Layer
+    Individual ply definition within a laminate
+Laminate
+    Multi-layer composite laminate with full CLT analysis
+
+Functions
+---------
+stressTransformation(sigma, theta)
+    Transform stress vectors between coordinate systems
+strainTransformation(eps, theta)
+    Transform strain vectors between coordinate systems
+mixMaterials(fibre, matrix, vf)
+    Homogenize fiber and matrix using rule of mixtures
+Macauley(x)
+    Macauley bracket operator <x>
+
+Examples
+--------
+>>> # Create a carbon fiber composite material
+>>> carbon = TransverseIsotropic([140e9, 10e9], 0.3, 5e9, alpha=[1e-6, 25e-6])
+>>> 
+>>> # Define a symmetric laminate [0/90]s
+>>> lam = Laminate()
+>>> lam.addMaterial("carbon", carbon)
+>>> lam.addLayer("carbon", 0, 0.125)
+>>> lam.addLayer("carbon", 90, 0.125)
+>>> lam.addLayer("carbon", 90, 0.125)
+>>> lam.addLayer("carbon", 0, 0.125)
+>>> 
+>>> # Calculate effective properties
+>>> Ex, Ey, nuxy, Gxy = lam.getElastic()
+>>> print(f"Ex = {Ex/1e9:.2f} GPa, Ey = {Ey/1e9:.2f} GPa")
+
+Notes
+-----
+This module was developed for the course:
 Composite and Lightweight Materials - Design and Analysis (4MM00)
 
-(c) Joris Remmers (2013-2023)
-'''
+Author: Joris Remmers
+Copyright (c) 2013-2025
+"""
 
 class TransverseIsotropic:
 
@@ -21,34 +74,117 @@ class TransverseIsotropic:
 
     Transversely isotropic materials are isotropic in one plane and have
     distinct properties along a single axis of symmetry (e.g. fiber-reinforced
-    composites).
+    composites). This class provides a complete framework for analyzing such
+    materials including elastic properties, thermal effects, and failure criteria.
 
     Parameters
     ----------
     E : float or list of float
-        Young's modulus. If a list is given:
-          - [E1, E2] for orthotropic materials
+        Young's modulus (Pa). If a list is given:
+          - [E1, E2] for orthotropic materials (fiber and transverse directions)
           - [E] for isotropic materials
         If a single float is given, both E1 and E2 are set to that value.
     nu12 : float
-        Poisson's ratio ν₁₂.
+        Poisson's ratio ν₁₂ (dimensionless, typically 0.2-0.35).
     G12 : float, optional
-        In-plane shear modulus. Default is 0. If not specified, it is assumed
-        isotropic and computed as G = E / [2(1 + ν)].
+        In-plane shear modulus G₁₂ (Pa). Default is 0.
     alpha : float or list of float, optional
-        Thermal expansion coefficient(s). Either:
-          - single float, applied in both directions, or
-          - [α1, α2]. Default is 0.
+        Thermal expansion coefficient(s) (1/K or 1/°C). Can be:
+          - single float (applied to both α₁ and α₂)
+          - [α1, α2] for different longitudinal and transverse values
+        Default is 0.
     rho : float, optional
-        Density. Default is 0.
+        Material density (kg/m³). Default is 0.
+
+    Attributes
+    ----------
+    E1, E2 : float
+        Young's moduli in fiber and transverse directions
+    nu12, nu21 : float
+        Major and minor Poisson's ratios
+    G12 : float
+        In-plane shear modulus
+    alpha1, alpha2 : float
+        Thermal expansion coefficients
+    rho : float
+        Material density
+    Q : ndarray
+        Reduced stiffness matrix (computed on first access)
+    U, V : ndarray
+        Stiffness and compliance invariants (computed on first access)
+
+    Methods
+    -------
+    getQ()
+        Compute reduced stiffness matrix Q
+    getS()
+        Compute compliance matrix S
+    getQbar(theta)
+        Compute rotated stiffness matrix Q̅
+    getSbar(theta)
+        Compute rotated compliance matrix S̅
+    getAlpha(theta)
+        Compute rotated thermal expansion vector
+    setFailureProperties(F, Gfrac, alpha0deg)
+        Define failure properties for failure criteria
+    getFIMaximumStress(sigma)
+        Evaluate Maximum Stress failure criterion
+    getFIMaximumStrain(sigma)
+        Evaluate Maximum Strain failure criterion
+    getFITsaiWu(sigma)
+        Evaluate Tsai-Wu failure criterion
+    getFIHashin73(sigma)
+        Evaluate Hashin 1973 failure criterion
+    getFIHashin80(sigma)
+        Evaluate Hashin 1980 failure criterion
+    getFILarc03(sigma)
+        Evaluate Larc03 failure criterion
+
+    Examples
+    --------
+    Create a carbon fiber/epoxy composite material:
+    
+    >>> mat = TransverseIsotropic(
+    ...     E=[140e9, 10e9],      # E1=140 GPa, E2=10 GPa
+    ...     nu12=0.3,              # Poisson's ratio
+    ...     G12=5e9,               # Shear modulus 5 GPa
+    ...     alpha=[1e-6, 25e-6],   # Thermal expansion coefficients
+    ...     rho=1600               # Density in kg/m³
+    ... )
+    
+    Define failure properties:
+    
+    >>> mat.setFailureProperties(
+    ...     F=[2000e6, 1200e6, 50e6, 200e6, 80e6],  # Xt, Xc, Yt, Yc, S
+    ...     Gfrac=[500, 1000],                       # GIc, GIIc
+    ...     alpha0deg=53                             # Fracture angle
+    ... )
+    
+    Calculate stiffness matrix at 45°:
+    
+    >>> Qbar = mat.getQbar(45.0)
+    >>> print(Qbar)
+    
+    Check failure at a stress state:
+    
+    >>> import numpy as np
+    >>> sigma = np.array([500e6, 20e6, 10e6])  # [σ1, σ2, τ12]
+    >>> FI = mat.getFITsaiWu(sigma)
+    >>> if FI >= 1.0:
+    ...     print("Material has failed!")
 
     Notes
     -----
-    Provides methods to:
-      - compute stiffness and compliance matrices (Q, S)
-      - compute rotated properties (Q̅, S̅)
-      - evaluate failure indices (Maximum Stress, Maximum Strain, Tsai-Wu,
-        Hashin, Larc03).
+    - All stress/strain calculations assume plane stress conditions
+    - Failure indices > 1.0 indicate failure
+    - Material axes: 1 = fiber direction, 2 = transverse direction
+    - Angles are measured in degrees, positive counterclockwise
+    - The relationship ν₂₁ = (E₂/E₁)ν₁₂ is automatically enforced
+    
+    See Also
+    --------
+    Laminate : Multi-layer laminate analysis
+    mixMaterials : Homogenization using rule of mixtures
     """
 
     def __init__(self, E: float | list[float], nu12: float, 
@@ -57,6 +193,24 @@ class TransverseIsotropic:
                  
         """
         Initialize the TransverseIsotropic material model.
+        
+        Parameters
+        ----------
+        E : float or list of float
+            Young's modulus (Pa). Either scalar or [E1, E2].
+        nu12 : float
+            Major Poisson's ratio (dimensionless).
+        G12 : float, optional
+            Shear modulus (Pa). Default is 0.
+        alpha : float or list of float, optional
+            Thermal expansion coefficient(s) (1/K). Default is 0.
+        rho : float, optional
+            Density (kg/m³). Default is 0.
+            
+        Raises
+        ------
+        ValueError
+            If E or alpha lists have invalid length (not 1 or 2 elements).
         """
    
         if type(E) == list:
@@ -103,14 +257,20 @@ class TransverseIsotropic:
         Parameters
         ----------
         alpha : float or list of float
-            Thermal expansion coefficients. Can be:
-              - single float (applied to both directions)
-              - [α1, α2]
+            Thermal expansion coefficients (1/K or 1/°C). Can be:
+              - single float (applied to both α₁ and α₂)
+              - [α1, α2] for different longitudinal and transverse values
 
         Raises
         ------
         ValueError
             If a list with more than two elements is provided.
+            
+        Examples
+        --------
+        >>> mat = TransverseIsotropic(140e9, 0.3, 5e9)
+        >>> mat.setAlpha(1e-6)              # Set both to 1e-6
+        >>> mat.setAlpha([1e-6, 25e-6])     # Set α₁=1e-6, α₂=25e-6
         """
         
         if isinstance(alpha, list):
@@ -133,23 +293,51 @@ class TransverseIsotropic:
     def setFailureProperties(self, F: list[float], Gfrac: list[float] = 0.0, alpha0deg: float = 53.0) -> None:
 
         """
-        Set material failure properties.
+        Set material failure properties for failure criteria evaluation.
 
         Parameters
         ----------
         F : list of float
-            Failure parameters. Expected length:
+            Failure strength parameters (Pa). Expected length:
               - 5 values: [Xt, Xc, Yt, Yc, Sl]
-              - 6 values: [Xt, Xc, Yt, Yc, Sl, f12] (for Tsai-Wu)
+                * Xt: Longitudinal tensile strength
+                * Xc: Longitudinal compressive strength
+                * Yt: Transverse tensile strength
+                * Yc: Transverse compressive strength
+                * Sl: In-plane shear strength
+              - 6 values: [Xt, Xc, Yt, Yc, Sl, f12]
+                * f12: Tsai-Wu interaction coefficient (dimensionless)
         Gfrac : float or list of float, optional
-            Fracture toughness values [GIc, GIIc]. Default is 0.
+            Fracture toughness values (J/m² or N/m):
+              - scalar: same value for GIc and GIIc
+              - [GIc, GIIc]: Mode I and Mode II fracture toughness
+            Default is 0.
         alpha0deg : float, optional
-            Fiber orientation angle (degrees) for Larc03 model. Default is 53°.
+            Fracture plane angle (degrees) for Larc03 model. Default is 53°.
 
         Raises
         ------
         ValueError
-            If F does not have length 5 or 6, or if Gfrac is invalid.
+            If F does not have 5 or 6 elements, or Gfrac list is invalid.
+            
+        Examples
+        --------
+        >>> mat = TransverseIsotropic(140e9, 0.3, 5e9)
+        >>> # Set basic failure properties
+        >>> mat.setFailureProperties([2000e6, 1200e6, 50e6, 200e6, 80e6])
+        >>> 
+        >>> # Include Tsai-Wu interaction coefficient
+        >>> mat.setFailureProperties(
+        ...     [2000e6, 1200e6, 50e6, 200e6, 80e6, -0.5],
+        ...     Gfrac=[500, 1000],
+        ...     alpha0deg=53
+        ... )
+
+        Notes
+        -----
+        - All strength values should be positive (absolute values)
+        - GIc and GIIc are used in Larc03 failure criterion
+        - f12 is the interaction term in Tsai-Wu criterion, typically negative
         """
         
         if len(F) == 5 or len(F) == 6:
@@ -182,12 +370,18 @@ class TransverseIsotropic:
     def setSLis(self, SLis: float) -> None:
         
         """
-        Set interlaminar shear strength (for Larc03).
+        Set interlaminar shear strength for Larc03 failure criterion.
 
         Parameters
         ----------
         SLis : float
-            Interlaminar shear strength.
+            Interlaminar shear strength (Pa).
+            
+        Examples
+        --------
+        >>> mat = TransverseIsotropic(140e9, 0.3, 5e9)
+        >>> mat.setFailureProperties([2000e6, 1200e6, 50e6, 200e6, 80e6])
+        >>> mat.setSLis(60e6)  # 60 MPa interlaminar shear strength
         """
         
         self.SLis = SLis
@@ -244,12 +438,24 @@ class TransverseIsotropic:
     def getQ(self) -> np.ndarray:
         
         """
-        Compute reduced stiffness matrix Q.
+        Compute reduced stiffness matrix Q in material coordinates (plane stress).
 
+        The reduced stiffness matrix relates stresses to strains in the material
+        principal axes: {σ} = [Q]{ε}
+        
         Returns
         -------
         np.ndarray
-            3x3 reduced stiffness matrix Q.
+            3x3 reduced stiffness matrix Q with structure:
+            [[Q11, Q12,   0],
+             [Q12, Q22,   0],
+             [  0,   0, Q66]]
+            Units: Pa
+            
+        Notes
+        -----
+        The matrix is cached after first computation for efficiency.
+        Matrix is symmetric with Q12 = Q21.
         """
         
         if not hasattr(self, 'Q'):
@@ -298,12 +504,20 @@ class TransverseIsotropic:
     def getS(self) -> np.ndarray:
 
         """
-        Compute reduced compliance matrix S.
+        Compute reduced compliance matrix S in material coordinates (plane stress).
 
+        The compliance matrix relates strains to stresses in the material
+        principal axes: {ε} = [S]{σ}
+        
         Returns
         -------
         np.ndarray
-            3x3 compliance matrix S.
+            3x3 compliance matrix S = Q⁻¹. Units: 1/Pa
+            
+        Notes
+        -----
+        S is the inverse of the stiffness matrix Q.
+        Matrix is symmetric with S12 = S21.
         """
 
         S = np.zeros((3, 3))
@@ -350,17 +564,33 @@ class TransverseIsotropic:
     def getQbar(self, theta: float) -> np.ndarray:
 
         """
-        Compute global stiffness matrix Q̅ for a ply angle.
+        Compute rotated (global) stiffness matrix Q̅ for a given ply angle.
+
+        Transforms the reduced stiffness matrix from material coordinates
+        (1-2) to global coordinates (x-y) using the transformation angle θ.
 
         Parameters
         ----------
         theta : float
-            Ply angle (degrees).
+            Ply orientation angle (degrees). Measured counterclockwise from
+            global x-axis to material 1-axis.
 
         Returns
         -------
         np.ndarray
-            3x3 rotated stiffness matrix Q̅.
+            3x3 rotated stiffness matrix Q̅(θ) in global coordinates. Units: Pa
+            
+        Examples
+        --------
+        >>> mat = TransverseIsotropic([140e9, 10e9], 0.3, 5e9)
+        >>> Qbar_0 = mat.getQbar(0)      # 0° ply
+        >>> Qbar_90 = mat.getQbar(90)    # 90° ply
+        >>> Qbar_45 = mat.getQbar(45)    # 45° ply
+        
+        Notes
+        -----
+        Uses stiffness invariants (U) for efficient computation.
+        At θ=0°, Q̅ = Q (material and global axes aligned).
         """
 
         if not hasattr(self, 'U'):
@@ -736,16 +966,43 @@ class TransverseIsotropic:
 class Layer:
 
     """
-    Composite layer definition.
+    Individual composite ply (layer) within a laminate.
+
+    A Layer represents a single ply with specific material, orientation,
+    and thickness. Multiple layers are combined to form a Laminate.
 
     Parameters
     ----------
     name : str
-        Identifier for the material.
+        Identifier for the material model (must match a material added
+        to the parent Laminate).
     theta : float
-        Ply orientation (degrees).
+        Ply orientation angle (degrees). Measured counterclockwise from
+        global x-axis to material fiber direction.
     thick : float
-        Ply thickness.
+        Ply thickness (m or consistent units).
+
+    Attributes
+    ----------
+    name : str
+        Material identifier
+    theta : float
+        Ply angle in degrees
+    thick : float
+        Ply thickness
+        
+    Examples
+    --------
+    >>> layer = Layer("carbon", 45.0, 0.000125)  # 45° ply, 0.125mm thick
+    
+    Notes
+    -----
+    Layers are typically created through Laminate.addLayer() rather than
+    directly instantiating this class.
+    
+    See Also
+    --------
+    Laminate.addLayer : Add a layer to a laminate
     """
 
 #-------------------------------------------------------------------------------
@@ -778,14 +1035,90 @@ class Layer:
 
 class Laminate:
   
-    """"
-    Composite laminate consisting of multiple layers.
+    """
+    Multi-layer composite laminate for Classical Laminate Theory analysis.
 
-    Provides methods to:
-      - add materials and layers
-      - compute A, B, D stiffness matrices
-      - compute effective laminate properties
-      - extract geometry and z-coordinates
+    A Laminate consists of multiple layers (plies) stacked together, each
+    with potentially different materials and orientations. This class provides
+    comprehensive CLT analysis including stiffness matrices, effective properties,
+    thermal effects, and layer-by-layer stress/strain recovery.
+
+    Attributes
+    ----------
+    materials : dict
+        Dictionary of material models, keyed by name
+    layers : list of Layer
+        Ordered list of layers from bottom to top
+    thick : float
+        Total laminate thickness (m)
+    h : ndarray
+        z-coordinates of layer interfaces from laminate midplane (m)
+    A, B, D : ndarray (computed on demand)
+        Extensional, coupling, and bending stiffness matrices
+
+    Methods
+    -------
+    addMaterial(name, mat)
+        Add a material model to the laminate material library
+    addLayer(name, theta, thick)
+        Add a ply to the laminate stacking sequence
+    removeAllLayers()
+        Clear all layers from the laminate
+    getA(), getB(), getD()
+        Compute stiffness matrices [A], [B], [D]
+    getTs(), getTss()
+        Compute thermal force and moment resultants
+    getInverseMatrices()
+        Compute inverse stiffness matrices [A*], [B*], [C*], [D*]
+    getElastic()
+        Compute effective laminate elastic properties
+    getRhoh()
+        Compute areal mass density
+    getZcoord(j)
+        Get z-coordinate of layer j centroid
+    getLayerBounds(j)
+        Get top and bottom z-coordinates of layer j
+    getQbar(j)
+        Get rotated stiffness matrix for layer j
+
+    Examples
+    --------
+    Create a quasi-isotropic [0/±60]s laminate:
+    
+    >>> # Define material
+    >>> mat = TransverseIsotropic([140e9, 10e9], 0.3, 5e9)
+    >>> 
+    >>> # Build laminate
+    >>> lam = Laminate()
+    >>> lam.addMaterial("carbon", mat)
+    >>> lam.addLayer("carbon", 0, 0.125e-3)
+    >>> lam.addLayer("carbon", 60, 0.125e-3)
+    >>> lam.addLayer("carbon", -60, 0.125e-3)
+    >>> lam.addLayer("carbon", -60, 0.125e-3)
+    >>> lam.addLayer("carbon", 60, 0.125e-3)
+    >>> lam.addLayer("carbon", 0, 0.125e-3)
+    >>> 
+    >>> # Get stiffness matrices
+    >>> A = lam.getA()  # Extensional stiffness
+    >>> B = lam.getB()  # Coupling stiffness (should be ~0 for symmetric)
+    >>> D = lam.getD()  # Bending stiffness
+    >>> 
+    >>> # Get effective properties
+    >>> Ex, Ey, nuxy, Gxy = lam.getElastic()
+    >>> print(f"Ex = {Ex/1e9:.1f} GPa")
+    >>> print(f"Ey = {Ey/1e9:.1f} GPa")
+
+    Notes
+    -----
+    - Layers are added from bottom (-z) to top (+z)
+    - The laminate midplane is at z=0
+    - For symmetric laminates, B ≈ 0 (no extension-bending coupling)
+    - Units must be consistent throughout (typically SI: Pa, m, kg)
+    
+    See Also
+    --------
+    TransverseIsotropic : Material model for individual plies
+    Layer : Individual ply definition
     """
 
 #-------------------------------------------------------------------------------
@@ -875,14 +1208,14 @@ class Laminate:
 
         self.layers.append( layer )
 
-        self.h     = zeros( len(self.layers)+1 )
+        self.h     = np.zeros( len(self.layers)+1 )
         self.thick = 0.
     
         for i,layer in enumerate(self.layers):
             self.h[i+1] = self.thick+layer.thick
             self.thick += layer.thick
 
-        self.h += -0.5*self.thick*ones( len(self.h) )
+        self.h += -0.5*self.thick*np.ones( len(self.h) )
 
 #-------------------------------------------------------------------------------
 #
@@ -911,7 +1244,7 @@ class Laminate:
             3x3 matrix A.
         """
 
-        self.A = zeros( shape = ( 3,3) )
+        self.A = np.zeros( shape = ( 3,3) )
 
         for i,layer in enumerate(self.layers):
             name  = layer.name
@@ -935,7 +1268,7 @@ class Laminate:
         np.ndarray
             3x3 matrix B.
         """
-        self.B = zeros( shape = ( 3,3) )
+        self.B = np.zeros( shape = ( 3,3) )
 
         for i,layer in enumerate(self.layers):
             name  = layer.name
@@ -959,7 +1292,7 @@ class Laminate:
         np.ndarray
             3x3 matrix D.
         """
-        self.D = zeros( shape = ( 3,3) )
+        self.D = np.zeros( shape = ( 3,3) )
 
         for i,layer in enumerate(self.layers):
             name  = layer.name
@@ -984,13 +1317,13 @@ class Laminate:
             3x1 vector of thermal forces.
         """
        
-        self.Ts = zeros( 3 )
+        self.Ts = np.zeros( 3 )
 
         for i,layer in enumerate(self.layers):
             name  = layer.name
             theta = layer.theta
 
-            Qalpha = dot( self.materials[name].getQbar( theta ) , self.materials[name].getAlpha( theta ) )
+            Qalpha = self.materials[name].getQbar( theta ) @ self.materials[name].getAlpha( theta )
 
             self.Ts += Qalpha * (self.h[i+1]-self.h[i])
 
@@ -1011,13 +1344,13 @@ class Laminate:
             3x1 vector of thermal moments.
         """
 
-        self.Tss = zeros( 3 )
+        self.Tss = np.zeros( 3 )
 
         for i,layer in enumerate(self.layers):
             name  = layer.name
             theta = layer.theta
 
-            Qalpha = dot( self.materials[name].getQbar( theta ) , self.materials[name].getAlpha( theta ) )
+            Qalpha = self.materials[name].getQbar( theta ) @ self.materials[name].getAlpha( theta )
 
             self.Tss += 0.5 * Qalpha * (self.h[i+1]**2-self.h[i]**2)
 
@@ -1109,12 +1442,12 @@ class Laminate:
         self.getD()
 
         Ainv  = inv(self.A)
-        Dstar = self.D-dot(self.B,dot(Ainv,self.B))
+        Dstar = self.D - self.B @ Ainv @ self.B
         Dsinv = inv(Dstar)
 
-        self.A1 = Ainv + dot(Ainv,dot(self.B,dot(Dsinv,dot(self.B,Ainv))))
-        self.B1 = -dot(Ainv,dot(self.B,Dsinv))
-        self.C1 = transpose(self.B1)
+        self.A1 = Ainv + Ainv @ self.B @ Dsinv @ self.B @ Ainv
+        self.B1 = -Ainv @ self.B @ Dsinv
+        self.C1 = self.B1.T
         self.D1 = Dsinv
 
         return self.A1,self.B1,self.C1,self.D1
@@ -1175,22 +1508,45 @@ class Laminate:
 def stressTransformation(sigma: np.ndarray, theta: float) -> np.ndarray:
 
     """
-    Transform stresses from global (x–y) to local (1–2) axes.
+    Transform stress components between coordinate systems.
+
+    Rotates stress tensor from one coordinate system to another using
+    the transformation angle θ.
 
     Parameters
     ----------
     sigma : np.ndarray
-        Stress vector [σ1, σ2, τ12] in local coordinates.
+        Stress vector [σ₁, σ₂, τ₁₂] in the original coordinate system (Pa).
     theta : float
-        Ply angle (degrees).
+        Rotation angle (degrees). Positive counterclockwise.
 
     Returns
     -------
     np.ndarray
-        Stress vector [σx, σy, τxy] in global coordinates.
+        Transformed stress vector [σ'₁, σ'₂, τ'₁₂] in rotated coordinates (Pa).
+        
+    Examples
+    --------
+    >>> import numpy as np
+    >>> # Pure σx stress
+    >>> sigma_x = np.array([100e6, 0, 0])
+    >>> # Rotate by 45°
+    >>> sigma_45 = stressTransformation(sigma_x, 45)
+    >>> print(sigma_45)  # [50e6, 50e6, 25e6]
+    
+    Notes
+    -----
+    Uses the standard stress transformation equations:
+    σ'₁ = σ₁cos²θ + σ₂sin²θ + 2τ₁₂sinθcosθ
+    σ'₂ = σ₁sin²θ + σ₂cos²θ - 2τ₁₂sinθcosθ  
+    τ'₁₂ = (σ₂ - σ₁)sinθcosθ + τ₁₂(cos²θ - sin²θ)
+    
+    See Also
+    --------
+    strainTransformation : Transform strain components
     """
        
-    signew = zeros( 3 )
+    signew = np.zeros( 3 )
 
     rad = theta*pi/180.
 
@@ -1210,22 +1566,45 @@ def stressTransformation(sigma: np.ndarray, theta: float) -> np.ndarray:
 def strainTransformation(eps: np.ndarray, theta: float) -> np.ndarray:
 
     """
-    Transform strains from global (x–y) to local (1–2) axes.
+    Transform strain components between coordinate systems.
+
+    Rotates strain tensor from one coordinate system to another using
+    the transformation angle θ. Note the factor of 2 difference in
+    shear strain transformation compared to stress.
 
     Parameters
     ----------
     eps : np.ndarray
-        Strain vector [ε1, ε2, γ12] in local coordinates.
+        Strain vector [ε₁, ε₂, γ₁₂] in the original coordinate system.
+        Engineering shear strain γ = 2ε₁₂ (dimensionless).
     theta : float
-        Ply angle (degrees).
+        Rotation angle (degrees). Positive counterclockwise.
 
     Returns
     -------
     np.ndarray
-        Strain vector [εx, εy, γxy] in global coordinates.
+        Transformed strain vector [ε'₁, ε'₂, γ'₁₂] in rotated coordinates.
+        
+    Examples
+    --------
+    >>> import numpy as np
+    >>> eps = np.array([0.001, 0.0, 0.0])  # Pure ε₁ strain
+    >>> eps_90 = strainTransformation(eps, 90)
+    >>> print(eps_90)  # [0.0, 0.001, 0.0]
+    
+    Notes
+    -----
+    Uses standard strain transformation with engineering shear strain:
+    ε'₁ = ε₁cos²θ + ε₂sin²θ + γ₁₂sinθcosθ
+    ε'₂ = ε₁sin²θ + ε₂cos²θ - γ₁₂sinθcosθ
+    γ'₁₂ = 2(ε₂ - ε₁)sinθcosθ + γ₁₂(cos²θ - sin²θ)
+    
+    See Also
+    --------
+    stressTransformation : Transform stress components
     """
 
-    epsnew = zeros( 3 )
+    epsnew = np.zeros( 3 )
 
     rad = theta*pi/180.
 
@@ -1248,26 +1627,65 @@ def mixMaterials(fibre: TransverseIsotropic,
                  vf: float) -> TransverseIsotropic:
                  
     """
-    Homogenize fiber and matrix into an equivalent ply (rule of mixtures).
+    Homogenize fiber and matrix into equivalent ply using micromechanics.
+
+    Applies classical rule of mixtures and inverse rule of mixtures to
+    compute effective ply properties from constituent fiber and matrix
+    properties.
 
     Parameters
     ----------
     fibre : TransverseIsotropic
-        Fiber material.
+        Fiber material properties (typically stiffer, e.g., carbon, glass).
     matrix : TransverseIsotropic
-        Matrix material.
+        Matrix material properties (typically softer, e.g., epoxy, PEEK).
     vf : float
-        Fiber volume fraction (0 ≤ vf ≤ 1).
+        Fiber volume fraction, 0 ≤ vf ≤ 1 (dimensionless).
+        For example, vf=0.6 means 60% fibers, 40% matrix.
 
     Returns
     -------
     TransverseIsotropic
-        Homogenized material model.
+        Homogenized composite material with effective properties:
+        - E₁: longitudinal modulus (rule of mixtures)
+        - E₂: transverse modulus (inverse rule of mixtures)
+        - ν₁₂: Poisson's ratio (rule of mixtures)
+        - G₁₂: shear modulus (inverse rule of mixtures)
 
     Raises
     ------
     RuntimeError
-        If vf is outside [0, 1].
+        If vf is outside the valid range [0, 1].
+        
+    Examples
+    --------
+    >>> # Carbon fiber properties
+    >>> carbon = TransverseIsotropic(220e9, 0.2, 91.7e9)
+    >>> 
+    >>> # Epoxy matrix properties  
+    >>> epoxy = TransverseIsotropic(3.6e9, 0.35, 1.33e9)
+    >>> 
+    >>> # Create composite with 60% fiber volume fraction
+    >>> composite = mixMaterials(carbon, epoxy, 0.6)
+    >>> print(f"E1 = {composite.E1/1e9:.1f} GPa")
+    >>> print(f"E2 = {composite.E2/1e9:.1f} GPa")
+
+    Notes
+    -----
+    Micromechanics equations used:
+    - E₁ = Ef·vf + Em·vm (rule of mixtures)
+    - 1/E₂ = vf/Ef + vm/Em (inverse rule of mixtures)
+    - ν₁₂ = νf·vf + νm·vm
+    - 1/G₁₂ = vf/Gf + vm/Gm
+    
+    where vm = 1 - vf is the matrix volume fraction.
+    
+    These are simplified analytical models. For more accurate predictions,
+    consider finite element micromechanics or semi-empirical models.
+    
+    See Also
+    --------
+    TransverseIsotropic : Material model class
     """
        
     if vf < 0.0 or vf > 1.0:
@@ -1291,17 +1709,37 @@ def mixMaterials(fibre: TransverseIsotropic,
 def Macauley(x: float) -> float:
 
     """
-    Macauley operator ⟨x⟩.
+    Macauley bracket operator ⟨x⟩ = max(x, 0).
+
+    Returns the positive part of a value, commonly used in damage mechanics
+    and failure criteria to distinguish tension from compression.
 
     Parameters
     ----------
     x : float
-        Input value.
+        Input value (any real number).
 
     Returns
     -------
     float
         x if x > 0, else 0.
+        
+    Examples
+    --------
+    >>> Macauley(5.0)
+    5.0
+    >>> Macauley(-3.0)
+    0.0
+    >>> Macauley(0.0)
+    0.0
+    
+    Notes
+    -----
+    Also known as the ramp function or positive part function.
+    Mathematical definition: ⟨x⟩ = (x + |x|)/2 = max(x, 0)
+    
+    Used in Larc03 and other failure criteria to handle compression
+    vs. tension differently.
     """
 
     if x > 0:
