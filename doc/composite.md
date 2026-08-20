@@ -1,46 +1,51 @@
-# Composite Module
+# API Reference
 
-API reference for the main `pycomposites.composite` module.
-
-```{automodule} pycomposites.composite
-:members:
-:undoc-members:
-:show-inheritance:
-:inherited-members:
-:special-members: __init__, __str__
-:exclude-members: __weakref__
-```
+This page documents the public Python API exposed by `pycomposites`.
 
 ## Classes
 
-```{autoclass} pycomposites.composite.TransverseIsotropic
+### TransverseIsotropic
+
+```{autoclass} pycomposites.TransverseIsotropic
 :members:
 :undoc-members:
 :show-inheritance:
 ```
 
-```{autoclass} pycomposites.composite.Layer
+### Layer
+
+```{autoclass} pycomposites.Layer
 :members:
 :undoc-members:
 :show-inheritance:
 ```
 
-```{autoclass} pycomposites.composite.Laminate
+### Laminate
+
+```{autoclass} pycomposites.Laminate
 :members:
 :undoc-members:
 :show-inheritance:
 ```
 
-## Functions
+## Utility Functions
 
-```{autofunction} pycomposites.composite.stressTransformation
+### stressTransformation
+
+```{autofunction} pycomposites.stressTransformation
 ```
 
-```{autofunction} pycomposites.composite.strainTransformation
+### strainTransformation
+
+```{autofunction} pycomposites.strainTransformation
 ```
 
-```{autofunction} pycomposites.composite.mixMaterials
+### mixMaterials
+
+```{autofunction} pycomposites.mixMaterials
 ```
 
-```{autofunction} pycomposites.composite.Macauley
+### Macauley
+
+```{autofunction} pycomposites.Macauley
 ```
