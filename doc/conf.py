@@ -25,7 +25,12 @@ extensions = [
     'sphinx.ext.napoleon',   # Support for NumPy/Google-style docstrings
     'sphinx_rtd_theme',      # Use the Read the Docs theme
     'sphinx.ext.mathjax',
+    'myst_parser',           # Support Markdown documentation files
 ]
+
+source_suffix = {
+    '.md': 'markdown',
+}
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -39,6 +44,7 @@ autodoc_member_order = 'bysource'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
+html_logo = 'img/pycomposites_logo.png'
 html_static_path = ['_static']
 html_css_files = ['custom.css']
 
@@ -46,21 +52,6 @@ html_theme_options = {
     "navigation_depth": 3,   # controls depth in sidebar
 }
 
-# Hide "Contents" at bottom of each page
 html_context = {
     "default_mode": "sidebar",
-}
-
-html_theme_options = {
-    "description": (
-        "A lightweight Python module for Classical Laminate Theory (CLT). "
-        "It provides classes for transversely isotropic plies, layers, and "
-        "laminates, along with utilities for stress/strain transformations "
-        "and homogenization. The code includes stiffness/compliance matrices, "
-        "thermal expansion, and classical failure criteria (Maximum Stress, "
-        "Maximum Strain, Tsai–Wu, Hashin, Larc03). Designed for education "
-        "(TU/e course 4MM00) but suitable for research, it balances clarity "
-        "and functionality. Useful for teaching, assignments, and prototyping "
-        "composite laminate analyses."
-    )
 }

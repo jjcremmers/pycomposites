@@ -16,6 +16,11 @@ setup(
             "matplotlib",
             "jupyter",
         ],
+        "docs": [
+            "myst-parser",
+            "sphinx",
+            "sphinx-rtd-theme",
+        ],
     },
     long_description=long_description,
     long_description_content_type="text/markdown",
