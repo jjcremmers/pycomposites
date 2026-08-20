@@ -12,7 +12,7 @@ import unittest
 import numpy as np
 from typing import Any
 
-from composite import (
+from pycomposites import (
     TransverseIsotropic, Laminate, Layer, mixMaterials,
     stressTransformation, strainTransformation, Macauley
 )

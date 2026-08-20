@@ -8,7 +8,7 @@
 #  run with python 3.x
 #------------------------------------------------------------------------------
 
-from composite import TransverseIsotropic,mixMaterials
+from pycomposites import TransverseIsotropic,mixMaterials
 
 carbon = TransverseIsotropic( [220e9,22e9],0.2,91.7e9)
 epoxy  = TransverseIsotropic( 3.6e9,0.35,1.33e9)

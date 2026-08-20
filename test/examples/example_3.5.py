@@ -8,7 +8,7 @@
 #  run with python 3.x
 #------------------------------------------------------------------------------
 
-from composite import TransverseIsotropic
+from pycomposites import TransverseIsotropic
 from numpy     import array,dot
 
 stress = array([ 1.e9 , 0.5e9 , 0.0 ])

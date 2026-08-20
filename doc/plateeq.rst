@@ -15,7 +15,7 @@ Create the transverse isotropic material model and the laminate. Calculate the :
 
 .. code-block:: python
 
-    from composite import TransverseIsotropic, Laminate
+    from pycomposites import TransverseIsotropic, Laminate
 
     compUD = TransverseIsotropic([130e9, 7.2e9], 0.337, 4.2e9, [0.57e-6, 35.1e-6], 1514.)
     print(compUD)
@@ -172,4 +172,3 @@ Out-of-plane Displacement:
     ax.set_zlabel('w')
     plt.title('Vertical Displacement w(x, y)')
     plt.show()
-

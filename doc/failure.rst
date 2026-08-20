@@ -42,7 +42,7 @@ and assign the fracture properties. Print the properties to verify.
 
 .. code-block:: python
 
-    from composite import TransverseIsotropic
+    from pycomposites import TransverseIsotropic
 
     glassepoxy = TransverseIsotropic([39.0e9, 8.6e9], 0.28, 3.254e9)
     glassepoxy.setFailureProperties([1080e6, 620e6, 39e6, 128e6, 89e6])
@@ -157,4 +157,3 @@ Plot the results for each failure criterion:
     plt.show()
 
 This generates a plot showing the strength values for each failure criterion as a function of angle.
-

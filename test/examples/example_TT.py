@@ -44,7 +44,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "from composite    import TransverseIsotropic,mixMaterials,Laminate,stressTransformation\n",
+    "from pycomposites import TransverseIsotropic,mixMaterials,Laminate,stressTransformation\n",
     "from numpy        import array,dot,zeros\n",
     "from numpy.linalg import inv"
    ]

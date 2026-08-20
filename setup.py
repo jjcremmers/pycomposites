@@ -1,13 +1,22 @@
 from setuptools import find_packages, setup
 
-with open("README.md","r") as f:
+with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
     
 setup(
     name="pycomposites",
-    version="1.2.1",
-    description="A collection of classes and functions to anaylse the thermo mechanicalbehaviour of composites.",
+    version="2026.9",
+    description="Tools to analyse the thermo-mechanical behaviour of composite laminates.",
     packages=find_packages(),
+    install_requires=[
+        "numpy",
+    ],
+    extras_require={
+        "examples": [
+            "matplotlib",
+            "jupyter",
+        ],
+    },
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/jjcremmers/pycomposites",
@@ -18,6 +27,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ], 
-    python_requires='>=3.6',
+    python_requires=">=3.10",
 )
-

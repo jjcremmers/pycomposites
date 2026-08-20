@@ -11,8 +11,10 @@ import sys
 sys.path.insert(0, os.path.abspath(".."))
 
 project = 'PyComposites'
-copyright = '2025, Joris Remmers'
+copyright = '2026, Joris Remmers'
 author = 'Joris Remmers'
+release = '2026.9'
+version = '2026.9'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -62,4 +64,3 @@ html_theme_options = {
         "composite laminate analyses."
     )
 }
-

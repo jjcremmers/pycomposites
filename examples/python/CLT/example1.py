@@ -33,7 +33,7 @@
 # In[1]:
 
 
-from composite import TransverseIsotropic,mixMaterials
+from pycomposites import TransverseIsotropic,mixMaterials
 
 
 # Create two materials, carbon and epoxy with the correct properties. Note that carbon is transversely isotropic and epoxy is isotropic.

@@ -1,4 +1,4 @@
-from composite    import TransverseIsotropic,Laminate
+from pycomposites import TransverseIsotropic,Laminate
 from numpy        import array,dot,zeros,linspace
 from numpy.linalg import inv
 from math         import sin,pi,sqrt

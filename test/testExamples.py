@@ -10,7 +10,7 @@ produce expected results.
 import unittest
 import numpy as np
 
-from composite import (
+from pycomposites import (
     TransverseIsotropic, Laminate, mixMaterials,
     stressTransformation, strainTransformation
 )

@@ -8,7 +8,7 @@
 #  run with python 2.7
 #------------------------------------------------------------------------------
 
-from composite import TransverseIsotropic,mixMaterials,Laminate
+from pycomposites import TransverseIsotropic,mixMaterials,Laminate
 from numpy import array,dot,linspace,zeros,pi,cos,sin
 
 

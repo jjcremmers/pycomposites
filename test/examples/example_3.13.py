@@ -8,7 +8,7 @@
 #  run with python 3.x
 #------------------------------------------------------------------------------
 
-from composite    import TransverseIsotropic,mixMaterials,Laminate
+from pycomposites import TransverseIsotropic,mixMaterials,Laminate
 from numpy        import array,dot,zeros
 from numpy.linalg import inv
 

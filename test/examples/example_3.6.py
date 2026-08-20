@@ -8,7 +8,7 @@
 #  run with python 3.x
 #------------------------------------------------------------------------------
 
-from composite import TransverseIsotropic,mixMaterials
+from pycomposites import TransverseIsotropic,mixMaterials
 from numpy     import array,dot
 
 carbon = TransverseIsotropic( 220e9,0.2,91.7e9)

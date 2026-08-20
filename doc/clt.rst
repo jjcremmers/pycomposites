@@ -46,7 +46,7 @@ Import the functions :py:func:`TransverseIsotropic` and :py:func:`mixMaterials` 
 
 .. code-block:: python
 
-   from composite import TransverseIsotropic, mixMaterials
+   from pycomposites import TransverseIsotropic, mixMaterials
 
 Create two materials, `carbon` and `epoxy`, with the correct properties. Note 
 that `carbon` is transversely isotropic and `epoxy` is isotropic.
@@ -135,7 +135,7 @@ Import the necessary classes and functions:
 
 .. code-block:: python
 
-    from composite import TransverseIsotropic, mixMaterials
+    from pycomposites import TransverseIsotropic, mixMaterials
 
 For this carbon fibre composite material, the carbon fibres and the epoxy matrix are 
 modeled as separate transversely isotropic materials. The T-300 carbon fibres have 
@@ -256,4 +256,3 @@ Note that the :math:`Q_{11}`, :math:`Q_{12}`, :math:`Q_{21}`, :math:`Q_{22}`, an
 terms of the stiffness matrices :math:`\mathbf{Q}^{20}` and :math:`\mathbf{Q}^{-20}` matrices 
 are identical. The :math:`Q_{16}` and :math:`Q_{26}` terms switch signs between the two matrices.
    
-
