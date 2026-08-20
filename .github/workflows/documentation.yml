@@ -1,27 +1,47 @@
-name: documentation
+name: Documentation
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: documentation-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-      - name: Install dependencies
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install package and documentation dependencies
         run: |
-          pip install sphinx sphinx_rtd_theme myst_parser sphinx-autoapi numpy
-      - name: Sphinx build
+          python -m pip install --upgrade pip
+          python -m pip install ".[docs]"
+
+      - name: Build documentation
         run: |
-          sphinx-build doc _build
+          python -m sphinx -b html -W -E doc doc/_build/html
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _build/
+          publish_dir: doc/_build/html
           force_orphan: true

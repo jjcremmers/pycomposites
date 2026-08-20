@@ -258,8 +258,9 @@ class TransverseIsotropic:
         ----------
         alpha : float or list of float
             Thermal expansion coefficients (1/K or 1/°C). Can be:
-              - single float (applied to both α₁ and α₂)
-              - [α1, α2] for different longitudinal and transverse values
+
+            - single float, applied to both alpha1 and alpha2
+            - two values, used as alpha1 and alpha2
 
         Raises
         ------
@@ -299,18 +300,20 @@ class TransverseIsotropic:
         ----------
         F : list of float
             Failure strength parameters (Pa). Expected length:
-              - 5 values: [Xt, Xc, Yt, Yc, Sl]
-                * Xt: Longitudinal tensile strength
-                * Xc: Longitudinal compressive strength
-                * Yt: Transverse tensile strength
-                * Yc: Transverse compressive strength
-                * Sl: In-plane shear strength
-              - 6 values: [Xt, Xc, Yt, Yc, Sl, f12]
-                * f12: Tsai-Wu interaction coefficient (dimensionless)
+
+            - 5 values: [Xt, Xc, Yt, Yc, Sl]
+            - 6 values: [Xt, Xc, Yt, Yc, Sl, f12]
+
+            Xt and Xc are longitudinal tensile and compressive strengths.
+            Yt and Yc are transverse tensile and compressive strengths. Sl is
+            the in-plane shear strength. f12 is the Tsai-Wu interaction
+            coefficient.
         Gfrac : float or list of float, optional
             Fracture toughness values (J/m² or N/m):
-              - scalar: same value for GIc and GIIc
-              - [GIc, GIIc]: Mode I and Mode II fracture toughness
+
+            - scalar: same value for GIc and GIIc
+            - two values: Mode I and Mode II fracture toughness
+
             Default is 0.
         alpha0deg : float, optional
             Fracture plane angle (degrees) for Larc03 model. Default is 53°.
@@ -446,11 +449,8 @@ class TransverseIsotropic:
         Returns
         -------
         np.ndarray
-            3x3 reduced stiffness matrix Q with structure:
-            [[Q11, Q12,   0],
-             [Q12, Q22,   0],
-             [  0,   0, Q66]]
-            Units: Pa
+            3x3 reduced stiffness matrix Q. The non-zero terms are Q11, Q12,
+            Q22, and Q66. Units: Pa.
             
         Notes
         -----
@@ -1709,7 +1709,7 @@ def mixMaterials(fibre: TransverseIsotropic,
 def Macauley(x: float) -> float:
 
     """
-    Macauley bracket operator ⟨x⟩ = max(x, 0).
+    Macauley bracket operator, defined as max(x, 0).
 
     Returns the positive part of a value, commonly used in damage mechanics
     and failure criteria to distinguish tension from compression.
@@ -1736,7 +1736,7 @@ def Macauley(x: float) -> float:
     Notes
     -----
     Also known as the ramp function or positive part function.
-    Mathematical definition: ⟨x⟩ = (x + |x|)/2 = max(x, 0)
+    Mathematical definition: max(x, 0).
     
     Used in Larc03 and other failure criteria to handle compression
     vs. tension differently.
