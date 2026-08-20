@@ -1,12 +1,18 @@
-.ipynb_checkpoints
-*.pyc
-PKG_INFO
+# Byte-compiled Python files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Build and packaging output
 build/
 dist/
 .eggs/
 *.egg-info/
 *.egg
+PKG-INFO
+PKG_INFO
+
+# Virtual environments
 .env
 .venv
 env/
@@ -14,21 +20,33 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Documentation builds
+doc/_build/
+
+# Editor and OS files
 .idea/
 .vscode/
 .DS_Store
+
+# Test and coverage output
 coverage.xml
 htmlcov/
 .tox/
 .nox/
 .coverage
+.coverage.*
 .cache
 .pytest_cache/
 nosetests.xml
 pytestdebug.log
-.ipynb_checkpoints
 *.log
+
+# Type checker caches
 .mypy_cache/
 .pyre/
 .pytype/
 .pyright/
+
+# Jupyter
+.ipynb_checkpoints/
