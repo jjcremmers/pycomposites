@@ -1,6 +1,6 @@
 # Classical Laminate Theory
 
-## Example: Homogenisation
+## Example 1: Homogenisation
 
 **Problem Statement**
 

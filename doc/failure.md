@@ -28,7 +28,7 @@ following failure criteria:
 
 For the Tsai-Wu criterion, you may assume:
 
-$$f_{12} = -12\sqrt{f_{11}f_{22}}$$
+$$f_{12} = -1/2\sqrt{f_{11}f_{22}}$$
 
 Plot the results for each failure criterion in a graph.
 
