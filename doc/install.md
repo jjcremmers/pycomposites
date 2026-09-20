@@ -30,13 +30,13 @@ Open **Command Prompt** and run these commands.
 
 1.  **Check that Python and git are installed**
 
-    ``` cmd
+    ``` console
     python --version
     ```
 
     You should see Python 3.10 or newer, for example `Python 3.12.3`.
 
-    ``` cmd
+    ``` console
     git --version
     ```
 
@@ -49,7 +49,7 @@ Open **Command Prompt** and run these commands.
 
     With git:
 
-    ``` cmd
+    ``` console
     git clone https://github.com/jjcremmers/pycomposites.git
     cd pycomposites
     ```
@@ -62,7 +62,7 @@ Open **Command Prompt** and run these commands.
     A virtual environment keeps PyComposites and its dependencies
     separate from the rest of your computer.
 
-    ``` cmd
+    ``` console
     python -m venv .venv
     .\.venv\Scripts\activate.bat
     ```
@@ -72,27 +72,27 @@ Open **Command Prompt** and run these commands.
 
 4.  **Upgrade pip**
 
-    ``` cmd
+    ``` console
     python -m pip install --upgrade pip
     ```
 
 5.  **Install PyComposites**
 
-    ``` cmd
+    ``` console
     python -m pip install .
     ```
 
     To run all examples, including plotting scripts and notebooks,
     install the optional example dependencies:
 
-    ``` cmd
+    ``` console
     python -m pip install ".[examples]"
     ```
 
     For developers who want to make local changes and test immediately,
     install in editable mode:
 
-    ``` cmd
+    ``` console
     python -m pip install -e ".[examples]"
     ```
 

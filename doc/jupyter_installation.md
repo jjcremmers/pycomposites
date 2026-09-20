@@ -25,7 +25,7 @@ Run the installer.
 
 After installation, open **Command Prompt** and check that Python is available:
 
-```cmd
+```console
 python --version
 python -m pip --version
 ```
@@ -61,7 +61,7 @@ During installation, the default options are usually suitable. After the
 installation finishes, open a new **Command Prompt** window and verify that
 Git is available:
 
-```cmd
+```console
 git --version
 ```
 
@@ -78,20 +78,20 @@ It is good practice to create a separate Python environment for each course or p
 
 Open Command Prompt and create a project directory:
 
-```cmd
+```console
 mkdir my-python-course
 cd my-python-course
 ```
 
 Create a virtual environment:
 
-```cmd
+```console
 python -m venv .venv
 ```
 
 Activate the environment:
 
-```cmd
+```console
 .venv\Scripts\activate
 ```
 
@@ -109,19 +109,19 @@ The `.venv` directory now contains a separate Python environment for this projec
 
 With the virtual environment activated, first update `pip`:
 
-```cmd
+```console
 python -m pip install --upgrade pip
 ```
 
 Install Jupyter and some commonly used scientific Python packages:
 
-```cmd
+```console
 python -m pip install jupyter ipykernel numpy scipy matplotlib pandas
 ```
 
 Additional packages can always be installed later using:
 
-```cmd
+```console
 python -m pip install package-name
 ```
 
@@ -131,7 +131,7 @@ python -m pip install package-name
 
 From the project directory, start VS Code:
 
-```cmd
+```console
 code .
 ```
 
@@ -294,7 +294,7 @@ For most course assignments and reports, this is the recommended approach.
 
 Jupyter includes the `nbconvert` tool. A notebook can be converted to HTML using:
 
-```cmd
+```console
 jupyter nbconvert --to html introduction.ipynb
 ```
 
@@ -310,7 +310,7 @@ Open this file in a browser and print it to PDF.
 
 Jupyter can also generate a PDF through LaTeX:
 
-```cmd
+```console
 jupyter nbconvert --to pdf introduction.ipynb
 ```
 
