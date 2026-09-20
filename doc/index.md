@@ -55,6 +55,7 @@ and rapid prototyping of research ideas.
 :caption: Contents
 
 install
+jupyter_installation
 examples
 ```
 
