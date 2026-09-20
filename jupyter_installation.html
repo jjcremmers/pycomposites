@@ -1,0 +1,444 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installing Python, VS Code and Jupyter Notebook on Windows &mdash; PyComposites 2026.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6c01e811" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=1bb1e8d3"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="composite.html" />
+    <link rel="prev" title="Plate Equations" href="plateeq.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PyComposites
+              <img src="_static/pycomposites_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing Python, VS Code and Jupyter Notebook on Windows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-python">1. Install Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-visual-studio-code">2. Install Visual Studio Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-git">3. Install Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-project-folder-and-python-environment">4. Create a Project Folder and Python Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-jupyter-and-scientific-python-packages">5. Install Jupyter and Scientific Python Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#open-the-project-in-vs-code">6. Open the Project in VS Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-jupyter-notebook">7. Create a Jupyter Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-latex-mathematics-in-a-notebook">8. Using LaTeX Mathematics in a Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exporting-a-jupyter-notebook-to-pdf">9. Exporting a Jupyter Notebook to PDF</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#option-1-export-to-html-and-print-to-pdf">Option 1: Export to HTML and Print to PDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-2-export-from-the-command-line">Option 2: Export from the Command Line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-3-direct-latex-pdf-export">Option 3: Direct LaTeX/PDF Export</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#recommended-project-structure">10. Recommended Project Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-interpreter-versus-jupyter-kernel">11. Python Interpreter versus Jupyter Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">12. Summary</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="composite.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyComposites</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installing Python, VS Code and Jupyter Notebook on Windows</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/jupyter_installation.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="installing-python-vs-code-and-jupyter-notebook-on-windows">
+<h1>Installing Python, VS Code and Jupyter Notebook on Windows<a class="headerlink" href="#installing-python-vs-code-and-jupyter-notebook-on-windows" title="Link to this heading"></a></h1>
+<p>This guide explains how to set up a Python programming environment on Windows using:</p>
+<ul class="simple">
+<li><p>Python</p></li>
+<li><p>Visual Studio Code (VS Code)</p></li>
+<li><p>Jupyter Notebook</p></li>
+<li><p>Python virtual environments</p></li>
+<li><p>LaTeX-style mathematics in Jupyter notebooks</p></li>
+<li><p>PDF export</p></li>
+</ul>
+<p>The recommended setup is relatively lightweight and does not require Anaconda.</p>
+<hr class="docutils" />
+<section id="install-python">
+<h2>1. Install Python<a class="headerlink" href="#install-python" title="Link to this heading"></a></h2>
+<p>Download a current stable 64-bit version of Python 3 from:</p>
+<p>https://www.python.org/downloads/windows/</p>
+<p>Run the installer.</p>
+<blockquote>
+<div><p><strong>Important:</strong> During installation, select the option <strong>Add python.exe to PATH</strong>.</p>
+</div></blockquote>
+<p>After installation, open <strong>Command Prompt</strong> and check that Python is available:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python --version</span>
+<span class="go">python -m pip --version</span>
+</pre></div>
+</div>
+<p>Both commands should display version information.</p>
+</section>
+<hr class="docutils" />
+<section id="install-visual-studio-code">
+<h2>2. Install Visual Studio Code<a class="headerlink" href="#install-visual-studio-code" title="Link to this heading"></a></h2>
+<p>Download and install Visual Studio Code from:</p>
+<p>https://code.visualstudio.com/</p>
+<p>Start VS Code and open the <strong>Extensions</strong> panel.</p>
+<p>Install the following Microsoft extensions:</p>
+<ul class="simple">
+<li><p><strong>Python</strong></p></li>
+<li><p><strong>Jupyter</strong></p></li>
+</ul>
+<p>These extensions allow you to run Python programs and Jupyter notebooks directly from VS Code.</p>
+</section>
+<hr class="docutils" />
+<section id="install-git">
+<h2>3. Install Git<a class="headerlink" href="#install-git" title="Link to this heading"></a></h2>
+<p>Download and install Git for Windows from:</p>
+<p>https://git-scm.com/download/win</p>
+<p>During installation, the default options are usually suitable. After the
+installation finishes, open a new <strong>Command Prompt</strong> window and verify that
+Git is available:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git --version</span>
+</pre></div>
+</div>
+<p>The command should display the installed Git version.</p>
+<p>Git is useful for downloading projects from GitHub and for keeping track of
+changes to your own work.</p>
+</section>
+<hr class="docutils" />
+<section id="create-a-project-folder-and-python-environment">
+<h2>4. Create a Project Folder and Python Environment<a class="headerlink" href="#create-a-project-folder-and-python-environment" title="Link to this heading"></a></h2>
+<p>It is good practice to create a separate Python environment for each course or project.</p>
+<p>Open Command Prompt and create a project directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir my-python-course</span>
+<span class="go">cd my-python-course</span>
+</pre></div>
+</div>
+<p>Create a virtual environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m venv .venv</span>
+</pre></div>
+</div>
+<p>Activate the environment:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">.venv\Scripts\activate</span>
+</pre></div>
+</div>
+<p>After activation, the command prompt should start with something similar to:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>(.venv) C:\...\my-python-course&gt;
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">.venv</span></code> directory now contains a separate Python environment for this project.</p>
+</section>
+<hr class="docutils" />
+<section id="install-jupyter-and-scientific-python-packages">
+<h2>5. Install Jupyter and Scientific Python Packages<a class="headerlink" href="#install-jupyter-and-scientific-python-packages" title="Link to this heading"></a></h2>
+<p>With the virtual environment activated, first update <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m pip install --upgrade pip</span>
+</pre></div>
+</div>
+<p>Install Jupyter and some commonly used scientific Python packages:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m pip install jupyter ipykernel numpy scipy matplotlib pandas</span>
+</pre></div>
+</div>
+<p>Additional packages can always be installed later using:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m pip install package-name</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="open-the-project-in-vs-code">
+<h2>6. Open the Project in VS Code<a class="headerlink" href="#open-the-project-in-vs-code" title="Link to this heading"></a></h2>
+<p>From the project directory, start VS Code:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">code .</span>
+</pre></div>
+</div>
+<p>Alternatively, start VS Code normally and use <strong>File → Open Folder</strong> to open the project directory.</p>
+<p>In VS Code, press:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Ctrl + Shift + P
+</pre></div>
+</div>
+<p>and select:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Python: Select Interpreter
+</pre></div>
+</div>
+<p>Select the Python interpreter inside the <code class="docutils literal notranslate"><span class="pre">.venv</span></code> directory:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.venv\Scripts\python.exe
+</pre></div>
+</div>
+<p>This tells VS Code to use the Python environment created specifically for this project.</p>
+</section>
+<hr class="docutils" />
+<section id="create-a-jupyter-notebook">
+<h2>7. Create a Jupyter Notebook<a class="headerlink" href="#create-a-jupyter-notebook" title="Link to this heading"></a></h2>
+<p>Create a new file with the extension:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.ipynb
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>introduction.ipynb
+</pre></div>
+</div>
+<p>VS Code will automatically open the file as a Jupyter notebook.</p>
+<p>In the upper-right corner of the notebook, check the selected <strong>kernel</strong>. It should correspond to the <code class="docutils literal notranslate"><span class="pre">.venv</span></code> environment created above.</p>
+<p>You can now create and execute Python cells, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"sin(x)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="using-latex-mathematics-in-a-notebook">
+<h2>8. Using LaTeX Mathematics in a Notebook<a class="headerlink" href="#using-latex-mathematics-in-a-notebook" title="Link to this heading"></a></h2>
+<p>Jupyter notebooks support LaTeX-style mathematical notation through <strong>MathJax</strong>.</p>
+<p>You normally do <strong>not</strong> need to install a separate LaTeX distribution such as MiKTeX or TeX Live.</p>
+<p>Create a <strong>Markdown cell</strong> in the notebook.</p>
+<p>Inline mathematics can be written using <code class="docutils literal notranslate"><span class="pre">$...$</span></code>:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>The Cauchy stress tensor is denoted by $\boldsymbol{\sigma}$.
+</pre></div>
+</div>
+<p>For equations on a separate line, use <code class="docutils literal notranslate"><span class="pre">$$...$$</span></code>:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>The linear momentum balance is
+
+$$
+\nabla \cdot \boldsymbol{\sigma}
++ \rho \mathbf{b}
+= \rho \ddot{\mathbf{u}}.
+$$
+</pre></div>
+</div>
+<p>More complicated expressions are also possible:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>The strain and stress are given by
+
+$$
+\begin{aligned}
+\boldsymbol{\varepsilon}
+    &amp;= \frac{1}{2}
+       \left(
+       \nabla\mathbf{u}
+       + \nabla\mathbf{u}^{T}
+       \right),\\
+\boldsymbol{\sigma}
+    &amp;= \mathbf{C}:\boldsymbol{\varepsilon}.
+\end{aligned}
+$$
+</pre></div>
+</div>
+<p>This makes Jupyter notebooks particularly useful for engineering and scientific computing, because a notebook can combine:</p>
+<ul class="simple">
+<li><p>explanatory text;</p></li>
+<li><p>mathematical equations;</p></li>
+<li><p>Python code;</p></li>
+<li><p>numerical results;</p></li>
+<li><p>tables;</p></li>
+<li><p>plots and visualisations.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="exporting-a-jupyter-notebook-to-pdf">
+<h2>9. Exporting a Jupyter Notebook to PDF<a class="headerlink" href="#exporting-a-jupyter-notebook-to-pdf" title="Link to this heading"></a></h2>
+<p>A finished Jupyter notebook can be exported to PDF. There are several ways to do this.</p>
+<section id="option-1-export-to-html-and-print-to-pdf">
+<h3>Option 1: Export to HTML and Print to PDF<a class="headerlink" href="#option-1-export-to-html-and-print-to-pdf" title="Link to this heading"></a></h3>
+<p>This is the simplest method and does <strong>not</strong> require a LaTeX installation.</p>
+<p>In VS Code, open the notebook and use the <strong>Export</strong> option in the notebook toolbar.</p>
+<p>Choose:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>HTML
+</pre></div>
+</div>
+<p>Open the generated HTML file in a web browser.</p>
+<p>In the browser, select:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Print → Save as PDF
+</pre></div>
+</div>
+<p>or, on Windows:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Ctrl + P → Microsoft Print to PDF
+</pre></div>
+</div>
+<p>This method generally preserves:</p>
+<ul class="simple">
+<li><p>formatted Markdown;</p></li>
+<li><p>mathematical equations;</p></li>
+<li><p>Python output;</p></li>
+<li><p>figures;</p></li>
+<li><p>tables.</p></li>
+</ul>
+<p>For most course assignments and reports, this is the recommended approach.</p>
+</section>
+<section id="option-2-export-from-the-command-line">
+<h3>Option 2: Export from the Command Line<a class="headerlink" href="#option-2-export-from-the-command-line" title="Link to this heading"></a></h3>
+<p>Jupyter includes the <code class="docutils literal notranslate"><span class="pre">nbconvert</span></code> tool. A notebook can be converted to HTML using:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">jupyter nbconvert --to html introduction.ipynb</span>
+</pre></div>
+</div>
+<p>This creates:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>introduction.html
+</pre></div>
+</div>
+<p>Open this file in a browser and print it to PDF.</p>
+</section>
+<section id="option-3-direct-latex-pdf-export">
+<h3>Option 3: Direct LaTeX/PDF Export<a class="headerlink" href="#option-3-direct-latex-pdf-export" title="Link to this heading"></a></h3>
+<p>Jupyter can also generate a PDF through LaTeX:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">jupyter nbconvert --to pdf introduction.ipynb</span>
+</pre></div>
+</div>
+<p>This approach requires a separate LaTeX installation on Windows, such as <strong>MiKTeX</strong> or <strong>TeX Live</strong>.</p>
+<p>It can produce higher-quality typesetting, particularly for documents containing many mathematical equations, but the installation is considerably larger and more complicated.</p>
+<p>For beginning Python users, installing a complete LaTeX system solely for PDF export is usually unnecessary.</p>
+<blockquote>
+<div><p><strong>Recommended:</strong> Use <strong>HTML → Print → PDF</strong> unless you specifically need LaTeX-quality document production.</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="recommended-project-structure">
+<h2>10. Recommended Project Structure<a class="headerlink" href="#recommended-project-structure" title="Link to this heading"></a></h2>
+<p>A simple project or course directory could look like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>my-python-course/
+│
+├── .venv/
+├── notebooks/
+│   ├── introduction.ipynb
+│   └── examples.ipynb
+├── src/
+│   └── functions.py
+├── data/
+└── requirements.txt
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">.venv</span></code> directory contains the Python environment.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">notebooks</span></code> directory contains Jupyter notebooks, while reusable Python functions and classes can be placed in <code class="docutils literal notranslate"><span class="pre">src</span></code>.</p>
+</section>
+<hr class="docutils" />
+<section id="python-interpreter-versus-jupyter-kernel">
+<h2>11. Python Interpreter versus Jupyter Kernel<a class="headerlink" href="#python-interpreter-versus-jupyter-kernel" title="Link to this heading"></a></h2>
+<p>There are three related components in this setup:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Python installation
+        │
+        ▼
+Virtual environment (.venv)
+        │
+        ├── Python interpreter
+        │
+        └── installed packages
+                │
+                ▼
+          Jupyter kernel
+                │
+                ▼
+             VS Code
+</pre></div>
+</div>
+<p>When working in VS Code, it is important that both the <strong>Python interpreter</strong> and the <strong>Jupyter kernel</strong> refer to the correct virtual environment.</p>
+<p>If Python code works from Command Prompt but not from a notebook, checking the selected Jupyter kernel is therefore a good first troubleshooting step.</p>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>12. Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<p>For most scientific and engineering applications, this setup provides a clean and flexible Python environment without requiring Anaconda.</p>
+<p>A separate LaTeX installation is <strong>not required</strong> for displaying mathematical equations inside Jupyter notebooks.</p>
+<p>For PDF submission, the easiest workflow is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Jupyter Notebook
+      ↓
+Export to HTML
+      ↓
+Open in browser
+      ↓
+Print / Save as PDF
+</pre></div>
+</div>
+<p>A full LaTeX installation is only required when using Jupyter’s direct LaTeX-based PDF export.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plateeq.html" class="btn btn-neutral float-left" title="Plate Equations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="composite.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Joris Remmers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
