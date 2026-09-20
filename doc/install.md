@@ -28,7 +28,7 @@ of the two paths below:
 
 Open **PowerShell** and run these commands.
 
-1.  **Check that Python is installed**
+1.  **Check that Python and git are installed**
 
     ``` powershell
     python --version
@@ -36,9 +36,14 @@ Open **PowerShell** and run these commands.
 
     You should see Python 3.10 or newer, for example `Python 3.12.3`.
 
-    If `python` is not found, install Python from
-    <https://www.python.org/downloads/>. During installation, enable
-    **Add python.exe to PATH**.
+    ``` powershell
+    git --version
+    ```
+
+    You should see git version 2.00 or newer.
+
+    If both Python and Git iare not found, install it by following the instructions in
+    [Installing Git](jupyter_installation.md).
 
 2.  **Download PyComposites**
 
