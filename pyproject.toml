@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pycomposites"
+version = "2026.9"
+description = "Tools to analyse the thermo-mechanical behaviour of composite laminates."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE.txt" }
+authors = [
+    { name = "Joris Remmers", email = "j.j.c.remmers@tue.nl" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy",
+]
+
+[project.optional-dependencies]
+examples = [
+    "matplotlib",
+    "jupyter",
+]
+docs = [
+    "myst-parser",
+    "sphinx",
+    "sphinx-rtd-theme",
+]
+
+[project.urls]
+Homepage = "https://github.com/jjcremmers/pycomposites"
+
+[tool.setuptools]
+packages = ["pycomposites", "composite"]
