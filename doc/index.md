@@ -55,8 +55,14 @@ and rapid prototyping of research ideas.
 :caption: Contents
 
 install
-jupyter_installation
 examples
+```
+
+```{toctree}
+:maxdepth: 2
+:caption: Additional
+
+jupyter_installation
 ```
 
 ```{toctree}
