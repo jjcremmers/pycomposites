@@ -7,8 +7,8 @@
 Consider a fibre-reinforced plastic that consists of uni-directional
 carbon fibres embedded in an epoxy matrix. The fibre volume fraction
 $V_f = 0.6$. The properties of the transversely isotropic fibre are:
-$E_{fL} = 220 \, \text{GPa}$, $E_{fT} = 20 \, \text{GPa}$,
-$\nu_f = 0.2$, $G_{\text{f}} = 91.7 \, \text{GPa}$.
+$E_{fL} = 220 \, \text{GPa}$, $E_{fT} = 22 \, \text{GPa}$,
+$\nu_f = 0.2$, $G_f = 91.7 \, \text{GPa}$.
 
 The properties of the isotropic epoxy matrix are:
 $E_{\text{m}} = 3.6 \, \text{GPa}$, $\nu_{\text{m}} = 0.35$,
@@ -95,8 +95,8 @@ Consider a fibre-reinforced plastic consisting of uni-directional carbon
 fibres embedded in an epoxy matrix. The fibre volume fraction is
 $V_f = 0.6$. The properties of the transversely isotropic fibre are:
 
-- $E_f^L = 220 \, \text{GPa}$
-- $E_f^T = 20 \, \text{GPa}$
+- $E_{fL} = 220 \, \text{GPa}$
+- $E_{fT} = 22 \, \text{GPa}$
 - $\nu_f = 0.2$
 - $G_f = 91.7 \, \text{GPa}$
 
@@ -107,7 +107,7 @@ The properties of the isotropic epoxy matrix are:
 - $G_m = 1.33 \, \text{GPa}$
 
 Determine the $\mathbf{Q}$ matrix of this material, as well as the
-rotated matrices $\mathbf{Q}^{20}$ and $\mathbf{Q}^{-20}$. Evaluate the
+rotated matrices $\bar{\mathbf{Q}}^{20}$ and $\bar{\mathbf{Q}}^{-20}$. Evaluate the
 results.
 
 **Solution**
@@ -223,7 +223,7 @@ This will give the following output:
 
 **Observations**
 
-Note that the $Q_{11}$, $Q_{12}$, $Q_{21}$, $Q_{22}$, and $Q_{66}$ terms
-of the stiffness matrices $\mathbf{Q}^{20}$ and $\mathbf{Q}^{-20}$
-matrices are identical. The $Q_{16}$ and $Q_{26}$ terms switch signs
+Note that the $\bar{Q}_{11}$, $\bar{Q}_{12}$, $\bar{Q}_{21}$, $\bar{Q}_{22}$, and $\bar{Q}_{66}$ terms
+of the stiffness matrices $\bar{\mathbf{Q}}^{20}$ and $\bar{\mathbf{Q}}^{-20}$
+matrices are identical. The $\bar{Q}_{16}$ and $\bar{Q}_{26}$ terms switch signs
 between the two matrices.

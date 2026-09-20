@@ -28,6 +28,10 @@ extensions = [
     'myst_parser',           # Support Markdown documentation files
 ]
 
+myst_enable_extensions = [
+    'dollarmath',
+]
+
 source_suffix = {
     '.md': 'markdown',
 }

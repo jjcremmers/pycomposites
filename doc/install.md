@@ -20,23 +20,23 @@ Only the **Python API** is provided (no command-line interface).
 These steps are written for users with little Python experience. Use one
 of the two paths below:
 
-- **Windows PowerShell** if you installed Python directly on Windows.
+- **Windows Command Prompt** if you installed Python directly on Windows.
 - **WSL** if you use Ubuntu or another Linux distribution inside Windows
   Subsystem for Linux.
 
-### Windows PowerShell
+### Windows Command Prompt
 
-Open **PowerShell** and run these commands.
+Open **Command Prompt** and run these commands.
 
 1.  **Check that Python and git are installed**
 
-    ``` powershell
+    ``` cmd
     python --version
     ```
 
     You should see Python 3.10 or newer, for example `Python 3.12.3`.
 
-    ``` powershell
+    ``` cmd
     git --version
     ```
 
@@ -49,7 +49,7 @@ Open **PowerShell** and run these commands.
 
     With git:
 
-    ``` powershell
+    ``` cmd
     git clone https://github.com/jjcremmers/pycomposites.git
     cd pycomposites
     ```
@@ -62,16 +62,9 @@ Open **PowerShell** and run these commands.
     A virtual environment keeps PyComposites and its dependencies
     separate from the rest of your computer.
 
-    ``` powershell
+    ``` cmd
     python -m venv .venv
-    .\.venv\Scripts\Activate.ps1
-    ```
-
-    If PowerShell blocks activation, run this once and then activate
-    again:
-
-    ``` powershell
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+    .\.venv\Scripts\activate.bat
     ```
 
     After activation, your terminal prompt usually starts with
@@ -79,27 +72,27 @@ Open **PowerShell** and run these commands.
 
 4.  **Upgrade pip**
 
-    ``` powershell
+    ``` cmd
     python -m pip install --upgrade pip
     ```
 
 5.  **Install PyComposites**
 
-    ``` powershell
+    ``` cmd
     python -m pip install .
     ```
 
     To run all examples, including plotting scripts and notebooks,
     install the optional example dependencies:
 
-    ``` powershell
+    ``` cmd
     python -m pip install ".[examples]"
     ```
 
     For developers who want to make local changes and test immediately,
     install in editable mode:
 
-    ``` powershell
+    ``` cmd
     python -m pip install -e ".[examples]"
     ```
 
@@ -176,7 +169,7 @@ commands in the Linux terminal.
 
 Complete the installation by running these tests from the repository
 root while the virtual environment is activated. The commands are the
-same in Windows PowerShell and WSL after the virtual environment is
+same in Windows Command Prompt and WSL after the virtual environment is
 active.
 
 1.  **Import test**
@@ -221,9 +214,6 @@ active.
 - If a plotting example fails with a Matplotlib error, install the
   optional example dependencies with
   `python -m pip install ".[examples]"`.
-- If PowerShell blocks activation on Windows, run
-  `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
-  and then run `.\.venv\Scripts\Activate.ps1` again.
 
 ## Quick Start Example
 

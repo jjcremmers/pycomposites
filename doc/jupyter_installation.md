@@ -23,9 +23,9 @@ Run the installer.
 
 > **Important:** During installation, select the option **Add python.exe to PATH**.
 
-After installation, open **PowerShell** or the **Windows Terminal** and check that Python is available:
+After installation, open **Command Prompt** and check that Python is available:
 
-```powershell
+```cmd
 python --version
 python -m pip --version
 ```
@@ -58,10 +58,10 @@ Download and install Git for Windows from:
 https://git-scm.com/download/win
 
 During installation, the default options are usually suitable. After the
-installation finishes, open a new **PowerShell** or **Windows Terminal**
-window and verify that Git is available:
+installation finishes, open a new **Command Prompt** window and verify that
+Git is available:
 
-```powershell
+```cmd
 git --version
 ```
 
@@ -76,22 +76,22 @@ changes to your own work.
 
 It is good practice to create a separate Python environment for each course or project.
 
-Open PowerShell and create a project directory:
+Open Command Prompt and create a project directory:
 
-```powershell
+```cmd
 mkdir my-python-course
 cd my-python-course
 ```
 
 Create a virtual environment:
 
-```powershell
+```cmd
 python -m venv .venv
 ```
 
 Activate the environment:
 
-```powershell
+```cmd
 .venv\Scripts\activate
 ```
 
@@ -109,19 +109,19 @@ The `.venv` directory now contains a separate Python environment for this projec
 
 With the virtual environment activated, first update `pip`:
 
-```powershell
+```cmd
 python -m pip install --upgrade pip
 ```
 
 Install Jupyter and some commonly used scientific Python packages:
 
-```powershell
+```cmd
 python -m pip install jupyter ipykernel numpy scipy matplotlib pandas
 ```
 
 Additional packages can always be installed later using:
 
-```powershell
+```cmd
 python -m pip install package-name
 ```
 
@@ -131,7 +131,7 @@ python -m pip install package-name
 
 From the project directory, start VS Code:
 
-```powershell
+```cmd
 code .
 ```
 
@@ -294,7 +294,7 @@ For most course assignments and reports, this is the recommended approach.
 
 Jupyter includes the `nbconvert` tool. A notebook can be converted to HTML using:
 
-```powershell
+```cmd
 jupyter nbconvert --to html introduction.ipynb
 ```
 
@@ -310,7 +310,7 @@ Open this file in a browser and print it to PDF.
 
 Jupyter can also generate a PDF through LaTeX:
 
-```powershell
+```cmd
 jupyter nbconvert --to pdf introduction.ipynb
 ```
 
@@ -370,7 +370,7 @@ Virtual environment (.venv)
 
 When working in VS Code, it is important that both the **Python interpreter** and the **Jupyter kernel** refer to the correct virtual environment.
 
-If Python code works from PowerShell but not from a notebook, checking the selected Jupyter kernel is therefore a good first troubleshooting step.
+If Python code works from Command Prompt but not from a notebook, checking the selected Jupyter kernel is therefore a good first troubleshooting step.
 
 ---
 
