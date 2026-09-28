@@ -17,7 +17,7 @@ The recommended setup is relatively lightweight and does not require Anaconda.
 
 Download a current stable 64-bit version of Python 3 from:
 
-https://www.python.org/downloads/windows/
+[https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/)
 
 Run the installer.
 
@@ -32,13 +32,22 @@ python -m pip --version
 
 Both commands should display version information.
 
+<div style="color: red; border-left: 4px solid red; padding: 10px; margin: 10px 0;">
+
+⚠️ **Warning**
+
+Please **do not open a Windows PowerShell terminal**.  
+Make sure you are using a **Windows Command Prompt (`cmd`) terminal** instead.
+
+</div>
+
 ---
 
 ## 2. Install Visual Studio Code
 
 Download and install Visual Studio Code from:
 
-https://code.visualstudio.com/
+[https://code.visualstudio.com/](https://code.visualstudio.com/)
 
 Start VS Code and open the **Extensions** panel.
 
